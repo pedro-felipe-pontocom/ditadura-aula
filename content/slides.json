@@ -1,0 +1,312 @@
+{
+  "_leia": [
+    "Roteiro da aula, na ordem. Todo o texto visível está aqui; dá para corrigir sem mexer no código.",
+    "notas: aparecem só no modo apresentador (tecla N). São um apoio para quem explica.",
+    "fontes: chaves de content/fontes.json, mostradas no rodapé do slide.",
+    "Nos textos, *asteriscos* viram itálico e **dois asteriscos** viram destaque."
+  ],
+
+  "slides": [
+    {
+      "id": "abertura",
+      "tipo": "abertura",
+      "kicker": "Brasil",
+      "de": 1964,
+      "ate": 1985,
+      "titulo": "21 anos de ditadura",
+      "subtitulo": "Censura, prisões, tortura, mortes e desaparecimentos. E a luta para que nunca mais aconteça.",
+      "fontes": ["ditadura"],
+      "notas": "Deixe o slide rodar sozinho: os anos correm de 1964 a 1985. Pergunte à turma quantos anos eles têm e compare: a ditadura durou mais que a vida inteira de todos na sala. Avise que alguns slides falam de tortura e morte, com fatos documentados."
+    },
+    {
+      "id": "antes",
+      "tipo": "divisao",
+      "kicker": "1961 – 1964",
+      "titulo": "Um país rachado",
+      "intro": "Em 1961, o presidente Jânio Quadros renuncia. O vice, João Goulart, o Jango, assume.",
+      "esquerda": {
+        "data": "13 de março de 1964",
+        "titulo": "Comício da Central",
+        "texto": "No Rio, Jango defende as reformas de base, como a reforma agrária."
+      },
+      "direita": {
+        "data": "19 de março de 1964",
+        "titulo": "Marcha da Família com Deus pela Liberdade",
+        "texto": "Em São Paulo, entre 300 e 500 mil pessoas marcham contra o governo."
+      },
+      "rodape": "Em plena Guerra Fria, o medo do comunismo racha o país. Doze dias depois da Marcha, os tanques saem às ruas.",
+      "fontes": ["golpe", "marcha"],
+      "notas": "Explique as reformas de base e por que assustavam os grandes proprietários e parte da classe média. Mostre os dois lados se afastando. Na seta, a rachadura aparece: é a ponte para o golpe."
+    },
+    {
+      "id": "golpe",
+      "tipo": "golpe",
+      "kicker": "O golpe",
+      "datas": [
+        { "data": "31·03·1964", "texto": "O general Olímpio Mourão Filho sai de Minas Gerais com tropas em direção ao Rio de Janeiro." },
+        { "data": "02·04·1964", "texto": "De madrugada, o Congresso declara vaga a Presidência, com Jango ainda no Brasil. Dois dias depois, ele parte para o exílio no Uruguai." },
+        { "data": "1964", "texto": "Operação Brother Sam: os Estados Unidos mandam o porta-aviões USS Forrestal, destróieres e petroleiros para apoiar o golpe. Não precisou ser usada: o golpe venceu rápido." }
+      ],
+      "apoio": "Apoiaram o golpe: banqueiros, empresários, latifundiários, políticos, magistrados e parte da classe média.",
+      "fontes": ["golpe", "brotherSam"],
+      "notas": "Os tanques entram sozinhos. Cada seta troca a data no painel. Destaque que foi um golpe civil-militar: teve apoio de setores da sociedade e dos EUA. A Operação Brother Sam só veio a público em 1976–1977, com documentos americanos."
+    },
+    {
+      "id": "generais",
+      "tipo": "generais",
+      "kicker": "1964 – 1985",
+      "titulo": "Cinco generais. Nenhum eleito pelo povo.",
+      "lista": [
+        { "nome": "Castelo Branco", "de": 1964, "ate": 1967 },
+        { "nome": "Costa e Silva", "de": 1967, "ate": 1969 },
+        { "nome": "Junta Militar", "de": 1969, "ate": 1969.8 },
+        { "nome": "Médici", "de": 1969.8, "ate": 1974 },
+        { "nome": "Geisel", "de": 1974, "ate": 1979 },
+        { "nome": "Figueiredo", "de": 1979, "ate": 1985 }
+      ],
+      "rodape": "Os presidentes eram escolhidos de forma indireta, sem o voto da população.",
+      "fontes": ["ditadura"],
+      "notas": "Cada seta coloca um general na linha do tempo. A Junta Militar governou por poucos meses em 1969, quando Costa e Silva adoeceu. Pergunte: o que muda quando o povo não escolhe quem governa?"
+    },
+    {
+      "id": "atos",
+      "tipo": "atos",
+      "kicker": "Governar por decreto",
+      "titulo": "Os Atos Institucionais",
+      "documentos": [
+        { "sigla": "AI-1", "data": "abril de 1964", "texto": "Cassa mandatos e suspende direitos políticos. Entre os cassados, o deputado Rubens Paiva." },
+        { "sigla": "AI-2", "data": "27 de outubro de 1965", "texto": "Extingue os partidos políticos e torna indireta a eleição para presidente. Só sobram dois partidos: ARENA, do governo, e MDB, a oposição permitida." },
+        { "sigla": "AI-5", "data": "13 de dezembro de 1968", "texto": "O mais duro de todos.", "destaque": true }
+      ],
+      "fontes": ["ditadura", "rubens"],
+      "notas": "Os Atos Institucionais eram decretos acima da Constituição. A cada seta cai um documento, com carimbo. Guarde o AI-5 para o slide seguinte ao de 1968."
+    },
+    {
+      "id": "1968",
+      "tipo": "estudante",
+      "kicker": "28 de março de 1968",
+      "linhas": ["Mataram um estudante.", "Podia ser seu filho!"],
+      "texto": "Edson Luís, 18 anos, foi morto a tiro pela Polícia Militar no restaurante estudantil Calabouço, no Rio. Os estudantes levaram o corpo à Assembleia Legislativa, com medo de que ele sumisse.",
+      "cartaz": "Os velhos no poder, os jovens no caixão.",
+      "passeata": {
+        "data": "26 de junho de 1968",
+        "titulo": "Passeata dos Cem Mil",
+        "texto": "No Rio, a marcha começa com 50 mil pessoas e dobra em uma hora. Estão lá Chico Buarque, Clarice Lispector, Caetano Veloso.",
+        "faixa": "Abaixo a Ditadura. O Povo no poder"
+      },
+      "fontes": ["edson", "passeata"],
+      "notas": "“Mataram um estudante. Podia ser seu filho!” era o grito no enterro de Edson Luís. Na seta, a multidão enche a tela até virar a Passeata dos Cem Mil. 1968 é o ano da resposta nas ruas, e da reação do regime em dezembro."
+    },
+    {
+      "id": "ai5",
+      "tipo": "ai5",
+      "kicker": "13 de dezembro de 1968",
+      "sigla": "AI-5",
+      "poderes": [
+        "Fechar o Congresso Nacional.",
+        "Cassar mandatos e suspender direitos políticos por 10 anos.",
+        "Censurar música, cinema, teatro, televisão e imprensa.",
+        "Suspender o habeas corpus em crimes políticos.",
+        "Deixar os atos do governo fora do alcance da Justiça."
+      ],
+      "jornal": {
+        "cabecalho": "Jornal do Brasil · 14 de dezembro de 1968",
+        "texto": "Previsão do tempo: Tempo negro. Temperatura sufocante. O ar está irrespirável. O país está sendo varrido por fortes ventos. Máx.: 38º, em Brasília. Mín.: 5º, nas Laranjeiras.",
+        "legenda": "Foi com essa nota “meteorológica”, na capa, que o jornal avisou os leitores."
+      },
+      "fechado": "O Congresso ficou fechado até 21 de outubro de 1969. O AI-5 durou dez anos.",
+      "fontes": ["ai5", "ai5wiki", "jb"],
+      "notas": "Os poderes do AI-5 aparecem como numa máquina de escrever. Explique o habeas corpus: o direito de não ficar preso sem motivo legal. Na seta, a previsão do tempo do Jornal do Brasil: leia em voz alta, devagar. Na última seta, as portas do Congresso se fecham."
+    },
+    {
+      "id": "censura",
+      "tipo": "censura",
+      "kicker": "Censura",
+      "titulo": "Silêncio nas redações",
+      "pontos": [
+        "No jornal *O Estado de S. Paulo*, um censor trabalhava dentro da redação. De 1973 a 1975, 1.122 textos sobre política e repressão foram cortados.",
+        "Para o leitor perceber, o jornal preenchia os buracos com versos de *Os Lusíadas*, de Camões. Publicou o poema inteiro duas vezes.",
+        "O *Jornal da Tarde* publicava receitas de bolo no lugar dos textos cortados, até no espaço dos editoriais."
+      ],
+      "versos": "As armas e os barões assinalados / Que da ocidental praia Lusitana / Por mares nunca de antes navegados / Passaram ainda além da Taprobana",
+      "artistas": "Caetano Veloso e Gilberto Gil foram presos em dezembro de 1968: 54 dias na cadeia e, em 1969, o exílio em Londres. Em 1973, a censura vetou inteira a letra de “Hoje é Dia de El-Rey”, de Milton Nascimento e Márcio Borges.",
+      "fontes": ["estadao", "migalhas", "caetano", "coan"],
+      "notas": "Na página de jornal, as tarjas pretas cobrem as notícias; depois, no lugar delas, aparecem os versos de Camões. Pergunte: por que o jornal não deixava o espaço em branco? Porque o regime não queria que a censura aparecesse."
+    },
+    {
+      "id": "milagre",
+      "tipo": "milagre",
+      "kicker": "1969 – 1974",
+      "propaganda": {
+        "titulo": "O milagre",
+        "slogans": ["Brasil, ame-o ou deixe-o", "Ninguém segura este país", "Este é um país que vai pra frente"],
+        "texto": "A economia cresce rápido e a TV, colorida desde 1972, espalha a propaganda. Em 1970, o Brasil é tricampeão do mundo, e o governo Médici aproveita a euforia."
+      },
+      "realidade": {
+        "titulo": "O chumbo",
+        "texto": "Nos mesmos anos, a Operação Bandeirante (1969) e os DOI-CODI (1970) prendem, torturam e matam opositores. E o crescimento fica com poucos: arrocho salarial e exclusão social."
+      },
+      "dica": "arraste a linha para ver o outro lado",
+      "fontes": ["coan", "copa", "doi"],
+      "notas": "Arraste a linha branca (ou use a seta) para passar da propaganda para a realidade. Os mesmos anos do “milagre econômico” são os “anos de chumbo”. Pergunte quem a turma acha que ficou com o dinheiro do milagre."
+    },
+    {
+      "id": "repressao",
+      "tipo": "repressao",
+      "kicker": "Anos de chumbo",
+      "titulo": "A máquina da repressão",
+      "orgaos": [
+        { "nome": "SNI", "ano": "1964", "texto": "Serviço Nacional de Informações: vigiar e fichar." },
+        { "nome": "OBAN", "ano": "1969", "texto": "Operação Bandeirante, em São Paulo, contra a oposição armada." },
+        { "nome": "DOI-CODI", "ano": "1970", "texto": "Centros do Exército onde presos eram interrogados e torturados." }
+      ],
+      "metodos": ["pau de arara: o preso pendurado numa barra", "choques elétricos", "violência sexual", "ameaças contra filhos e parentes"],
+      "dados": [
+        "No DOI-CODI de São Paulo, na rua Tutoia, passaram cerca de 2 mil presos só até 1974, segundo o jornalista Elio Gaspari.",
+        "Em segredo, o projeto *Brasil: Nunca Mais* copiou 707 processos da Justiça Militar, mais de 1 milhão de páginas, e mostrou a tortura ao país em 1985."
+      ],
+      "fontes": ["sni", "doi", "hrw", "bnm"],
+      "notas": "Os órgãos se ligam num organograma. Na seta seguinte, os métodos de tortura aparecem devagar, com batidas de coração. Tom sóbrio: os métodos estão documentados pela Comissão Nacional da Verdade. A Comissão chamou a tortura de “política de Estado”."
+    },
+    {
+      "id": "rubens",
+      "tipo": "retrato",
+      "kicker": "Uma história",
+      "nome": "Rubens Paiva",
+      "subtitulo": "Engenheiro e ex-deputado federal, cassado pelo AI-1.",
+      "passos": [
+        "20 de janeiro de 1971. Seis homens armados entram na casa dele, no Rio, sem mandado, e o levam.",
+        "Foi morto sob tortura num quartel militar, entre 20 e 22 de janeiro. A versão oficial inventou uma fuga. O corpo nunca foi encontrado.",
+        "A esposa, Eunice Paiva, ficou presa por 12 dias e lutou décadas para o Estado admitir o crime. Em 2025, a certidão de óbito passou a dizer: morte “não natural, violenta, causada pelo Estado brasileiro”."
+      ],
+      "carimbo": "Desaparecido",
+      "extra": "A história virou o livro *Ainda Estou Aqui*, de Marcelo Rubens Paiva (2015), e o filme de Walter Salles (2024), o primeiro Oscar do Brasil.",
+      "fontes": ["rubens"],
+      "notas": "Muitos alunos viram ou ouviram falar de “Ainda Estou Aqui”. Use isso: a família esperou mais de 50 anos por uma certidão que dissesse a verdade. Cada seta conta uma parte; o carimbo DESAPARECIDO cai na segunda."
+    },
+    {
+      "id": "herzog",
+      "tipo": "farsa",
+      "kicker": "25 de outubro de 1975",
+      "nome": "Vladimir Herzog",
+      "subtitulo": "Jornalista, 38 anos, diretor de jornalismo da TV Cultura.",
+      "texto": "Ele se apresentou ao DOI-CODI de São Paulo para depor. Morreu no mesmo dia.",
+      "oficial": "Suicídio",
+      "verdade": "Morte por “lesões e maus-tratos”",
+      "prova": "Na foto divulgada pelo Exército, os pés dele tocam o chão e os joelhos estão dobrados.",
+      "depois": [
+        "31 de outubro de 1975: cerca de 8 mil pessoas lotam a Catedral da Sé num ato ecumênico.",
+        "Em 2013, a certidão de óbito é corrigida: “lesões e maus-tratos”."
+      ],
+      "fiel": "Menos de três meses depois, em 17 de janeiro de 1976, o operário metalúrgico Manoel Fiel Filho morre no mesmo DOI-CODI. Mesma versão: “suicídio”. O presidente Geisel afasta o comandante do II Exército.",
+      "fontes": ["herzog", "fielFilho"],
+      "notas": "O ponto central é a farsa: o regime chamava de suicídio as mortes sob tortura. Na seta, a palavra SUICÍDIO é riscada em vermelho. O ato na Sé foi um dos primeiros grandes protestos depois de anos de medo."
+    },
+    {
+      "id": "zuzu",
+      "tipo": "zuzu",
+      "kicker": "Uma mãe contra a ditadura",
+      "nome": "Zuzu Angel",
+      "subtitulo": "Estilista. Mãe de Stuart Angel Jones.",
+      "passos": [
+        "14 de maio de 1971: Stuart, militante do MR-8, é preso, torturado e morto por agentes da Aeronáutica, no Galeão, no Rio. O corpo nunca foi encontrado.",
+        "Zuzu transforma a moda em denúncia. Em setembro de 1971, faz um desfile de protesto no consulado do Brasil em Nova York.",
+        "Ela escreveu que, se morresse “por acidente ou outro meio”, seria obra dos assassinos do filho.",
+        "14 de abril de 1976: morre num “acidente” de carro na saída do Túnel Dois Irmãos, no Rio. Em 2014, um ex-agente confirmou à Comissão da Verdade a participação de agentes da repressão."
+      ],
+      "tunel": "Hoje, aquele túnel se chama Túnel Zuzu Angel.",
+      "fontes": ["zuzu"],
+      "notas": "A linha costurada desenha a moldura a cada seta. É a história de uma mãe que não aceitou o silêncio. No final, os faróis no túnel se apagam."
+    },
+    {
+      "id": "araguaia",
+      "tipo": "araguaia",
+      "kicker": "1967 – 1974",
+      "titulo": "Araguaia: os que não voltaram",
+      "pontos": [
+        "Cerca de 80 militantes do PCdoB foram para a região do rio Araguaia, entre o Pará e o norte de Goiás (hoje Tocantins), preparar uma guerrilha. O Exército mandou milhares de soldados.",
+        "Cerca de 60 guerrilheiros morreram, muitos executados depois de presos. Mais de 50 continuam desaparecidos.",
+        "Só dois foram identificados: Lúcia Petit, em 1996, e Bergson Gurjão Farias, em 2009.",
+        "Em 2010, a Corte Interamericana de Direitos Humanos condenou o Brasil (Caso Gomes Lund)."
+      ],
+      "fontes": ["araguaia"],
+      "notas": "Os pontos vermelhos são os guerrilheiros mortos. Na seta, eles se apagam, menos dois: os únicos identificados até hoje. Explique que “desaparecido” quer dizer que a família nunca recebeu o corpo."
+    },
+    {
+      "id": "abertura-politica",
+      "tipo": "amanhecer",
+      "kicker": "1974 – 1981",
+      "titulo": "A abertura",
+      "passos": [
+        "1974–1979: o general Geisel promete uma abertura “lenta, gradual e segura”. As mortes de Herzog e Fiel Filho expõem o regime.",
+        "13 de outubro de 1978: a Emenda nº 11 revoga o AI-5, a partir de 1º de janeiro de 1979.",
+        "28 de agosto de 1979: Lei da Anistia. Exilados voltam e presos políticos são soltos. A campanha pedia anistia “ampla, geral e irrestrita”. “O bêbado e a equilibrista”, de João Bosco e Aldir Blanc, na voz de Elis Regina, vira o hino informal da anistia.",
+        "Mas a lei também foi usada para perdoar os torturadores. Em 2010, o STF manteve essa leitura, por 7 votos a 2.",
+        "30 de abril de 1981: no show do 1º de Maio no Riocentro, no Rio, com cerca de 20 mil pessoas, uma bomba explode dentro do carro de dois militares. Um sargento morre e um capitão fica ferido. O atentado vinha do próprio aparato da repressão."
+      ],
+      "fontes": ["geisel", "ec11", "lei6683", "anistia", "radioSenado", "riocentro"],
+      "notas": "O fundo clareia aos poucos, como um amanhecer. Na última seta, o clarão do Riocentro: mostra que parte dos militares ainda queria barrar a abertura com terror."
+    },
+    {
+      "id": "diretas",
+      "tipo": "diretas",
+      "kicker": "1984",
+      "titulo": "Diretas Já",
+      "comicios": [
+        { "data": "10 de abril de 1984", "lugar": "Candelária, Rio de Janeiro", "valor": 1000000, "texto": "cerca de 1 milhão de pessoas" },
+        { "data": "16 de abril de 1984", "lugar": "Vale do Anhangabaú, São Paulo", "valor": 1500000, "texto": "cerca de 1,5 milhão de pessoas" }
+      ],
+      "votacao": {
+        "data": "25 de abril de 1984",
+        "titulo": "Emenda Dante de Oliveira",
+        "sim": 298,
+        "precisava": 320,
+        "total": 480,
+        "texto": "A emenda traria de volta a eleição direta para presidente. Teve 298 votos; precisava de 320. Faltaram 22. Outros 113 deputados não apareceram para votar."
+      },
+      "depois": "15 de janeiro de 1985: o Colégio Eleitoral elege Tancredo Neves. Ele adoece na véspera da posse. Em 15 de março, José Sarney assume: o primeiro presidente civil desde 1964. Tancredo morre em 21 de abril.",
+      "fontes": ["diretas", "dante", "senado"],
+      "notas": "A multidão enche a tela. Na votação, a barra para antes da linha dos 320 votos: a emenda é rejeitada. A ditadura termina sem eleição direta: o primeiro presidente eleito pelo povo só viria depois."
+    },
+    {
+      "id": "constituicao",
+      "tipo": "citacao",
+      "kicker": "5 de outubro de 1988",
+      "titulo": "A nova Constituição",
+      "citacao": "Temos ódio à ditadura. Ódio e nojo. Amaldiçoamos a tirania aonde quer que ela desgrace homens e nações.",
+      "autor": "Ulysses Guimarães, na promulgação da Constituição",
+      "fontes": ["ulysses"],
+      "notas": "Deixe a frase aparecer inteira antes de falar. A Constituição de 1988 garante direitos que a ditadura tirou: liberdade de expressão, habeas corpus, voto direto."
+    },
+    {
+      "id": "saldo",
+      "tipo": "numeros",
+      "kicker": "O que ficou",
+      "titulo": "Os números da Comissão Nacional da Verdade",
+      "itens": [
+        { "valor": 434, "texto": "mortos e desaparecidos políticos reconhecidos pela Comissão Nacional da Verdade, em 2014." },
+        { "valor": 210, "texto": "desaparecidos: as famílias nunca puderam enterrar seus mortos." },
+        { "valor": 8350, "texto": "indígenas mortos, no mínimo. A própria Comissão reconheceu que o número está muito abaixo da realidade." },
+        { "valor": 377, "texto": "agentes do Estado apontados como responsáveis. Em 2014, quase 200 ainda estavam vivos." }
+      ],
+      "fontes": ["hrw", "indigenas"],
+      "notas": "Cada seta revela um número. Fale devagar. O número de indígenas se baseou em apenas dez povos, por isso a Comissão diz que é muito maior."
+    },
+    {
+      "id": "memorial",
+      "tipo": "memorial",
+      "titulo": "Eles tinham nome",
+      "texto": "Mortos e desaparecidos políticos reconhecidos pela Comissão Nacional da Verdade.",
+      "final": "Para que não se esqueça. Para que nunca mais aconteça.",
+      "fontes": ["lista"],
+      "notas": "Os nomes passam devagar, como os créditos de um filme. Os marcados com † desaparecido nunca tiveram o corpo encontrado. Fique em silêncio alguns segundos antes de encerrar."
+    },
+    {
+      "id": "referencias",
+      "tipo": "referencias",
+      "titulo": "Fontes",
+      "creditos": "Apresentação preparada para a aula. Tipografia: Big Shoulders Display, Newsreader e Courier Prime (SIL Open Font License).",
+      "notas": "Todas as datas, números e citações vêm destas fontes."
+    }
+  ]
+}

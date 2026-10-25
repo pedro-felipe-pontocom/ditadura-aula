@@ -1,0 +1,515 @@
+/* ==========================================================================
+   Base: paleta de luto, palco 16:9, grão de filme, vinheta, transição pelo
+   escuro, animações de entrada. As cenas de cada slide estão em slides.css.
+   ========================================================================== */
+
+:root {
+  --preto: #070707;
+  --preto-2: #131212;
+  --osso: #ebe4d6;
+  --osso-2: #c7c0b2;
+  --cinza: #9b958b;
+  --cinza-2: #6f695f;
+  --sangue: #b3141c;
+  --sangue-vivo: #e2303a;
+  --papel: #ddd3bf;
+  --papel-tinta: #1c1814;
+
+  /* 1u = 1% da largura de um palco 16:9 que cabe na tela. */
+  --u: min(1vw, 1.7778vh);
+
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --serif: "Newsreader", Georgia, serif;
+  --maquina: "Courier Prime", "Courier New", monospace;
+
+  --suave: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --pesado: cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  background: var(--preto);
+  color: var(--osso);
+  font-family: var(--serif);
+  font-size: calc(var(--u) * 1.6);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
+}
+body.carregando #deck,
+body.carregando #chrome {
+  visibility: hidden;
+}
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure,
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+}
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: 650;
+  color: var(--sangue-vivo);
+}
+
+/* ------------------------------------------------------------ camadas */
+
+#cinzas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+body.com-cinzas #cinzas {
+  opacity: 1;
+}
+#deck {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  visibility: hidden;
+}
+.slide.is-active {
+  visibility: visible;
+}
+.stage {
+  position: relative;
+  width: calc(var(--u) * 100);
+  height: calc(var(--u) * 56.25);
+}
+/* A câmera chega devagar: um zoom quase imperceptível durante o slide. */
+.slide.is-active > .stage {
+  animation: respirar 40s ease-out both;
+}
+@keyframes respirar {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.025);
+  }
+}
+
+/* Grão de filme e vinheta por cima de tudo. */
+#grao {
+  position: fixed;
+  inset: -50%;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grao 0.9s steps(6) infinite;
+}
+@keyframes grao {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+#vinheta {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(0, 0, 0, 0.7) 100%);
+  transition: background 1.5s ease;
+}
+body.vinheta-fechada #vinheta {
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.88) 85%);
+}
+body.pulso #vinheta {
+  animation: pulso 0.5s ease-out;
+}
+@keyframes pulso {
+  0% { box-shadow: inset 0 0 0 0 rgba(179, 20, 28, 0); }
+  30% { box-shadow: inset 0 0 calc(var(--u) * 14) calc(var(--u) * 2) rgba(179, 20, 28, 0.55); }
+  100% { box-shadow: inset 0 0 0 0 rgba(179, 20, 28, 0); }
+}
+
+/* Transição: a tela escurece, o slide troca, a luz volta. */
+#cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+#flash {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+#flash.ativo {
+  animation: flash 1.6s ease-out;
+}
+@keyframes flash {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  100% { opacity: 0; }
+}
+#deck.tremor {
+  animation: tremor 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes tremor {
+  10%, 90% { transform: translate(-1px, 1px); }
+  20%, 80% { transform: translate(3px, -2px); }
+  30%, 50%, 70% { transform: translate(-5px, 2px); }
+  40%, 60% { transform: translate(5px, -1px); }
+}
+#blackout {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+body.blackout #blackout {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ------------------------------------------------- tipografia comum */
+
+.kicker {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 4.4);
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.3);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sangue-vivo);
+}
+.fontes {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  right: calc(var(--u) * 22);
+  bottom: calc(var(--u) * 1.5);
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.95);
+  letter-spacing: 0.04em;
+  color: var(--cinza-2);
+  line-height: 1.3;
+}
+.fontes b {
+  margin-right: 0.6em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+/* ------------------------------------------- animações de entrada
+   Cada uma tem um significado: desfocar (memória voltando), varrer (alguém
+   puxa a cortina), cair (peso de um documento), espaçar (respiração). */
+
+.slide.is-active .an-desfoca {
+  animation: desfoca 1.6s var(--suave) both;
+  animation-delay: var(--atraso, 0s);
+}
+@keyframes desfoca {
+  from {
+    opacity: 0;
+    filter: blur(16px);
+    scale: 1.06;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    scale: 1;
+  }
+}
+.slide.is-active .an-varre {
+  animation: varre 1.1s var(--suave) both;
+  animation-delay: var(--atraso, 0s);
+}
+/* As margens negativas deixam acentos e itálicos respirarem fora da caixa. */
+@keyframes varre {
+  from {
+    clip-path: inset(-0.4em 100% -0.4em -0.4em);
+  }
+  to {
+    clip-path: inset(-0.4em -0.4em -0.4em -0.4em);
+  }
+}
+.slide.is-active .an-surge {
+  animation: surge 1.4s ease both;
+  animation-delay: var(--atraso, 0s);
+}
+@keyframes surge {
+  from {
+    opacity: 0;
+    translate: 0 calc(var(--u) * 1.2);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.slide.is-active .an-espaca {
+  animation: espaca 2s var(--suave) both;
+  animation-delay: var(--atraso, 0s);
+}
+@keyframes espaca {
+  from {
+    opacity: 0;
+    letter-spacing: 0.5em;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Elementos que aparecem num passo (data-passo): por padrão, surgem.
+   (O próprio .slide também leva data-passo, com o passo atual; por isso o "descendente".) */
+:where(.slide) [data-passo] {
+  opacity: 0;
+  transition: opacity 1.1s ease, transform 1.1s var(--suave), clip-path 1.2s var(--suave), filter 1.2s ease;
+}
+:where(.slide) [data-passo].on {
+  opacity: 1;
+}
+
+/* Voltar a um slide mostra o estado final, sem repetir as transições. */
+.slide.entrando *,
+.slide.entrando *::before,
+.slide.entrando *::after {
+  transition: none !important;
+}
+
+/* Cursor de máquina de escrever */
+.cursor::after {
+  content: "▌";
+  margin-left: 0.05em;
+  color: var(--sangue-vivo);
+  animation: piscar 0.9s steps(1) infinite;
+}
+@keyframes piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------- elementos fixos */
+
+#chrome {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  font-family: var(--maquina);
+  color: var(--cinza);
+}
+#chrome > * {
+  pointer-events: auto;
+}
+.progresso {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  pointer-events: none;
+}
+.progresso span {
+  display: block;
+  height: 100%;
+  background: var(--sangue);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.8s var(--suave);
+}
+.contador {
+  position: absolute;
+  right: calc(var(--u) * 2.4);
+  top: calc(var(--u) * 2.2);
+  font-size: calc(var(--u) * 1.15);
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+.contador .de {
+  color: var(--cinza-2);
+}
+.som {
+  position: absolute;
+  right: calc(var(--u) * 2.4);
+  bottom: calc(var(--u) * 1.3);
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: calc(var(--u) * 1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+.som-icone {
+  position: relative;
+  width: calc(var(--u) * 2.2);
+  height: calc(var(--u) * 2.2);
+  min-width: 24px;
+  min-height: 24px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+.som-icone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 40%;
+  height: 40%;
+  background: currentColor;
+  clip-path: polygon(0 30%, 30% 30%, 70% 0, 70% 100%, 30% 70%, 0 70%);
+}
+.som.mudo .som-icone::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 50%;
+  height: 1.5px;
+  background: var(--sangue-vivo);
+  transform: rotate(-40deg);
+}
+.dica {
+  position: absolute;
+  right: calc(var(--u) * 9.5);
+  bottom: calc(var(--u) * 1.85);
+  font-size: calc(var(--u) * 0.95);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cinza-2);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+.dica.some {
+  opacity: 0;
+}
+
+#erro {
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  display: none;
+  padding: 8vh 8vw;
+  background: var(--preto);
+  color: var(--osso);
+  font-family: var(--serif);
+  font-size: 20px;
+  overflow: auto;
+}
+#erro.visivel {
+  display: block;
+}
+#erro h1 {
+  font-family: var(--display);
+  font-size: 44px;
+  color: var(--sangue-vivo);
+  text-transform: uppercase;
+}
+#erro pre {
+  white-space: pre-wrap;
+  font-family: var(--maquina);
+  font-size: 15px;
+  background: var(--preto-2);
+  padding: 1em;
+}
+
+body.previa #chrome {
+  display: none;
+}
+
+/* Celular em pé: o palco vira coluna rolável. */
+@media (max-aspect-ratio: 4/5) {
+  :root {
+    --u: 2.6vw;
+  }
+  .slide {
+    display: block;
+    overflow-y: auto;
+  }
+  .stage {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    padding: 64px 16px 96px;
+  }
+  .kicker,
+  .fontes {
+    position: static;
+  }
+  .fontes {
+    margin-top: 2em;
+  }
+  .dica {
+    display: none;
+  }
+}
+
+/* Movimento reduzido: tudo aparece no estado final, sem tremer nem piscar. */
+@media (prefers-reduced-motion: reduce) {
+  #grao,
+  .slide.is-active > .stage,
+  .slide.is-active [class*="an-"],
+  #deck.tremor,
+  #flash.ativo,
+  body.pulso #vinheta {
+    animation: none !important;
+  }
+  [data-passo] {
+    transition: opacity 0.3s ease !important;
+  }
+}

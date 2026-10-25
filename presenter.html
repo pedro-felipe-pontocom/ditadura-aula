@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modo apresentador · Ditadura 1964–1985</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070707'/%3E%3Crect x='5' y='14' width='22' height='4' fill='%23b3141c'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/presenter.css" />
+  </head>
+  <body>
+    <header class="topo">
+      <p class="marca">Modo apresentador</p>
+      <p class="conexao" id="conexao">procurando a apresentação…</p>
+      <p class="relogio" id="relogio">--:--</p>
+    </header>
+
+    <main class="painel">
+      <section class="col-atual">
+        <div class="rotulo">
+          <span class="etiqueta">Agora</span>
+          <span id="atual-titulo">–</span>
+          <span class="passo" id="atual-passo"></span>
+        </div>
+        <div class="tela" id="tela-atual"><iframe id="prev-atual" title="Slide atual" tabindex="-1"></iframe></div>
+        <section class="notas">
+          <h2>Notas para a aula</h2>
+          <div id="notas" class="notas-texto"></div>
+        </section>
+      </section>
+
+      <section class="col-lado">
+        <div class="rotulo">
+          <span class="etiqueta">Próximo slide</span>
+          <span id="prox-titulo">–</span>
+        </div>
+        <div class="tela pequena" id="tela-prox"><iframe id="prev-prox" title="Próximo slide" tabindex="-1"></iframe></div>
+
+        <div class="bloco cronometro">
+          <span class="etiqueta">Tempo de aula</span>
+          <p class="crono" id="crono">00:00</p>
+          <div class="botoes">
+            <button id="crono-btn" type="button">iniciar</button>
+            <button id="crono-zerar" type="button">zerar</button>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <span class="etiqueta">Efeitos de som</span>
+          <p class="som-linha"><button id="som-btn" type="button">–</button></p>
+        </div>
+
+        <div class="bloco nav">
+          <button id="nav-ant" type="button">← anterior</button>
+          <button id="nav-prox" type="button" class="principal">próximo →</button>
+          <button id="nav-black" type="button">tela preta (B)</button>
+        </div>
+        <p class="atalhos">Setas / espaço / PageUp-PageDown navegam também nesta janela. M liga/desliga o som. B apaga a tela.</p>
+      </section>
+    </main>
+
+    <script type="module" src="js/presenter.js"></script>
+  </body>
+</html>
