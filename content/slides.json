@@ -98,7 +98,9 @@
       "kicker": "28 de março de 1968",
       "linhas": ["Mataram um estudante.", "Podia ser seu filho!"],
       "texto": "Edson Luís, 18 anos, foi morto a tiro pela Polícia Militar no restaurante estudantil Calabouço, no Rio. Os estudantes levaram o corpo à Assembleia Legislativa, com medo de que ele sumisse.",
+      "origem": "Grito no enterro de Edson Luís, no Rio",
       "cartaz": "Os velhos no poder, os jovens no caixão.",
+      "cartazOrigem": "Cartaz colado na Cinelândia",
       "passeata": {
         "data": "26 de junho de 1968",
         "titulo": "Passeata dos Cem Mil",
@@ -312,13 +314,6 @@
       "final": "Para que não se esqueça. Para que nunca mais aconteça.",
       "fontes": ["lista"],
       "notas": "Os nomes passam devagar, como os créditos de um filme. Os marcados com † desaparecido nunca tiveram o corpo encontrado. Fique em silêncio alguns segundos antes de encerrar."
-    },
-    {
-      "id": "referencias",
-      "tipo": "referencias",
-      "titulo": "Fontes",
-      "creditos": "Apresentação preparada para a aula. Tipografia: Big Shoulders Display, Newsreader e Courier Prime (SIL Open Font License).",
-      "notas": "Todas as datas, números e citações vêm destas fontes."
     }
   ]
 }

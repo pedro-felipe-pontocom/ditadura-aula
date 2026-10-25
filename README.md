@@ -1,6 +1,6 @@
 # Ditadura 1964–1985 — aula em slides
 
-Apresentação animada sobre a ditadura civil-militar no Brasil, do golpe de 1964 à Constituição de 1988. São 21 slides (uma capa e 20 cenas) com animação, efeitos de som sintetizados no navegador (sem arquivos de áudio) e notas para quem dá a aula.
+Apresentação animada sobre a ditadura civil-militar no Brasil, do golpe de 1964 à Constituição de 1988. São 20 slides (uma capa e 19 cenas) com animação, efeitos de som sintetizados no navegador (sem arquivos de áudio) e notas para quem dá a aula.
 
 ## Como usar na aula
 
@@ -29,7 +29,7 @@ Depois abra o endereço que aparecer (normalmente http://localhost:3000).
 | Arquivo | O que tem |
 |---|---|
 | `content/slides.json` | Todos os textos dos slides e as notas da professora (`notas`). |
-| `content/fontes.json` | As fontes de cada informação (aparecem no rodapé e no último slide). |
+| `content/fontes.json` | As fontes de cada informação (aparecem no rodapé de cada slide). |
 | `content/vitimas.json` | Os 430 nomes do memorial, da lista baseada no relatório da Comissão Nacional da Verdade (2014). |
 | `css/` | Visual e animações. |
 | `js/` | Navegação, efeitos e som. |
@@ -38,6 +38,6 @@ Para corrigir um texto, edite `content/slides.json` (mantenha as aspas duplas e 
 
 ## Sobre o conteúdo
 
-Datas, números e citações vêm das fontes listadas no último slide. O que não pôde ser confirmado ficou de fora. Não há fotos: as imagens são desenhos feitos em código, para evitar problemas de direitos autorais. Os versos de *Os Lusíadas* são de domínio público.
+Datas, números e citações vêm das fontes que aparecem no rodapé de cada slide (lista completa em `content/fontes.json`). O que não pôde ser confirmado ficou de fora. Não há fotos: as imagens são desenhos feitos em código, para evitar problemas de direitos autorais. Os versos de *Os Lusíadas* são de domínio público.
 
 Tipografia: Big Shoulders Display, Newsreader e Courier Prime (SIL Open Font License; licenças em `assets/fonts/`).

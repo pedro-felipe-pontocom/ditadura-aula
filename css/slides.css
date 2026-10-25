@@ -900,6 +900,32 @@
   font-size: calc(var(--u) * 4.4);
   line-height: 1.1;
 }
+/* De onde vem a frase: ela é o grito das ruas em 1968, não um texto nosso. */
+.es-origem {
+  margin-top: calc(var(--u) * 0.8);
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 1.05);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.es-origem::before {
+  content: "— ";
+}
+.gritou .es-origem {
+  opacity: 1;
+}
+.es-cartaz small {
+  display: block;
+  margin-top: 0.4em;
+  font-size: 0.62em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6258;
+}
 .es-texto {
   position: absolute;
   left: calc(var(--u) * 6);
@@ -2685,63 +2711,6 @@
   line-height: 1.25;
 }
 
-/* ---------------------------------------------------------- referências */
-
-.rf-titulo {
-  position: absolute;
-  left: calc(var(--u) * 6);
-  top: calc(var(--u) * 5);
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: calc(var(--u) * 3.8);
-  text-transform: uppercase;
-}
-.rf-lista {
-  position: absolute;
-  left: calc(var(--u) * 6);
-  right: calc(var(--u) * 6);
-  top: calc(var(--u) * 11);
-  columns: 4;
-  column-gap: calc(var(--u) * 2);
-  counter-reset: rf;
-  font-size: calc(var(--u) * 0.8);
-  line-height: 1.28;
-  color: var(--osso-2);
-}
-.rf-lista li {
-  position: relative;
-  break-inside: avoid;
-  margin-bottom: calc(var(--u) * 0.6);
-  padding-left: calc(var(--u) * 2);
-  counter-increment: rf;
-}
-.rf-lista li::before {
-  content: counter(rf, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  font-family: var(--maquina);
-  color: var(--sangue-vivo);
-}
-.rf-lista a {
-  display: block;
-  font-family: var(--maquina);
-  font-size: calc(var(--u) * 0.68);
-  color: var(--cinza-2);
-  text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.rf-creditos {
-  position: absolute;
-  left: calc(var(--u) * 6);
-  right: calc(var(--u) * 6);
-  bottom: calc(var(--u) * 4);
-  font-family: var(--maquina);
-  font-size: calc(var(--u) * 0.9);
-  color: var(--cinza-2);
-}
-
 /* ==========================================================================
    Celular em pé: cada cena vira uma coluna que rola.
    (:where deixa a regra geral fraca, para as regras de cada cena vencerem.)
@@ -2972,13 +2941,6 @@
   }
   .rp-orgaos {
     gap: 1em;
-  }
-  .rf-lista {
-    columns: 1;
-    font-size: 13px;
-  }
-  .rf-lista a {
-    font-size: 11px;
   }
 }
 

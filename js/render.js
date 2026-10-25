@@ -308,15 +308,18 @@ function atos(s, st, ctx, cena) {
     ),
   );
   add(st, kicker(s.kicker), el("h2", { class: "at-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }), el("div", { class: "at-mesa" }, docs));
-  // Sem som: o documento cai e a tela só treme.
-  const cair = () => cena.depois(560, () => ctx.fx.tremor());
+  const cair = (forca) =>
+    cena.depois(560, () => {
+      som.baque(forca);
+      ctx.fx.tremor();
+    });
   return {
     passos: docs.length - 1,
     aoEntrar: (passo) => {
-      if (passo === 0) cair();
+      if (passo === 0) cair(1);
     },
     aoPasso: (n, { entrando }) => {
-      if (!entrando && n > 0) cair();
+      if (!entrando && n > 0) cair(s.documentos[n].destaque ? 1.6 : 1);
     },
   };
 }
@@ -336,9 +339,9 @@ function estudante(s, st, ctx, cena) {
   add(st, 
     canvas,
     kicker(s.kicker),
-    el("div", { class: "es-grito" }, l1, l2),
+    el("div", { class: "es-grito" }, l1, l2, el("p", { class: "es-origem", text: s.origem })),
     el("p", { class: "es-texto", html: md(s.texto) }),
-    el("p", { class: "es-cartaz", text: `“${s.cartaz}”` }),
+    el("p", { class: "es-cartaz" }, `“${s.cartaz}”`, s.cartazOrigem && el("small", { text: s.cartazOrigem })),
     el(
       "div",
       { class: "es-passeata", "data-passo": 1 },
@@ -768,9 +771,9 @@ function amanhecer(s, st, ctx, cena, section) {
       [...lista.children].forEach((li, i) => li.classList.toggle("passado", i < n));
       section.classList.toggle("explodiu", n >= ultimo);
       if (n === ultimo && !entrando)
+        // Sem som de explosão: só o clarão e a tela tremendo.
         cena.depois(400, () => {
           ctx.fx.flash();
-          som.explosao();
           ctx.fx.tremor();
         });
     },
@@ -919,28 +922,6 @@ function memorial(s, st, ctx, cena) {
   };
 }
 
-/* 20 · Fontes. */
-function referencias(s, st, ctx) {
-  const itens = Object.entries(ctx.fontes)
-    .filter(([k]) => !k.startsWith("_"))
-    .map(([, f]) => el("li", {}, el("span", { html: md(f.completa) }), f.url && el("a", { href: f.url, target: "_blank", rel: "noopener", text: encurtar(f.url) })));
-  add(st, 
-    el("h2", { class: "rf-titulo an-varre", text: s.titulo }),
-    el("ol", { class: "rf-lista" }, itens),
-    el("p", { class: "rf-creditos", html: md(s.creditos) }),
-  );
-}
-
-function encurtar(url) {
-  try {
-    const u = new URL(url);
-    const t = u.hostname.replace(/^www\d*\./, "") + decodeURIComponent(u.pathname).replace(/\/$/, "");
-    return t.length > 70 ? `${t.slice(0, 67)}…` : t;
-  } catch {
-    return url;
-  }
-}
-
 const RENDER = {
   capa,
   abertura,
@@ -962,5 +943,4 @@ const RENDER = {
   citacao,
   numeros,
   memorial,
-  referencias,
 };
