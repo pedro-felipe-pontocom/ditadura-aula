@@ -78,7 +78,10 @@ export class Deck {
         this.emTransicao = false;
         const { index: i, passo: p } = this.estado;
         if (i !== this.visivel) this.mostrar(i, p);
-        else if (p !== this.passoVisivel) this.aplicarPasso(p);
+        else if (p !== this.passoVisivel) {
+          this.aplicarPasso(p);
+          this.publicar();
+        }
       });
   }
 

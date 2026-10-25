@@ -3,14 +3,15 @@
 // "entrando" = o slide acabou de aparecer (voltando pela seta, por exemplo):
 // nesse caso tudo vai direto para o estado final, sem som nem animação.
 
-import { el, md, escapeHtml, mulberry32, clamp, lerp, movimentoReduzido } from "./util.js";
+import { el, md, mulberry32, clamp, lerp, movimentoReduzido } from "./util.js";
 import { Cena, digitar, fixarTexto, contar, embaralhar, Multidao } from "./fx.js";
 import * as som from "./som.js";
+import { criarTV } from "./tv.js";
 
-const COM_CINZAS = new Set(["abertura", "numeros", "memorial"]);
+const COM_CINZAS = new Set(["capa", "abertura", "numeros", "memorial"]);
 
 export function rotuloSlide(s) {
-  const t = s.titulo || s.nome || s.sigla || s.kicker || s.id;
+  const t = s.rotulo || s.titulo || s.nome || s.sigla || s.kicker || s.id;
   return String(t).replace(/\*/g, "");
 }
 
@@ -95,6 +96,24 @@ const SVG_SILHUETA = `<svg viewBox="0 0 100 130" aria-hidden="true">
 
 /* ================================================================ cenas */
 
+/* 0 · Capa: o assunto fica na tela enquanto a turma se acomoda.
+   Nada importante anda aqui: a animação começa no slide seguinte, quando a professora aperta →. */
+function capa(s, st) {
+  add(st,
+    kicker(s.kicker, "0.2s"),
+    el(
+      "h1",
+      { class: "cp-titulo" },
+      el("span", { class: "cp-grande an-desfoca", style: atraso("0.4s"), text: s.titulo }),
+      el("span", { class: "cp-sub an-varre", style: atraso("1.3s"), text: s.subtitulo }),
+    ),
+    el("div", { class: "cp-linha an-varre", style: atraso("1.8s") }),
+    el("p", { class: "cp-periodo an-surge", style: atraso("2.3s"), text: s.periodo }),
+    el("p", { class: "cp-comecar an-surge", style: atraso("3.2s") }, "aperte ", el("kbd", { text: "→" }), " para começar"),
+    el("p", { class: "cp-aviso an-surge", style: atraso("3.6s"), html: md(s.aviso) }),
+  );
+}
+
 /* 1 · Abertura: os anos correm de 1964 a 1985. */
 function abertura(s, st, ctx, cena) {
   const ano = el("div", { class: "ab-ano an-desfoca", style: atraso("0.3s"), text: String(s.de) });
@@ -170,8 +189,39 @@ function divisao(s, st, ctx, cena) {
   };
 }
 
-/* 3 · O golpe: tanques, painel de datas, porta-aviões. */
-function golpe(s, st, ctx, cena) {
+/* 3 · O golpe: tanques, painel de datas, porta-aviões.
+   Tudo como num cinejornal antigo: contagem de filme (3, 2, 1), perfurações, riscos e o projetor piscando. */
+const LIDER_MS = 2500;
+
+function golpe(s, st, ctx, cena, section) {
+  const numero = el("span", { class: "gp-lider-num" });
+  const lider = el("div", { class: "gp-lider", "aria-hidden": "true" }, el("i", { class: "gp-lider-varre" }), el("i", { class: "gp-lider-aro" }), numero);
+  const filme = el(
+    "div",
+    { class: "gp-filme", "aria-hidden": "true" },
+    el("i", { class: "gp-perf e" }),
+    el("i", { class: "gp-perf d" }),
+    el("i", { class: "gp-risco r1" }),
+    el("i", { class: "gp-risco r2" }),
+    el("i", { class: "gp-pisca" }),
+  );
+  add(section, filme, lider);
+  let atual = 0;
+  // Enquanto a contagem roda, as animações do palco ficam pausadas (CSS: .lider).
+  const terminarLider = () => section.classList.remove("lider");
+  const rodarLider = () => {
+    section.classList.add("lider");
+    [3, 2, 1].forEach((n, i) =>
+      cena.depois(i * 760, () => {
+        numero.textContent = n;
+        lider.classList.remove("gira");
+        void lider.offsetWidth;
+        lider.classList.add("gira");
+        som.clique();
+      }),
+    );
+    cena.depois(LIDER_MS - 200, terminarLider);
+  };
   const data = el("div", { class: "gp-data", text: s.datas[0].data });
   const texto = el("p", { class: "gp-texto", html: md(s.datas[0].texto) });
   add(st, 
@@ -196,13 +246,19 @@ function golpe(s, st, ctx, cena) {
   return {
     passos: s.datas.length - 1,
     aoEntrar: (passo) => {
-      cena.depois(250, () => som.ronco(6.5));
-      if (passo === 0) cena.depois(500, () => embaralhar(data, s.datas[0].data, cena, 1300));
+      const comLider = passo === 0 && !movimentoReduzido() && !ctx.previa;
+      const t0 = comLider ? LIDER_MS : 0;
+      if (comLider) rodarLider();
+      cena.depois(t0 + 250, () => som.ronco(6.5));
+      if (passo === 0) cena.depois(t0 + 500, () => atual === 0 && embaralhar(data, s.datas[0].data, cena, 1300));
     },
     aoPasso: (n, { entrando }) => {
+      atual = n;
+      if (n > 0) terminarLider();
       mostrar(n, !entrando);
       st.classList.toggle("mar", n >= 2);
     },
+    aoSair: terminarLider,
   };
 }
 
@@ -252,18 +308,15 @@ function atos(s, st, ctx, cena) {
     ),
   );
   add(st, kicker(s.kicker), el("h2", { class: "at-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }), el("div", { class: "at-mesa" }, docs));
-  const cair = (forca) =>
-    cena.depois(560, () => {
-      som.baque(forca);
-      ctx.fx.tremor();
-    });
+  // Sem som: o documento cai e a tela só treme.
+  const cair = () => cena.depois(560, () => ctx.fx.tremor());
   return {
     passos: docs.length - 1,
     aoEntrar: (passo) => {
-      if (passo === 0) cair(1);
+      if (passo === 0) cair();
     },
     aoPasso: (n, { entrando }) => {
-      if (!entrando && n > 0) cair(s.documentos[n].destaque ? 1.6 : 1);
+      if (!entrando && n > 0) cair();
     },
   };
 }
@@ -439,9 +492,7 @@ function censura(s, st, ctx, cena) {
 function milagre(s, st, ctx, cena, section) {
   const p = s.propaganda;
   const r = s.realidade;
-  // Palavras com hífen não quebram ("DEIXE-/O").
-  const textoSlogan = (i) => `“${escapeHtml(p.slogans[i])}”`.replace(/(\S+-\S+)/g, '<span class="nw">$1</span>');
-  const slogan = el("p", { class: "mi-slogan", html: textoSlogan(0) });
+  const tv = criarTV(p.slogans, md(p.legendaTV || ""));
   const rnd = mulberry32(70);
   const confete = el(
     "div",
@@ -465,8 +516,8 @@ function milagre(s, st, ctx, cena, section) {
       "div",
       { class: "mi-dentro" },
       el("h2", { class: "mi-titulo", html: md(p.titulo) }),
-      slogan,
       el("p", { class: "mi-texto", html: md(p.texto) }),
+      tv.el,
     ),
   );
   const real = el(
@@ -509,19 +560,9 @@ function milagre(s, st, ctx, cena, section) {
 
   return {
     passos: 2,
-    aoEntrar: () => {
-      let i = 0;
-      const trocar = () => {
-        i = (i + 1) % p.slogans.length;
-        slogan.classList.remove("troca");
-        void slogan.offsetWidth;
-        slogan.classList.add("troca");
-        slogan.innerHTML = textoSlogan(i);
-        cena.depois(2600, trocar);
-      };
-      cena.depois(2600, trocar);
-    },
+    aoEntrar: (passo) => tv.ligar(cena, { imediato: passo > 0 }),
     aoPasso: (n, { entrando }) => animarPara([100, 52, 0][n], entrando),
+    aoSair: () => tv.desligar(),
   };
 }
 
@@ -901,6 +942,7 @@ function encurtar(url) {
 }
 
 const RENDER = {
+  capa,
   abertura,
   divisao,
   golpe,

@@ -56,7 +56,7 @@ async function iniciar() {
       document.body.classList.add("pulso");
     },
   };
-  const ctx = { ...conteudo, fx };
+  const ctx = { ...conteudo, fx, previa };
 
   const deckEl = $("#deck");
   const renders = conteudo.slides.map((s) => {

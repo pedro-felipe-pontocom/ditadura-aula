@@ -8,6 +8,17 @@
 
   "slides": [
     {
+      "id": "capa",
+      "tipo": "capa",
+      "rotulo": "Capa",
+      "kicker": "Aula de História",
+      "titulo": "Ditadura",
+      "subtitulo": "civil-militar no Brasil",
+      "periodo": "1964 — 1985",
+      "aviso": "Esta aula mostra fatos documentados de tortura, morte e desaparecimento.",
+      "notas": "Deixe esta tela enquanto liga o projetor e a turma se acomoda. Aqui nada importante acontece sozinho. Quando todos estiverem olhando, aperte →: no próximo slide os anos correm de 1964 a 1985. Antes de começar, avise que a aula mostra fatos reais de tortura e morte."
+    },
+    {
       "id": "abertura",
       "tipo": "abertura",
       "kicker": "Brasil",
@@ -49,7 +60,7 @@
       ],
       "apoio": "Apoiaram o golpe: banqueiros, empresários, latifundiários, políticos, magistrados e parte da classe média.",
       "fontes": ["golpe", "brotherSam"],
-      "notas": "Os tanques entram sozinhos. Cada seta troca a data no painel. Destaque que foi um golpe civil-militar: teve apoio de setores da sociedade e dos EUA. A Operação Brother Sam só veio a público em 1976–1977, com documentos americanos."
+      "notas": "O slide começa como um filme antigo: contagem 3, 2, 1 e, depois, os tanques entram sozinhos. Cada seta troca a data no painel. Destaque que foi um golpe civil-militar: teve apoio de setores da sociedade e dos EUA. A Operação Brother Sam só veio a público em 1976–1977, com documentos americanos."
     },
     {
       "id": "generais",
@@ -140,6 +151,7 @@
       "propaganda": {
         "titulo": "O milagre",
         "slogans": ["Brasil, ame-o ou deixe-o", "Ninguém segura este país", "Este é um país que vai pra frente"],
+        "legendaTV": "Slogans da propaganda do governo. Clique na TV para mudar de canal.",
         "texto": "A economia cresce rápido e a TV, colorida desde 1972, espalha a propaganda. Em 1970, o Brasil é tricampeão do mundo, e o governo Médici aproveita a euforia."
       },
       "realidade": {
@@ -148,7 +160,7 @@
       },
       "dica": "arraste a linha para ver o outro lado",
       "fontes": ["coan", "copa", "doi"],
-      "notas": "Arraste a linha branca (ou use a seta) para passar da propaganda para a realidade. Os mesmos anos do “milagre econômico” são os “anos de chumbo”. Pergunte quem a turma acha que ficou com o dinheiro do milagre."
+      "notas": "A TV liga sozinha e passa os slogans da propaganda; clicar nela muda de canal. Arraste a linha branca (ou use a seta) para passar da propaganda para a realidade. Os mesmos anos do “milagre econômico” são os “anos de chumbo”. Pergunte quem a turma acha que ficou com o dinheiro do milagre."
     },
     {
       "id": "repressao",

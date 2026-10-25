@@ -3,7 +3,7 @@
 // Estratégia: sempre tenta a rede primeiro; só usa a cópia guardada se a rede falhar.
 // Assim, qualquer edição no conteúdo aparece na hora.
 
-const CACHE = "aula-ditadura-v1";
+const CACHE = "aula-ditadura-v2";
 const ARQUIVOS = [
   "./",
   "index.html",
@@ -17,6 +17,7 @@ const ARQUIVOS = [
   "js/render.js",
   "js/deck.js",
   "js/fx.js",
+  "js/tv.js",
   "js/som.js",
   "js/sync.js",
   "js/presenter.js",

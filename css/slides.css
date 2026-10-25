@@ -35,6 +35,112 @@
   }
 }
 
+/* ------------------------------------------------------------------ capa */
+
+.cp-titulo {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 10.5);
+  font-weight: normal;
+}
+/* Uma luz passa devagar pelo título, como o facho de um projetor. */
+.cp-grande {
+  display: block;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: calc(var(--u) * 19);
+  line-height: 0.8;
+  text-transform: uppercase;
+  background: linear-gradient(100deg, var(--osso) 42%, #fffaf0 50%, var(--osso) 58%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.slide.is-active .cp-grande {
+  animation:
+    desfoca 1.8s var(--suave) 0.4s both,
+    brilho 8s ease-in-out 3.5s infinite;
+}
+@keyframes brilho {
+  0% {
+    background-position: 100% 0;
+  }
+  45%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+.cp-sub {
+  display: block;
+  margin-top: calc(var(--u) * 1.6);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: calc(var(--u) * 4.6);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--osso-2);
+}
+.cp-linha {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 35.5);
+  width: calc(var(--u) * 34);
+  height: 3px;
+  background: var(--sangue);
+}
+.cp-periodo {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 37.2);
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.8);
+  letter-spacing: 0.3em;
+  color: var(--sangue-vivo);
+}
+.cp-comecar {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 45);
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 1.25);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--osso-2);
+}
+.slide.is-active .cp-comecar {
+  animation:
+    surge 1.4s ease 3.2s both,
+    respira 2.8s ease-in-out 4.6s infinite;
+}
+@keyframes respira {
+  50% {
+    opacity: 0.35;
+  }
+}
+.cp-comecar kbd {
+  display: inline-block;
+  margin: 0 0.3em;
+  padding: 0.05em 0.55em;
+  border: 1px solid var(--osso-2);
+  border-radius: 0.25em;
+  font-family: inherit;
+  letter-spacing: 0;
+  color: var(--osso);
+}
+.cp-aviso {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 49.5);
+  width: calc(var(--u) * 56);
+  font-style: italic;
+  font-size: calc(var(--u) * 1.25);
+  color: var(--cinza);
+}
+
 /* -------------------------------------------------------------- abertura */
 
 .ab-ano {
@@ -392,6 +498,187 @@
 }
 .mar .gp-chao {
   background: #2b3a44;
+}
+
+/* Cinejornal: perfurações do filme nas bordas, riscos, o projetor piscando
+   e uma vinheta quente, como imagem de arquivo. */
+.gp-filme {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.gp-filme::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(150, 110, 60, 0.06) 35%, rgba(30, 18, 6, 0.45) 100%);
+  mix-blend-mode: multiply;
+}
+.gp-perf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--u) * 2.6);
+  background-color: #020202;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 32'%3E%3Crect x='7' y='9' width='12' height='14' rx='2.5' fill='%23d7cdb9' fill-opacity='0.22'/%3E%3C/svg%3E");
+  background-size: 100% calc(var(--u) * 3.2);
+  box-shadow: 0 0 calc(var(--u) * 1.2) rgba(0, 0, 0, 0.9);
+}
+.gp-perf.e {
+  left: 0;
+}
+.gp-perf.d {
+  right: 0;
+}
+.slide.is-active .gp-perf {
+  animation: perf 1.2s linear infinite;
+}
+@keyframes perf {
+  to {
+    background-position: 0 calc(var(--u) * 3.2);
+  }
+}
+.gp-risco {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  opacity: 0;
+  background: rgba(240, 230, 210, 0.4);
+}
+.gp-risco.r2 {
+  width: 2px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.slide.is-active .gp-risco.r1 {
+  animation: risco1 2.9s steps(1) infinite;
+}
+.slide.is-active .gp-risco.r2 {
+  animation: risco2 3.7s steps(1) infinite;
+}
+@keyframes risco1 {
+  0% { left: 22%; opacity: 0.8; }
+  9% { opacity: 0; }
+  31% { left: 63%; opacity: 0.6; }
+  38% { opacity: 0; }
+  57% { left: 41%; opacity: 0.7; }
+  61% { opacity: 0; }
+  80% { left: 86%; opacity: 0.5; }
+  86% { opacity: 0; }
+}
+@keyframes risco2 {
+  0% { left: 71%; opacity: 0; }
+  14% { opacity: 0.7; }
+  20% { opacity: 0; }
+  44% { left: 17%; opacity: 0.6; }
+  52% { opacity: 0; }
+  73% { left: 54%; opacity: 0.8; }
+  77% { opacity: 0; }
+}
+.gp-pisca {
+  position: absolute;
+  inset: 0;
+  background: #fff6df;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+}
+.slide.is-active .gp-pisca {
+  animation: pisca 0.42s steps(1) infinite;
+}
+@keyframes pisca {
+  0% { opacity: 0.1; }
+  33% { opacity: 0.03; }
+  66% { opacity: 0.07; }
+}
+
+/* Contagem de filme antes da cena: 3, 2, 1 com o ponteiro varrendo o círculo. */
+@property --varre {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.gp-lider {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #a99f8b 0%, #7d7465 55%, #37322b 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.45s ease,
+    visibility 0s linear 0.45s;
+}
+.lider .gp-lider {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+.gp-lider::before,
+.gp-lider::after {
+  content: "";
+  position: absolute;
+  background: rgba(25, 20, 14, 0.7);
+}
+.gp-lider::before {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+}
+.gp-lider::after {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+}
+.gp-lider-varre {
+  position: absolute;
+  width: 150vmax;
+  height: 150vmax;
+  border-radius: 50%;
+  background: conic-gradient(rgba(30, 24, 16, 0.45) var(--varre), transparent 0);
+}
+.gira .gp-lider-varre {
+  animation: varredura 0.76s linear both;
+}
+@keyframes varredura {
+  from {
+    --varre: 0deg;
+  }
+  to {
+    --varre: 360deg;
+  }
+}
+.gp-lider-aro {
+  position: absolute;
+  width: 62vh;
+  height: 62vh;
+  border-radius: 50%;
+  border: 0.7vh solid rgba(20, 16, 12, 0.8);
+}
+.gp-lider-aro::after {
+  content: "";
+  position: absolute;
+  inset: 5vh;
+  border-radius: 50%;
+  border: 0.5vh solid rgba(20, 16, 12, 0.7);
+}
+.gp-lider-num {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 38vh;
+  line-height: 1;
+  color: #15110c;
+}
+/* Enquanto a contagem roda, a cena espera (tanques, painel, tudo parado no início). */
+.s-golpe.lider .stage,
+.s-golpe.lider .stage * {
+  animation-play-state: paused !important;
 }
 
 /* -------------------------------------------------------------- generais */
@@ -992,6 +1279,14 @@
   z-index: 3;
   pointer-events: none;
 }
+/* Vermelho some no verde: no milagre, o rótulo e as fontes ficam claros. */
+.s-milagre .kicker {
+  color: #f6d23a;
+}
+.s-milagre .fontes,
+.s-milagre .fontes b {
+  color: rgba(255, 248, 218, 0.75);
+}
 .mi-camada {
   position: absolute;
   inset: 0;
@@ -1023,27 +1318,12 @@
 }
 .mi-prop .mi-titulo {
   left: calc(var(--u) * 6);
+  top: calc(var(--u) * 13);
   color: #f6d23a;
 }
 .mi-real .mi-titulo {
   right: calc(var(--u) * 6);
   color: var(--sangue-vivo);
-}
-.mi-slogan {
-  position: absolute;
-  left: calc(var(--u) * 6);
-  top: calc(var(--u) * 19);
-  width: calc(var(--u) * 42);
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: calc(var(--u) * 4.4);
-  line-height: 0.95;
-  text-wrap: balance;
-  text-transform: uppercase;
-  color: #fff;
-}
-.mi-slogan.troca {
-  animation: desfoca 0.9s var(--suave);
 }
 .mi-texto {
   position: absolute;
@@ -1054,6 +1334,9 @@
 }
 .mi-prop .mi-texto {
   left: calc(var(--u) * 6);
+  top: calc(var(--u) * 23);
+  width: calc(var(--u) * 40);
+  font-size: calc(var(--u) * 2.1);
 }
 .mi-real .mi-texto {
   right: calc(var(--u) * 6);
@@ -1123,7 +1406,8 @@
 .mi-dica {
   position: absolute;
   right: calc(100% + var(--u) * 0.6);
-  top: calc(50% + var(--u) * 3);
+  top: calc(50% + var(--u) * 19);
+  transition: opacity 0.6s ease;
   padding: calc(var(--u) * 0.3) calc(var(--u) * 0.6);
   background: rgba(0, 0, 0, 0.55);
   font-family: var(--maquina);
@@ -1132,6 +1416,326 @@
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--osso);
+}
+.s-milagre:not([data-passo="0"]) .mi-dica {
+  opacity: 0;
+}
+
+/* A TV dos anos 1970: móvel de madeira, antena, botões e tela de tubo. */
+.mi-tv {
+  position: absolute;
+  left: calc(var(--u) * 54);
+  top: calc(var(--u) * 13);
+  width: calc(var(--u) * 37);
+  cursor: pointer;
+  filter: drop-shadow(0 calc(var(--u) * 1.6) calc(var(--u) * 2) rgba(0, 0, 0, 0.45));
+}
+.tv-antena {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - var(--u) * 0.2);
+  width: 0;
+  height: calc(var(--u) * 7);
+}
+.tv-antena::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * -2.2);
+  bottom: 0;
+  width: calc(var(--u) * 4.4);
+  height: calc(var(--u) * 1.5);
+  border-radius: calc(var(--u) * 2.2) calc(var(--u) * 2.2) 0 0;
+  background: linear-gradient(#444, #161616);
+}
+.tv-antena i {
+  position: absolute;
+  left: -1px;
+  bottom: calc(var(--u) * 1);
+  width: 2px;
+  height: calc(var(--u) * 7.5);
+  background: linear-gradient(#e2e2e2, #8a8a8a);
+  transform-origin: bottom center;
+}
+.tv-antena i:first-child {
+  rotate: -32deg;
+}
+.tv-antena i:last-child {
+  rotate: 24deg;
+}
+.tv-antena i::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d8d8d8;
+}
+.tv-movel {
+  position: relative;
+  display: flex;
+  gap: calc(var(--u) * 1.2);
+  padding: calc(var(--u) * 1.4);
+  border-radius: calc(var(--u) * 1.4);
+  background:
+    repeating-linear-gradient(93deg, rgba(0, 0, 0, 0.09) 0 2px, transparent 2px 7px),
+    linear-gradient(180deg, #8d5c33, #5f3a1d 60%, #482a14);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 220, 180, 0.28),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.35);
+}
+.tv-moldura {
+  flex: 1;
+  padding: calc(var(--u) * 1);
+  border-radius: calc(var(--u) * 1.2);
+  background: linear-gradient(#2c2823, #12100e);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+}
+.tv-tela {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 16% / 21%;
+  background: radial-gradient(ellipse at 40% 35%, #2a302b, #121612 70%);
+  box-shadow: inset 0 0 calc(var(--u) * 2) rgba(0, 0, 0, 0.9);
+}
+.tv-imagem,
+.tv-barras,
+.tv-programa,
+.tv-fundo,
+.tv-chiado,
+.tv-linhas,
+.tv-brilho {
+  position: absolute;
+  inset: 0;
+}
+.tv-imagem {
+  transition: opacity 0.3s ease;
+}
+.desligada .tv-imagem {
+  opacity: 0;
+}
+/* Ligar: a imagem nasce numa linha clara e se abre. */
+.ligando .tv-imagem {
+  animation: crt-liga 0.8s ease-out;
+}
+@keyframes crt-liga {
+  0% {
+    transform: scale(0.03, 0.008);
+    filter: brightness(6);
+  }
+  35% {
+    transform: scale(1, 0.008);
+    filter: brightness(5);
+  }
+  70% {
+    transform: none;
+    filter: brightness(1.8);
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+.tv-barras {
+  display: flex;
+}
+.tv-barras i {
+  flex: 1;
+}
+.tv-programa {
+  display: grid;
+  place-items: center;
+  padding: 10% 9%;
+  overflow: hidden;
+  text-align: center;
+}
+.barras .tv-programa {
+  opacity: 0;
+}
+.tv-slogan {
+  position: relative;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 2.3);
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: #fff;
+  text-shadow:
+    -1px 0 rgba(255, 0, 60, 0.55),
+    1px 0 rgba(0, 220, 255, 0.55),
+    0 0 0.5em rgba(255, 255, 255, 0.35);
+}
+/* canal 0: a bandeira (losango amarelo e círculo azul, com o slogan no lugar do lema) */
+.tv-programa[data-canal="0"] {
+  background: #14894a;
+}
+.tv-programa[data-canal="0"] .tv-fundo {
+  background: #f2cf1d;
+  clip-path: polygon(50% 7%, 95% 50%, 50% 93%, 5% 50%);
+}
+.tv-programa[data-canal="0"] .tv-fundo::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 35%, #2f62c8, #13307a);
+}
+.tv-programa[data-canal="0"] .tv-slogan {
+  max-width: 50%;
+  font-size: calc(var(--u) * 1.95);
+}
+/* canal 1: raios de sol girando, euforia */
+.tv-programa[data-canal="1"] {
+  background: #f6c81e;
+}
+.tv-programa[data-canal="1"] .tv-fundo {
+  inset: -60%;
+  background: repeating-conic-gradient(#f6c81e 0 9deg, #fbe06a 9deg 18deg);
+  animation: raios 24s linear infinite;
+}
+@keyframes raios {
+  to {
+    rotate: 360deg;
+  }
+}
+.tv-programa[data-canal="1"] .tv-slogan {
+  color: #0b4f29;
+  text-shadow:
+    -1px 0 rgba(255, 0, 60, 0.4),
+    1px 0 rgba(0, 160, 255, 0.4);
+}
+/* canal 2: céu azul com estrelas */
+.tv-programa[data-canal="2"] {
+  background: radial-gradient(circle at 50% 120%, #2f6be0, #0c2a6e 70%);
+}
+.tv-programa[data-canal="2"] .tv-fundo {
+  background-image: radial-gradient(circle, #fff 0 1px, transparent 1.6px);
+  background-size: calc(var(--u) * 2.4) calc(var(--u) * 2.1);
+  opacity: 0.55;
+  animation: respira 3s ease-in-out infinite;
+}
+.tv-chiado {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  image-rendering: pixelated;
+}
+.chiando .tv-chiado {
+  opacity: 0.95;
+}
+.tv-linhas {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
+}
+/* Faixa clara que rola devagar pela tela, como nas TVs de tubo. */
+.tv-linhas::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.07), transparent);
+  animation: rolar-faixa 5s linear infinite;
+}
+@keyframes rolar-faixa {
+  from {
+    top: -20%;
+  }
+  to {
+    top: 100%;
+  }
+}
+.tv-brilho {
+  background:
+    radial-gradient(ellipse at 28% 18%, rgba(255, 255, 255, 0.2), transparent 42%),
+    radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.5));
+}
+.tv-painel {
+  width: calc(var(--u) * 6.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--u) * 1.1);
+  padding: calc(var(--u) * 1) 0;
+  border-radius: calc(var(--u) * 0.8);
+  background: linear-gradient(#2c2823, #191613);
+}
+.tv-botao {
+  position: relative;
+  width: calc(var(--u) * 3.4);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(#d4d4d4, #8d8d8d, #ededed, #767676, #d4d4d4);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 calc(var(--u) * 0.45) #353535;
+}
+.tv-botao::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 12%;
+  width: 2px;
+  height: 30%;
+  background: #1a1a1a;
+}
+.tv-botao.seletor {
+  rotate: var(--giro, -40deg);
+  transition: rotate 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.tv-botao + .tv-botao {
+  width: calc(var(--u) * 2.6);
+}
+.tv-grade {
+  width: 70%;
+  flex: 1;
+  border-radius: 3px;
+  background: repeating-linear-gradient(0deg, #0f0d0b 0 2px, #3b342d 2px 4px);
+}
+.tv-luz {
+  width: calc(var(--u) * 0.7);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #3a0d0d;
+}
+.mi-tv:not(.desligada) .tv-luz {
+  background: #ff3b30;
+  box-shadow: 0 0 6px #ff3b30;
+}
+.tv-pes {
+  position: relative;
+  height: calc(var(--u) * 3);
+}
+.tv-pes i {
+  position: absolute;
+  top: -2px;
+  width: calc(var(--u) * 0.9);
+  height: calc(var(--u) * 3.4);
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(#3a2412, #1f1309);
+  transform-origin: top center;
+}
+.tv-pes i:first-child {
+  left: 14%;
+  rotate: 14deg;
+}
+.tv-pes i:last-child {
+  right: 14%;
+  rotate: -14deg;
+}
+.mi-tv figcaption {
+  margin-top: calc(var(--u) * 0.6);
+  text-align: center;
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.95);
+  letter-spacing: 0.04em;
+  color: rgba(255, 248, 218, 0.8);
 }
 
 /* ------------------------------------------------------------ repressão */
@@ -2294,8 +2898,18 @@
   .mi-titulo {
     font-size: 13vw;
   }
-  .mi-slogan {
-    font-size: 8vw;
+  .mi-tv,
+  .gp-perf {
+    display: none;
+  }
+  .cp-grande {
+    font-size: 21vw;
+  }
+  .gp-data {
+    font-size: 9.5vw;
+  }
+  .cp-sub {
+    font-size: 6.4vw;
   }
   .mi-texto,
   .mi-real .mi-texto {
@@ -2389,7 +3003,16 @@
     transition: none;
   }
   .mi-confete,
-  .zz-farois {
+  .zz-farois,
+  .gp-risco,
+  .gp-pisca {
     display: none;
+  }
+  .slide.is-active .gp-perf,
+  .slide.is-active .cp-grande,
+  .slide.is-active .cp-comecar,
+  .tv-linhas::after,
+  .tv-programa .tv-fundo {
+    animation: none !important;
   }
 }
