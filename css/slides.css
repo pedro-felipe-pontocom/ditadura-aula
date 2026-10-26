@@ -1764,6 +1764,1331 @@
   color: rgba(255, 248, 218, 0.8);
 }
 
+/* ------------------------------------------------------------ sequestro */
+
+.sq-titulo {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 8);
+  width: calc(var(--u) * 46);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 4.6);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.sq-intro {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 18.5);
+  width: calc(var(--u) * 44);
+  font-size: calc(var(--u) * 1.55);
+  line-height: 1.38;
+  color: var(--osso-2);
+}
+.sq-passos {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 26.3);
+  width: calc(var(--u) * 44);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 1);
+}
+.sq-passos li {
+  padding-left: calc(var(--u) * 1.2);
+  border-left: 2px solid var(--sangue);
+  font-size: calc(var(--u) * 1.42);
+  line-height: 1.38;
+}
+.sq-painel {
+  position: absolute;
+  left: calc(var(--u) * 56);
+  top: calc(var(--u) * 8);
+  padding: calc(var(--u) * 0.8) calc(var(--u) * 1.6);
+  background: #0f0e0d;
+  border: 1px solid #2c2926;
+}
+.sq-data {
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 4.2);
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+/* A pista: os presos aparecem um a um, embarcam, e o avião decola. */
+.sq-cena {
+  position: absolute;
+  left: calc(var(--u) * 52);
+  top: calc(var(--u) * 18);
+  width: calc(var(--u) * 46);
+  height: calc(var(--u) * 32);
+  transition: opacity 1.2s ease;
+}
+.respondeu .sq-cena {
+  opacity: 0.18;
+}
+.sq-pista {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 26);
+  height: 2px;
+  background: #3a3631;
+}
+.sq-pista::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * -0.3);
+  height: calc(var(--u) * 0.5);
+  background: radial-gradient(circle, #f2c94c 0 calc(var(--u) * 0.14), transparent calc(var(--u) * 0.2)) 0 0 / calc(var(--u) * 2.6) calc(var(--u) * 0.5) repeat-x;
+  animation: luzes 1.6s steps(2) infinite;
+}
+.sq-pista::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 1.2);
+  height: calc(var(--u) * 0.3);
+  background: repeating-linear-gradient(90deg, rgba(235, 228, 214, 0.25) 0 calc(var(--u) * 1.6), transparent calc(var(--u) * 1.6) calc(var(--u) * 3.4));
+}
+@keyframes luzes {
+  50% {
+    opacity: 0.35;
+  }
+}
+.sq-contador {
+  position: absolute;
+  left: calc(var(--u) * 3);
+  top: calc(var(--u) * 12.5);
+  display: flex;
+  align-items: baseline;
+  gap: calc(var(--u) * 0.8);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.com-presos .sq-contador {
+  opacity: 1;
+}
+.sq-num {
+  min-width: 1.1em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 6);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--sangue-vivo);
+}
+.sq-contador small {
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 1.1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--osso-2);
+}
+.sq-fila {
+  position: absolute;
+  left: calc(var(--u) * 3);
+  bottom: calc(var(--u) * 6);
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--u) * 0.3);
+}
+.sq-preso {
+  display: block;
+  width: calc(var(--u) * 1.4);
+  opacity: 0;
+  translate: 0 calc(var(--u) * 0.8);
+  transition:
+    opacity 0.45s ease,
+    translate 0.45s ease;
+}
+.sq-preso svg {
+  display: block;
+  width: 100%;
+  fill: #d9d0bf;
+}
+.sq-preso.on {
+  opacity: 1;
+  translate: 0 0;
+}
+/* Embarque: cada um caminha até o avião e some na porta. */
+.embarcou .sq-preso {
+  opacity: 0;
+  translate: calc(var(--u) * (27 - var(--i) * 1.7)) 0;
+  transition:
+    translate 1.3s ease-in calc(var(--i) * 50ms),
+    opacity 0.35s ease calc(1.05s + var(--i) * 50ms);
+}
+.sq-aviao {
+  position: absolute;
+  left: calc(var(--u) * 29);
+  bottom: calc(var(--u) * 5.55);
+  width: calc(var(--u) * 16);
+  transition:
+    transform 3.4s cubic-bezier(0.55, 0, 0.85, 0.35) 2s,
+    opacity 0.8s ease 4.8s;
+}
+.sq-aviao svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.av-corpo,
+.av-leme,
+.av-asa {
+  fill: #57524b;
+}
+.av-motor {
+  fill: #3b3732;
+}
+.av-janelas {
+  stroke: #f2c94c;
+  stroke-width: 2;
+  stroke-dasharray: 3 7;
+  opacity: 0.7;
+}
+.av-rodas circle {
+  fill: #1a1816;
+  transition: opacity 0.3s ease 3s;
+}
+.embarcou .sq-aviao {
+  transform: translate(calc(var(--u) * 34), calc(var(--u) * -30)) rotate(-12deg);
+  opacity: 0;
+}
+.embarcou .av-rodas circle {
+  opacity: 0;
+}
+.sq-destino {
+  position: absolute;
+  right: calc(var(--u) * 2);
+  top: calc(var(--u) * 1);
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.5);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f2c94c;
+  opacity: 0;
+  transition: opacity 0.8s ease 2.6s;
+}
+.embarcou .sq-destino {
+  opacity: 1;
+}
+/* A resposta do regime: dois carimbos. */
+.sq-atos {
+  position: absolute;
+  left: calc(var(--u) * 55);
+  top: calc(var(--u) * 21);
+  width: calc(var(--u) * 40);
+  height: calc(var(--u) * 22);
+  pointer-events: none;
+  opacity: 1 !important;
+}
+.sq-ato {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 1.4);
+  border: calc(var(--u) * 0.45) solid var(--sangue-vivo);
+  border-radius: calc(var(--u) * 0.4);
+  color: var(--sangue-vivo);
+  text-transform: uppercase;
+  filter: url(#tinta);
+  opacity: 0;
+  transform: rotate(var(--r)) scale(1.8);
+  transition:
+    transform 0.18s cubic-bezier(0.55, 0, 0.85, 0.25),
+    opacity 0.08s linear;
+}
+.sq-ato b {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: calc(var(--u) * 4.4);
+  line-height: 1;
+}
+.sq-ato span {
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.3);
+  letter-spacing: 0.14em;
+}
+.sq-ato.a0 {
+  left: calc(var(--u) * 1);
+  top: calc(var(--u) * 1);
+  --r: -8deg;
+}
+.sq-ato.a1 {
+  left: calc(var(--u) * 18);
+  top: calc(var(--u) * 9);
+  --r: 5deg;
+}
+.sq-atos.on .sq-ato {
+  opacity: 0.95;
+  transform: rotate(var(--r)) scale(1);
+}
+.sq-atos.on .a0 {
+  transition-delay: 0.55s;
+}
+.sq-atos.on .a1 {
+  transition-delay: 1.25s;
+}
+
+/* -------------------------------------------------------------- caminho */
+
+.cm-titulo {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 8);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 4.6);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+/* O mapa do trajeto: cinco paradas, a atual em vermelho. */
+.cm-rota {
+  position: absolute;
+  left: calc(var(--u) * 52);
+  right: calc(var(--u) * 6);
+  top: calc(var(--u) * 9.2);
+  display: flex;
+  justify-content: space-between;
+}
+.cm-rota::before,
+.cm-rota::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * 2.6);
+  top: calc(var(--u) * 0.45);
+  height: 2px;
+}
+.cm-rota::before {
+  right: calc(var(--u) * 2.6);
+  background: #3a3631;
+}
+.cm-rota::after {
+  width: calc((100% - var(--u) * 5.2) * var(--cam, 0) / 4);
+  background: var(--sangue-vivo);
+  transition: width 2.6s cubic-bezier(0.65, 0, 0.35, 1) var(--cam-atraso, 0.15s);
+}
+.cm-rota li {
+  position: relative;
+  z-index: 1;
+  width: calc(var(--u) * 5.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--u) * 0.5);
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.82);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--cinza-2);
+  transition: color 0.6s ease;
+}
+.cm-rota li::before {
+  content: "";
+  width: calc(var(--u) * 1);
+  height: calc(var(--u) * 1);
+  border-radius: 50%;
+  background: #2a2724;
+  border: 2px solid #3a3631;
+  transition:
+    background 0.6s ease,
+    border-color 0.6s ease;
+}
+.cm-rota li.feito {
+  color: var(--osso-2);
+}
+.cm-rota li.feito::before {
+  background: var(--sangue);
+  border-color: var(--sangue);
+}
+.cm-rota li.agora {
+  color: var(--sangue-vivo);
+  font-weight: 700;
+}
+.cm-rota li.agora::before {
+  background: var(--sangue-vivo);
+  border-color: var(--osso);
+  box-shadow: 0 0 0 calc(var(--u) * 0.4) rgba(226, 48, 58, 0.25);
+}
+/* A legenda de cada etapa troca no mesmo lugar. */
+.cm-legenda {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 14.2);
+  width: calc(var(--u) * 60);
+  height: calc(var(--u) * 6.6);
+}
+.cm-legenda p {
+  position: absolute;
+  inset: 0 0 auto 0;
+  font-size: calc(var(--u) * 1.65);
+  line-height: 1.38;
+  opacity: 0;
+  translate: 0 calc(var(--u) * 0.6);
+  transition:
+    opacity 0.7s ease,
+    translate 0.7s var(--suave);
+}
+.cm-legenda p.on {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 0.25s;
+}
+
+/* A cena: o céu e as estrelas ficam parados; o mundo anda por baixo (paralaxe). */
+.cm-cena {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 21.6);
+  height: calc(var(--u) * 30);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 86% 14%, rgba(235, 228, 214, 0.9) 0 calc(var(--u) * 1.1), rgba(235, 228, 214, 0.12) calc(var(--u) * 1.3), transparent calc(var(--u) * 5)),
+    radial-gradient(circle, rgba(235, 228, 214, 0.5) 0 1px, transparent 1.5px) 0 0 / calc(var(--u) * 7) calc(var(--u) * 5.5),
+    linear-gradient(#0b0e15, #08090c 75%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  transition:
+    opacity 1.4s ease,
+    filter 1.4s ease;
+}
+.cm-mundo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--u) * 370);
+  height: 100%;
+  transform: translateX(calc(var(--u) * (15 - 70 * var(--cam, 0))));
+  transition: transform 2.6s cubic-bezier(0.65, 0, 0.35, 1) var(--cam-atraso, 0.15s);
+}
+/* Na etapa do capuz, a câmera só anda depois que o carro sai. */
+.agora-1 {
+  --cam-atraso: 2.3s;
+}
+.cm-mundo > * {
+  position: absolute;
+}
+.cm-cidade {
+  left: calc(var(--u) * 58);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 150);
+  height: calc(var(--u) * 12);
+  opacity: 0.8;
+}
+.cm-cidade svg {
+  width: 100%;
+  height: 100%;
+}
+.cd-predio {
+  fill: #12141a;
+}
+.cd-janela {
+  fill: #d9b65c;
+  opacity: 0.55;
+}
+.cm-chao {
+  left: calc(var(--u) * -20);
+  width: calc(var(--u) * 420);
+  top: calc(var(--u) * 25);
+  height: calc(var(--u) * 5);
+  border-top: 1px solid #3a3631;
+  background: linear-gradient(#1a1917, #0d0c0b);
+}
+.cm-poste {
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 0.35);
+  height: calc(var(--u) * 14);
+  background: #3b3732;
+}
+.cm-poste::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * -0.5);
+  top: calc(var(--u) * -0.4);
+  width: calc(var(--u) * 1.4);
+  height: calc(var(--u) * 0.7);
+  border-radius: calc(var(--u) * 0.4);
+  background: #f3d98c;
+  box-shadow: 0 0 calc(var(--u) * 1.2) rgba(243, 217, 140, 0.8);
+}
+.cm-poste::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--u) * -5);
+  top: 0;
+  width: calc(var(--u) * 10.4);
+  height: calc(var(--u) * 14);
+  background: linear-gradient(rgba(243, 217, 140, 0.16), transparent);
+  clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+}
+.cm-poste.pa {
+  left: calc(var(--u) * 8);
+}
+.cm-poste.pb1 {
+  left: calc(var(--u) * 84);
+}
+.cm-poste.pb2 {
+  left: calc(var(--u) * 106);
+}
+.cm-poste.pb3 {
+  left: calc(var(--u) * 128);
+}
+
+/* A · a casa */
+.cm-casa {
+  left: calc(var(--u) * 18);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 22);
+}
+.cm-casa svg {
+  display: block;
+  width: 100%;
+}
+.cs-telhado {
+  fill: #2c2422;
+}
+.cs-parede {
+  fill: #3a3430;
+}
+.cs-chamine {
+  fill: #2c2422;
+}
+.cs-janela {
+  fill: #f0c862;
+  transition: fill 1.2s ease 2.6s;
+}
+.cs-caixilho {
+  stroke: #3a3430;
+  stroke-width: 2;
+}
+/* Depois que o levam, a luz da casa se apaga. */
+.p1 .cs-janela {
+  fill: #1c1a18;
+}
+.cm-portacasa {
+  left: calc(var(--u) * 22.4);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 2.8);
+  height: calc(var(--u) * 6.6);
+  background: #f3d98c;
+  box-shadow: 0 0 calc(var(--u) * 1.5) rgba(243, 217, 140, 0.5);
+}
+.cm-portacasa-folha {
+  position: absolute;
+  inset: 0;
+  background: #241d1a;
+  transform-origin: left center;
+  transform: scaleX(0.12);
+}
+.agora-0 .cm-portacasa-folha {
+  animation: abre-casa 4.4s ease both;
+}
+@keyframes abre-casa {
+  0%,
+  86% {
+    transform: none;
+  }
+  100% {
+    transform: scaleX(0.12);
+  }
+}
+
+/* As pessoas: o preso em tom claro, os agentes escuros. */
+.cm-pessoa {
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 2.2);
+}
+.cm-pessoa svg {
+  display: block;
+  width: 100%;
+}
+.cm-preso-casa svg,
+.cm-preso-cela svg,
+.cm-preso-porta svg {
+  fill: #cfc6b6;
+}
+.cm-agente svg {
+  fill: #4b4640;
+}
+.cm-agente {
+  width: calc(var(--u) * 2.4);
+}
+.cm-capuz {
+  position: absolute;
+  left: calc(var(--u) * 0.3);
+  top: calc(var(--u) * -0.35);
+  width: calc(var(--u) * 1.6);
+  height: calc(var(--u) * 1.9);
+  border-radius: 46% 46% 38% 38%;
+  background: #15120f;
+  box-shadow: inset 0 calc(var(--u) * -0.3) 0 #0b0a09;
+}
+.cm-preso-casa {
+  left: calc(var(--u) * 22.7);
+}
+.cm-preso-casa .cm-capuz {
+  opacity: 0;
+  translate: 0 calc(var(--u) * -3);
+}
+.agora-0 .cm-preso-casa {
+  animation: aparece 0.8s ease 4.2s both;
+}
+.cm-agente.g1 {
+  left: calc(var(--u) * 37.5);
+}
+.cm-agente.g2 {
+  left: calc(var(--u) * 33.5);
+}
+.agora-0 .cm-agente.g1 {
+  animation: aparece 0.6s ease 2.6s both;
+}
+.agora-0 .cm-agente.g2 {
+  animation: aparece 0.6s ease 2.9s both;
+}
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+}
+/* Etapa 2: o capuz cai, todos entram no carro, o carro parte.
+   Cada etapa anima com @keyframes de começo fixo e .pN guarda só o estado final:
+   assim nada depende de onde a etapa anterior parou (a professora pode apertar → cedo). */
+.p1 .cm-preso-casa {
+  opacity: 0;
+  translate: calc(var(--u) * 19) 0;
+}
+.p1 .cm-preso-casa .cm-capuz {
+  opacity: 1;
+  translate: 0 0;
+}
+.p1 .cm-agente.g1,
+.p1 .cm-agente.g2 {
+  opacity: 0;
+  translate: calc(var(--u) * 7) 0;
+}
+.agora-1 .cm-preso-casa {
+  animation: leva-preso 2.4s linear both;
+}
+.agora-1 .cm-preso-casa .cm-capuz {
+  animation: capuz-cai 2.4s ease-in both;
+}
+.agora-1 .cm-agente.g1,
+.agora-1 .cm-agente.g2 {
+  animation: leva-agente 2.4s linear both;
+}
+@keyframes leva-preso {
+  0%,
+  8% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  70% {
+    opacity: 1;
+    translate: calc(var(--u) * 19) 0;
+  }
+  88%,
+  100% {
+    opacity: 0;
+    translate: calc(var(--u) * 19) 0;
+  }
+}
+@keyframes capuz-cai {
+  0%,
+  22% {
+    opacity: 0;
+    translate: 0 calc(var(--u) * -3);
+  }
+  26% {
+    opacity: 1;
+  }
+  40%,
+  100% {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes leva-agente {
+  0%,
+  10% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  72% {
+    opacity: 1;
+    translate: calc(var(--u) * 7) 0;
+  }
+  86%,
+  100% {
+    opacity: 0;
+    translate: calc(var(--u) * 7) 0;
+  }
+}
+/* O carro passa na frente do muro (está mais perto da câmera) até entrar no portão. */
+.cm-carro {
+  left: calc(var(--u) * 44);
+  bottom: calc(var(--u) * 4.95);
+  z-index: 2;
+  width: calc(var(--u) * 16);
+}
+.cm-carro svg {
+  display: block;
+  width: 100%;
+}
+.cr-corpo {
+  fill: #23272c;
+}
+.cr-vidro {
+  fill: #0f1216;
+}
+.cr-roda {
+  fill: #0a0a0a;
+}
+.cr-calota {
+  fill: #5a5650;
+}
+.cr-farol {
+  fill: #fff2c4;
+}
+.cr-lanterna {
+  fill: #b3141c;
+}
+.cm-farol {
+  position: absolute;
+  left: 96%;
+  top: 46%;
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 4.6);
+  translate: 0 -50%;
+  background: linear-gradient(90deg, rgba(255, 236, 170, 0.5), rgba(255, 236, 170, 0));
+  clip-path: polygon(0 40%, 100% 0, 100% 100%, 0 60%);
+}
+.agora-0 .cm-carro {
+  animation: chega 2.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes chega {
+  from {
+    translate: calc(var(--u) * -70) 0;
+  }
+}
+.p1 .cm-carro {
+  translate: calc(var(--u) * 64) 0;
+}
+.agora-1 .cm-carro {
+  animation: parte 4.9s both;
+}
+@keyframes parte {
+  0%,
+  47% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.4, 1);
+  }
+  100% {
+    translate: calc(var(--u) * 64) 0;
+  }
+}
+.p2 .cm-carro {
+  translate: calc(var(--u) * 116) 0;
+  opacity: 0;
+}
+.agora-2 .cm-carro {
+  animation: entra 3s both;
+}
+@keyframes entra {
+  0%,
+  5% {
+    translate: calc(var(--u) * 64) 0;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.6, 1);
+  }
+  82% {
+    translate: calc(var(--u) * 116) 0;
+    opacity: 1;
+  }
+  100% {
+    translate: calc(var(--u) * 116) 0;
+    opacity: 0;
+  }
+}
+
+/* C · o DOI-CODI: muro, arame farpado, holofote e o portão. */
+.cm-muro {
+  left: calc(var(--u) * 138);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 72);
+  height: calc(var(--u) * 13);
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0 1px, transparent 1px calc(var(--u) * 1.4)),
+    linear-gradient(#2d2a27, #1f1d1a);
+}
+.cm-muro::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: calc(var(--u) * 1.4);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 10'%3E%3Cpath d='M0 7 L6 3 L12 7 L18 3 L24 7' fill='none' stroke='%23716a60' stroke-width='1'/%3E%3Cpath d='M5 1 L7 5 M7 1 L5 5 M17 1 L19 5 M19 1 L17 5' stroke='%23716a60' stroke-width='0.8'/%3E%3C/svg%3E") 0 0 / calc(var(--u) * 2.4) 100% repeat-x;
+}
+.cm-portao {
+  position: absolute;
+  left: calc(var(--u) * 22);
+  bottom: 0;
+  width: calc(var(--u) * 15.5);
+  height: calc(var(--u) * 9.5);
+  overflow: hidden;
+  background: #060606;
+  border: 2px solid #4a453f;
+  border-bottom: 0;
+}
+.cm-portao i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: repeating-linear-gradient(90deg, #4f4943 0 calc(var(--u) * 0.45), #2a2724 calc(var(--u) * 0.45) calc(var(--u) * 1.3));
+}
+.cm-portao i:first-child {
+  left: 0;
+}
+.cm-portao i:last-child {
+  right: 0;
+}
+.agora-2 .cm-portao i:first-child {
+  animation: portao-e 3.6s ease both;
+}
+.agora-2 .cm-portao i:last-child {
+  animation: portao-d 3.6s ease both;
+}
+@keyframes portao-e {
+  10%,
+  76% {
+    translate: -100% 0;
+  }
+  0%,
+  90%,
+  100% {
+    translate: 0 0;
+  }
+}
+@keyframes portao-d {
+  10%,
+  76% {
+    translate: 100% 0;
+  }
+  0%,
+  90%,
+  100% {
+    translate: 0 0;
+  }
+}
+.cm-local {
+  left: calc(var(--u) * 160.5);
+  top: calc(var(--u) * 7.6);
+  padding: calc(var(--u) * 0.25) calc(var(--u) * 0.7);
+  border: 1px solid #5a544c;
+  background: rgba(7, 7, 7, 0.7);
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.15);
+  letter-spacing: 0.16em;
+  color: var(--osso);
+}
+.cm-holofote {
+  left: calc(var(--u) * 204);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 0.45);
+  height: calc(var(--u) * 19);
+  background: #3b3732;
+}
+.cm-holofote i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: calc(var(--u) * 34);
+  height: calc(var(--u) * 4);
+  translate: 0 -50%;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(255, 250, 225, 0.42), rgba(255, 250, 225, 0));
+  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 58%);
+  animation: varre-holofote 7s ease-in-out infinite alternate;
+}
+@keyframes varre-holofote {
+  from {
+    rotate: 158deg;
+  }
+  to {
+    rotate: 200deg;
+  }
+}
+
+/* D · a cela */
+.cm-interior {
+  left: calc(var(--u) * 212);
+  top: 0;
+  width: calc(var(--u) * 160);
+  height: calc(var(--u) * 25);
+  border-left: 3px solid #2a2724;
+  background:
+    radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.025), transparent 60%),
+    linear-gradient(#18161a, #100f0e);
+}
+.cm-janelinha {
+  left: calc(var(--u) * 236);
+  top: calc(var(--u) * 3);
+  width: calc(var(--u) * 6);
+  height: calc(var(--u) * 4.5);
+  border: 2px solid #3d3934;
+  background:
+    repeating-linear-gradient(90deg, #3d3934 0 calc(var(--u) * 0.3), transparent calc(var(--u) * 0.3) calc(var(--u) * 1.4)),
+    #26324c;
+}
+.cm-luar {
+  left: calc(var(--u) * 236);
+  top: calc(var(--u) * 7.5);
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 17.5);
+  background: linear-gradient(rgba(150, 170, 220, 0.16), rgba(150, 170, 220, 0));
+  clip-path: polygon(0 0, 43% 0, 100% 100%, 52% 100%);
+}
+.cm-banco {
+  left: calc(var(--u) * 237);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 2.4);
+  border-top: 2px solid #3d3934;
+  background: #24211e;
+}
+.cm-preso-cela {
+  left: calc(var(--u) * 238);
+  width: calc(var(--u) * 4.2);
+  opacity: 0;
+}
+.p3 .cm-preso-cela {
+  opacity: 1;
+}
+.agora-3 .cm-preso-cela {
+  animation: aparece 1.2s ease 2.4s both;
+}
+.cm-marcas {
+  left: calc(var(--u) * 253);
+  top: calc(var(--u) * 8.5);
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 3);
+}
+.cm-marcas i {
+  position: absolute;
+  top: 0;
+  width: calc(var(--u) * 0.18);
+  height: calc(var(--u) * 3);
+  background: rgba(235, 228, 214, 0.7);
+  transform-origin: top center;
+  opacity: 0;
+  scale: 1 0;
+  transition:
+    opacity 0.2s ease,
+    scale 0.3s ease;
+}
+.cm-marcas i.diag {
+  top: calc(var(--u) * -0.3);
+  height: calc(var(--u) * 3.6);
+  rotate: 62deg;
+  transform-origin: center;
+}
+.cm-marcas i.on {
+  opacity: 1;
+  scale: 1 1;
+}
+.cm-grades {
+  left: calc(var(--u) * 228);
+  top: 0;
+  width: calc(var(--u) * 33);
+  height: calc(var(--u) * 25);
+  border-top: calc(var(--u) * 0.6) solid #3d3934;
+  background:
+    linear-gradient(#3d3934, #3d3934) 0 calc(var(--u) * 11) / 100% calc(var(--u) * 0.4) no-repeat,
+    repeating-linear-gradient(90deg, #45403a 0 calc(var(--u) * 0.45), transparent calc(var(--u) * 0.45) calc(var(--u) * 3.2));
+}
+
+/* E · a porta da sala de interrogatório */
+.cm-fio {
+  left: calc(var(--u) * 314.9);
+  top: 0;
+  width: 1px;
+  height: calc(var(--u) * 4.6);
+  background: #4a453f;
+}
+.cm-lampadinha {
+  left: calc(var(--u) * 314.4);
+  top: calc(var(--u) * 4.5);
+  width: calc(var(--u) * 1.1);
+  height: calc(var(--u) * 1.3);
+  border-radius: 50% 50% 46% 46%;
+  background: #ffefc0;
+  box-shadow:
+    0 0 calc(var(--u) * 1) #ffd27a,
+    0 0 calc(var(--u) * 5) rgba(255, 200, 110, 0.35);
+  animation: oscila 5s steps(1) infinite;
+  transition: opacity 1s ease;
+}
+.p5 .cm-lampadinha {
+  opacity: 0.12;
+  animation: none;
+}
+.cm-porta {
+  left: calc(var(--u) * 311);
+  bottom: calc(var(--u) * 5);
+  width: calc(var(--u) * 7.5);
+  height: calc(var(--u) * 12.5);
+  outline: calc(var(--u) * 0.45) solid #3a3631;
+  perspective: calc(var(--u) * 40);
+}
+.cm-porta-luz {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#f6eedc, #cdbb92);
+}
+.cm-porta-folha {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #36312c, #29251f);
+  box-shadow: inset 0 0 0 calc(var(--u) * 0.25) #221e1a;
+}
+.cm-porta-folha::before {
+  content: "";
+  position: absolute;
+  left: 32%;
+  top: 22%;
+  width: 36%;
+  height: calc(var(--u) * 0.6);
+  background: #0c0b0a;
+}
+.agora-4 .cm-porta-folha {
+  animation: porta-abre 4.2s ease 2s both;
+}
+@keyframes porta-abre {
+  0%,
+  48% {
+    transform: none;
+  }
+  56%,
+  82% {
+    transform: rotateY(-78deg);
+  }
+  89%,
+  100% {
+    transform: none;
+  }
+}
+.cm-preso-porta {
+  left: calc(var(--u) * 291);
+  opacity: 0;
+}
+.cm-agente.g3 {
+  left: calc(var(--u) * 287);
+  opacity: 0;
+}
+.agora-4 .cm-preso-porta {
+  animation: anda-porta 4.2s ease-in-out 2s both;
+}
+.agora-4 .cm-agente.g3 {
+  animation: anda-porta-agente 4.2s ease-in-out 2s both;
+}
+@keyframes anda-porta {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    translate: calc(var(--u) * 20.5) 0;
+  }
+  66% {
+    opacity: 1;
+    translate: calc(var(--u) * 23) 0;
+  }
+  74%,
+  100% {
+    opacity: 0;
+    translate: calc(var(--u) * 24) 0;
+  }
+}
+@keyframes anda-porta-agente {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  10%,
+  70% {
+    opacity: 1;
+  }
+  52%,
+  100% {
+    translate: calc(var(--u) * 20) 0;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* O fim: a cena escurece e fica um nome. */
+.p5 .cm-cena {
+  opacity: 0.18;
+  filter: grayscale(1);
+}
+.cm-caso {
+  position: absolute;
+  left: calc(var(--u) * 20);
+  right: calc(var(--u) * 20);
+  top: calc(var(--u) * 26);
+  text-align: center;
+}
+.cm-caso-nome {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 4.2);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.cm-caso-datas {
+  margin: calc(var(--u) * 0.6) 0 calc(var(--u) * 1.2);
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.2);
+  letter-spacing: 0.3em;
+  color: var(--sangue-vivo);
+}
+.cm-caso-texto {
+  font-size: calc(var(--u) * 1.75);
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------------- tortura */
+
+/* A sala: uma lâmpada balança e a luz varre uma cadeira vazia; a sombra anda junto. */
+.tt-sala {
+  position: absolute;
+  left: calc(var(--u) * 38);
+  top: 0;
+  bottom: 0;
+  width: calc(var(--u) * 24);
+  pointer-events: none;
+}
+.tt-pendulo {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * -1);
+  z-index: 2;
+  width: 0;
+  height: 1px;
+  transform-origin: 0 0;
+  animation: balanca 3.8s ease-in-out infinite alternate;
+}
+@keyframes balanca {
+  from {
+    rotate: -9deg;
+  }
+  to {
+    rotate: 9deg;
+  }
+}
+.tt-fio {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 2px;
+  height: calc(var(--u) * 14);
+  background: linear-gradient(#1f1d1a, #4a453f);
+}
+.tt-lampada {
+  position: absolute;
+  left: calc(var(--u) * -4);
+  top: calc(var(--u) * 13.6);
+  width: calc(var(--u) * 8);
+}
+.tt-lampada svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.lp-cupula {
+  fill: #2e2b27;
+  stroke: #514b44;
+  stroke-width: 1;
+}
+.lp-bulbo {
+  fill: #fff1c4;
+  filter: drop-shadow(0 0 4px #ffd27a) drop-shadow(0 0 12px rgba(255, 200, 110, 0.8));
+}
+.tt-luz {
+  position: absolute;
+  left: calc(var(--u) * -13);
+  top: calc(var(--u) * 18.3);
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 33);
+  background: linear-gradient(rgba(255, 225, 160, 0.3), rgba(255, 225, 160, 0.07) 80%, rgba(255, 225, 160, 0));
+  clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%);
+  mix-blend-mode: screen;
+}
+/* De vez em quando a lâmpada falha. */
+.tt-luz,
+.lp-bulbo {
+  animation: oscila 7s steps(1) infinite;
+}
+@keyframes oscila {
+  0%,
+  61%,
+  64%,
+  67%,
+  100% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 0.3;
+  }
+  65% {
+    opacity: 0.55;
+  }
+}
+.tt-chao {
+  position: absolute;
+  left: calc(var(--u) * -6);
+  right: calc(var(--u) * -6);
+  top: calc(var(--u) * 50.5);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #34302b 30%, #34302b 70%, transparent);
+}
+.tt-cadeira {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 36.6);
+  z-index: 1;
+  width: calc(var(--u) * 9);
+  translate: -50% 0;
+}
+.tt-cadeira svg {
+  display: block;
+  width: 100%;
+  fill: #2a2622;
+}
+.tt-sombra {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 49.6);
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 1.8);
+  margin-left: calc(var(--u) * -7.5);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.9), transparent 70%);
+  animation: sombra 3.8s ease-in-out infinite alternate;
+}
+@keyframes sombra {
+  from {
+    transform: translateX(calc(var(--u) * -2.5)) skewX(28deg);
+  }
+  to {
+    transform: translateX(calc(var(--u) * 2.5)) skewX(-28deg);
+  }
+}
+.tt-titulo {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 8);
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: calc(var(--u) * 7.6);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.tt-numeros {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 17.8);
+  width: calc(var(--u) * 30);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 1.4);
+}
+.tt-numero {
+  display: flex;
+  flex-direction: column;
+}
+.tt-valor {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 6);
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+  color: var(--sangue-vivo);
+}
+.tt-txt {
+  font-size: calc(var(--u) * 1.4);
+  line-height: 1.35;
+  color: var(--osso-2);
+}
+.tt-caso {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 40.3);
+  width: calc(var(--u) * 30);
+  padding-left: calc(var(--u) * 1.2);
+  border-left: 2px solid var(--sangue);
+  font-size: calc(var(--u) * 1.4);
+  line-height: 1.4;
+}
+.tt-metodos {
+  position: absolute;
+  left: calc(var(--u) * 64);
+  right: calc(var(--u) * 6);
+  top: calc(var(--u) * 8.5);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 0.75);
+}
+.tt-metodos li {
+  font-style: italic;
+  font-size: calc(var(--u) * 1.65);
+  line-height: 1.25;
+  opacity: 0;
+  transform: translateX(calc(var(--u) * -1.5));
+  transition:
+    opacity 1.2s ease,
+    transform 1.2s var(--suave);
+}
+.tt-metodos li::before {
+  content: "— ";
+  color: var(--sangue);
+}
+.tt-metodos li.on {
+  opacity: 1;
+  transform: none;
+}
+.tt-conclusao {
+  position: absolute;
+  left: calc(var(--u) * 64);
+  right: calc(var(--u) * 6);
+  top: calc(var(--u) * 37);
+  padding-top: calc(var(--u) * 1);
+  border-top: 1px solid #2d2a27;
+  font-size: calc(var(--u) * 1.4);
+  line-height: 1.42;
+}
+
 /* ------------------------------------------------------------ repressão */
 
 .rp-orgaos {
@@ -1816,49 +3141,68 @@
 .slide.is-active .rp-fios {
   animation: revela 1.6s ease 1.3s both;
 }
-.rp-metodos {
-  position: absolute;
-  left: calc(var(--u) * 6);
-  top: calc(var(--u) * 32);
-  width: calc(var(--u) * 54);
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--u) * 0.9);
-}
-.rp-metodos li {
-  font-style: italic;
-  font-size: calc(var(--u) * 2.5);
-  line-height: 1.15;
-  opacity: 0;
-  transform: translateX(calc(var(--u) * -1.5));
-  transition:
-    opacity 1.4s ease,
-    transform 1.4s var(--suave);
-}
-.rp-metodos li::before {
-  content: "— ";
-  color: var(--sangue);
-}
-.rp-metodos li.on {
-  opacity: 1;
-  transform: none;
-}
 .rp-dados {
   position: absolute;
+  left: calc(var(--u) * 6);
   right: calc(var(--u) * 6);
-  top: calc(var(--u) * 32);
-  width: calc(var(--u) * 30);
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--u) * 1.2);
+  top: calc(var(--u) * 34);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--u) * 4);
 }
 .rp-dados p {
-  padding-left: calc(var(--u) * 1);
+  padding-left: calc(var(--u) * 1.2);
   border-left: 2px solid var(--sangue);
   font-family: var(--maquina);
-  font-size: calc(var(--u) * 1.15);
+  font-size: calc(var(--u) * 1.4);
   line-height: 1.5;
   color: var(--osso-2);
+}
+
+/* ----------------------------------------------------------------- fotos */
+
+/* Fotos de arquivo: papel claro em volta, preto e branco, e a revelação como no
+   laboratório (a imagem surge do branco). O crédito fica na vertical, ao lado. */
+.foto {
+  position: absolute;
+  padding: calc(var(--u) * 0.55);
+  background: #e7e0d0;
+  box-shadow: 0 calc(var(--u) * 1) calc(var(--u) * 2.4) rgba(0, 0, 0, 0.6);
+}
+.foto img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+.slide.is-active .foto img,
+.slide.is-active .rt-moldura.com-foto .rt-silhueta {
+  animation: revelar 3.2s ease-out var(--atraso, 0.4s) both;
+}
+@keyframes revelar {
+  from {
+    filter: grayscale(1) brightness(3.2) contrast(0.25) blur(3px);
+  }
+  60% {
+    filter: grayscale(1) brightness(1.4) contrast(0.8) blur(0.5px);
+  }
+  to {
+    filter: grayscale(1) brightness(1) contrast(1.05) blur(0);
+  }
+}
+.foto-credito {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(100% + var(--u) * 0.5);
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.66);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  color: var(--cinza-2);
 }
 
 /* -------------------------------------------------------------- retrato */
@@ -1965,6 +3309,92 @@
   font-size: calc(var(--u) * 1.5);
   color: var(--osso-2);
   transition-delay: 1.2s;
+}
+
+/* Retrato com foto: moldura de papel, como uma cópia antiga. */
+.rt-moldura.com-foto {
+  background: #e7e0d0;
+  border-color: #e7e0d0;
+  box-shadow: 0 calc(var(--u) * 1) calc(var(--u) * 2.4) rgba(0, 0, 0, 0.6);
+}
+.rt-silhueta img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition:
+    opacity 3.5s ease,
+    filter 3.5s ease;
+}
+.apagando .rt-silhueta img {
+  opacity: 0.12;
+  filter: grayscale(1) blur(4px);
+}
+/* Lista longa (quatro partes): letra um pouco menor para caber. */
+.rt-passos:has(li:nth-child(4)) li {
+  font-size: calc(var(--u) * 1.6);
+}
+/* Placa de rua de São Paulo: azul, letras brancas, cai torta sobre a foto. */
+.rt-placa {
+  position: absolute;
+  left: calc(var(--u) * 10.5);
+  top: calc(var(--u) * 30.5);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--u) * 0.7) calc(var(--u) * 1.6) calc(var(--u) * 0.6);
+  border: calc(var(--u) * 0.25) solid #f2f2f2;
+  border-radius: calc(var(--u) * 0.5);
+  outline: calc(var(--u) * 0.35) solid #1d3f8f;
+  background: #1d3f8f;
+  color: #fff;
+  box-shadow: 0 calc(var(--u) * 1) calc(var(--u) * 2) rgba(0, 0, 0, 0.6);
+  transform: translateY(calc(var(--u) * -4)) rotate(-9deg);
+  transition:
+    opacity 0.4s ease,
+    transform 0.7s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.rt-placa.on {
+  transform: rotate(-3deg);
+}
+.rt-placa-rua {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: calc(var(--u) * 2.5);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.rt-placa-data {
+  margin-top: 0.2em;
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 1);
+  letter-spacing: 0.2em;
+}
+.rt-poema {
+  position: absolute;
+  left: calc(var(--u) * 40);
+  right: calc(var(--u) * 6);
+  top: calc(var(--u) * 41.5);
+  padding-top: calc(var(--u) * 1);
+  border-top: 1px solid #2d2a27;
+  font-style: italic;
+  font-size: calc(var(--u) * 1.6);
+  line-height: 1.4;
+  transition-delay: 1.2s;
+}
+.rt-poema span {
+  display: block;
+}
+.rt-poema cite {
+  display: block;
+  margin-top: 0.5em;
+  font-family: var(--maquina);
+  font-style: normal;
+  font-size: calc(var(--u) * 0.85);
+  letter-spacing: 0.08em;
+  color: var(--cinza);
 }
 
 /* ---------------------------------------------------------------- farsa */
@@ -2087,6 +3517,111 @@
   color: var(--osso-2);
 }
 
+/* Com o retrato de Herzog: a foto à esquerda e o nome ao lado, em duas linhas. */
+.fs-foto {
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 8.5);
+  width: calc(var(--u) * 12.5);
+}
+.stage:has(> .fs-foto) .fs-nome {
+  left: calc(var(--u) * 21.5);
+  width: calc(var(--u) * 26);
+}
+.stage:has(> .fs-foto) .fs-sub {
+  left: calc(var(--u) * 21.5);
+  top: calc(var(--u) * 20.3);
+  width: calc(var(--u) * 26);
+}
+.stage:has(> .fs-foto) .fs-texto {
+  top: calc(var(--u) * 28);
+  width: calc(var(--u) * 42);
+}
+.stage:has(> .fs-foto) .fs-depois {
+  top: calc(var(--u) * 36);
+  width: calc(var(--u) * 42);
+}
+.stage:has(> .fs-foto) .fs-laudo,
+.stage:has(> .fs-foto) .fs-fiel {
+  left: calc(var(--u) * 53);
+}
+.stage:has(> .fs-foto) .fs-fiel {
+  top: calc(var(--u) * 38.5);
+}
+/* A página do laudo oficial entra por cima, só no passo dela, com a prova marcada. */
+.fs-documento {
+  position: absolute;
+  right: calc(var(--u) * 7);
+  top: calc(var(--u) * 3.5);
+  z-index: 4;
+  height: calc(var(--u) * 49);
+  aspect-ratio: 739 / 1300;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(calc(var(--u) * 30)) rotate(6deg);
+  transition:
+    opacity 0.7s ease,
+    transform 1s var(--suave),
+    visibility 0s linear 1s;
+}
+.com-documento .fs-documento {
+  opacity: 1;
+  visibility: visible;
+  transform: rotate(1.5deg);
+  transition:
+    opacity 0.7s ease,
+    transform 1s var(--suave),
+    visibility 0s;
+}
+.fs-doc-papel {
+  position: relative;
+  height: 100%;
+  background: #fff;
+  box-shadow: 0 calc(var(--u) * 1.4) calc(var(--u) * 3.4) rgba(0, 0, 0, 0.75);
+}
+.fs-doc-papel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: sepia(0.25) contrast(1.05);
+}
+.fs-marca {
+  position: absolute;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+.fs-marca svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.fs-marca circle {
+  fill: none;
+  stroke: var(--sangue-vivo);
+  stroke-width: 3.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1s ease 1.4s;
+}
+.com-documento .fs-marca circle {
+  stroke-dashoffset: 0;
+}
+.fs-marca-txt {
+  position: absolute;
+  padding: 0.2em 0.5em;
+  background: var(--sangue);
+  color: #fff;
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.1);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.6s ease 2.2s;
+}
+.com-documento .fs-marca-txt {
+  opacity: 1;
+}
+
 /* ----------------------------------------------------------------- zuzu */
 
 .zz-costura {
@@ -2174,6 +3709,23 @@
   font-style: italic;
   font-size: calc(var(--u) * 2.2);
   transition-delay: 2.8s;
+}
+
+/* A foto de Zuzu, alinhavada como a moldura do slide. */
+.zz-foto {
+  right: calc(var(--u) * 9);
+  top: calc(var(--u) * 8.2);
+  width: calc(var(--u) * 12.5);
+  outline: 1.5px dashed var(--osso-2);
+  outline-offset: calc(var(--u) * 0.6);
+  rotate: 2deg;
+}
+.zz-foto .foto-credito {
+  left: auto;
+  right: calc(100% + var(--u) * 1);
+}
+.stage:has(> .zz-foto) .zz-passos {
+  top: calc(var(--u) * 27);
 }
 
 /* ------------------------------------------------------------- araguaia */
@@ -2581,7 +4133,7 @@
   left: calc(var(--u) * 44);
   right: calc(var(--u) * 3);
   top: calc(var(--u) * 2);
-  bottom: calc(var(--u) * 3);
+  bottom: calc(var(--u) * 7);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent);
@@ -2704,6 +4256,29 @@
   left: calc(var(--u) * 6);
   top: calc(var(--u) * 41);
   width: calc(var(--u) * 25);
+}
+.mm-assinatura {
+  position: absolute;
+  right: calc(var(--u) * 11);
+  bottom: calc(var(--u) * 1.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.mm-assinatura span {
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.9);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+.mm-assinatura b {
+  font-style: italic;
+  font-weight: 400;
+  font-size: calc(var(--u) * 2.5);
+  line-height: 1.1;
+  color: var(--osso);
 }
 .mm-final {
   font-style: italic;
@@ -2868,8 +4443,48 @@
     font-size: 13vw;
   }
   .mi-tv,
-  .gp-perf {
+  .gp-perf,
+  .tt-sala,
+  .sq-cena {
+    display: none !important;
+  }
+  .sq-atos {
+    height: 36vw;
+  }
+  .cm-cena {
+    display: none !important;
+  }
+  .cm-legenda {
+    height: auto;
+  }
+  .cm-legenda p {
+    position: static;
     display: none;
+  }
+  .cm-legenda p.on {
+    display: block;
+  }
+  .foto {
+    width: 46vw !important;
+  }
+  .foto-credito {
+    position: static;
+    margin-top: 0.4em;
+    writing-mode: horizontal-tb;
+    rotate: none;
+  }
+  .fs-documento {
+    display: none;
+    width: 72vw !important;
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .com-documento .fs-documento {
+    display: block;
+  }
+  .fs-doc-papel,
+  .fs-doc-papel img {
+    height: auto;
   }
   .cp-grande {
     font-size: 21vw;
@@ -2946,6 +4561,15 @@
 
 /* Movimento reduzido: as cenas já aparecem prontas, sem tanques andando nem confete. */
 @media (prefers-reduced-motion: reduce) {
+  .s-caminho *,
+  .s-caminho *::before,
+  .s-caminho *::after {
+    animation-duration: 0.01s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+  }
   .slide.is-active .dv-esq .dv-conteudo,
   .slide.is-active .dv-dir .dv-conteudo,
   .slide.is-active .gp-tanque,
@@ -2974,7 +4598,14 @@
   .slide.is-active .cp-grande,
   .slide.is-active .cp-comecar,
   .tv-linhas::after,
-  .tv-programa .tv-fundo {
+  .tv-programa .tv-fundo,
+  .tt-pendulo,
+  .tt-sombra,
+  .tt-luz,
+  .lp-bulbo,
+  .sq-pista::before,
+  .slide.is-active .foto img,
+  .slide.is-active .rt-moldura.com-foto .rt-silhueta {
     animation: none !important;
   }
 }

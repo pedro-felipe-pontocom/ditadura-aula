@@ -147,6 +147,76 @@
       "notas": "Na página de jornal, as tarjas pretas cobrem as notícias; depois, no lugar delas, aparecem os versos de Camões. Pergunte: por que o jornal não deixava o espaço em branco? Porque o regime não queria que a censura aparecesse."
     },
     {
+      "id": "mr8",
+      "tipo": "sequestro",
+      "kicker": "A luta armada",
+      "titulo": "MR-8: o sequestro do embaixador",
+      "intro": "Parte da oposição pegou em armas contra a ditadura. O MR-8 tirou o nome de 8 de outubro de 1967, o dia em que Che Guevara foi capturado na Bolívia.",
+      "data": "04·09·1969",
+      "passos": [
+        "**4 de setembro de 1969**, no Rio: o MR-8 e a ALN, de Carlos Marighella, sequestram Charles Burke Elbrick, embaixador dos Estados Unidos.",
+        "Em troca, exigem a leitura de um manifesto no rádio e na TV de todo o país e a libertação de **15 presos políticos**.",
+        "A ditadura aceita. Os 15 embarcam num avião para o México, e Elbrick é solto depois de 78 horas.",
+        "No dia seguinte ao sequestro, o regime responde: o AI-13 cria o banimento; o AI-14, a pena de morte. Em 1971, Stuart Angel Jones (filho de Zuzu Angel) e Carlos Lamarca, do MR-8, foram mortos."
+      ],
+      "presos": 15,
+      "destino": "México",
+      "atos": [
+        {
+          "sigla": "AI-13",
+          "texto": "banimento"
+        },
+        {
+          "sigla": "AI-14",
+          "texto": "pena de morte"
+        }
+      ],
+      "fontes": [
+        "mr8",
+        "sequestro",
+        "ai13",
+        "ai14"
+      ],
+      "notas": "O MR-8 e a ALN eram grupos da luta armada: assaltavam bancos para financiar a guerrilha e fizeram sequestros. Para o regime, eram “terroristas”; para eles, era resistência a uma ditadura que tinha fechado os caminhos legais. Vale discutir as duas visões. A cada seta: os 15 presos aparecem na pista; o avião decola para o México; a resposta do regime cai em carimbos. A história virou o livro “O Que É Isso, Companheiro?”, de Fernando Gabeira, que participou do sequestro, e o filme de Bruno Barreto."
+    },
+    {
+      "id": "marighella",
+      "tipo": "retrato",
+      "kicker": "1911 – 1969",
+      "nome": "Carlos Marighella",
+      "subtitulo": "Escritor, deputado e guerrilheiro baiano. Fundador da ALN.",
+      "foto": {
+        "arquivo": "assets/fotos/carlos-marighella.jpg",
+        "alt": "Retrato de Carlos Marighella",
+        "credito": "Foto: Comissão da Verdade do Estado de São Paulo · CC BY 4.0"
+      },
+      "passos": [
+        "Nasceu em Salvador, em 1911, neto de africanos escravizados. Foi deputado federal constituinte em 1946 e já tinha sido preso e torturado no governo Vargas.",
+        "Em 1964, foi baleado e preso pelo DOPS dentro de um cinema, no Rio. Em 1968, fundou a Ação Libertadora Nacional (ALN). O regime passou a tratá-lo como o inimigo “número um”.",
+        "**4 de novembro de 1969**, em São Paulo: morto numa emboscada de agentes do DOPS, comandados pelo delegado Sérgio Fleury. A armadilha foi montada com informações arrancadas sob tortura de frades dominicanos.",
+        "Em 1996, o Estado brasileiro reconheceu a responsabilidade pela morte dele. Em 2012, recebeu a anistia depois de morto."
+      ],
+      "carimbo": "Inimigo nº 1",
+      "apagar": false,
+      "placa": {
+        "rua": "Al. Casa Branca",
+        "data": "4 · 11 · 1969",
+        "passo": 2
+      },
+      "poema": {
+        "versos": [
+          "“E que eu por ti, se torturado for,",
+          "possa feliz, indiferente à dor,",
+          "morrer sorrindo a murmurar teu nome.”"
+        ],
+        "fonte": "Do poema “Liberdade”, escrito por Marighella na prisão, em 1939"
+      },
+      "fontes": [
+        "marighella"
+      ],
+      "notas": "Marighella é a figura mais conhecida da luta armada e até hoje divide opiniões. Mostre a trajetória: deputado eleito, perseguido por dois regimes, guerrilheiro. Na segunda seta cai o carimbo com o rótulo que o regime deu a ele; na terceira, a placa da rua onde foi morto. O poema “Liberdade” foi escrito quando ele estava preso, em 1939."
+    },
+    {
       "id": "milagre",
       "tipo": "milagre",
       "kicker": "1969 – 1974",
@@ -174,13 +244,86 @@
         { "nome": "OBAN", "ano": "1969", "texto": "Operação Bandeirante, em São Paulo, contra a oposição armada." },
         { "nome": "DOI-CODI", "ano": "1970", "texto": "Centros do Exército onde presos eram interrogados e torturados." }
       ],
-      "metodos": ["pau de arara: o preso pendurado numa barra", "choques elétricos", "violência sexual", "ameaças contra filhos e parentes"],
       "dados": [
         "No DOI-CODI de São Paulo, na rua Tutoia, passaram cerca de 2 mil presos só até 1974, segundo o jornalista Elio Gaspari.",
         "Em segredo, o projeto *Brasil: Nunca Mais* copiou 707 processos da Justiça Militar, mais de 1 milhão de páginas, e mostrou a tortura ao país em 1985."
       ],
       "fontes": ["sni", "doi", "hrw", "bnm"],
-      "notas": "Os órgãos se ligam num organograma. Na seta seguinte, os métodos de tortura aparecem devagar, com batidas de coração. Tom sóbrio: os métodos estão documentados pela Comissão Nacional da Verdade. A Comissão chamou a tortura de “política de Estado”."
+      "notas": "Os órgãos se ligam num organograma: vigiar (SNI), caçar (OBAN) e interrogar (DOI-CODI). Na seta, os números. O próximo slide mostra o caminho de um preso até lá dentro."
+    },
+    {
+      "id": "caminho",
+      "tipo": "caminho",
+      "kicker": "Anos de chumbo",
+      "titulo": "O caminho do preso",
+      "etapas": [
+        {
+          "rotulo": "Casa",
+          "texto": "**1. A prisão.** Muitas prisões eram feitas sem mandado, em emboscadas que mais pareciam sequestros. Ninguém levava o preso a um juiz."
+        },
+        {
+          "rotulo": "Carro",
+          "texto": "**2. O capuz.** O preso ia encapuzado: não via para onde era levado, e os outros presos não podiam reconhecê-lo."
+        },
+        {
+          "rotulo": "DOI-CODI",
+          "texto": "**3. O portão.** Desde o AI-5, não existia habeas corpus para crimes políticos: nenhum juiz podia mandar soltar."
+        },
+        {
+          "rotulo": "Cela",
+          "texto": "**4. A cela.** A Lei de Segurança Nacional de 1969 permitia prender por até 30 dias, 10 deles incomunicável: ninguém de fora podia vê-lo."
+        },
+        {
+          "rotulo": "Interrogatório",
+          "texto": "**5. A porta.** Do outro lado, interrogatórios à base de tortura, gravados e registrados. Quem sobrevivia ia depois para um processo na Justiça Militar."
+        }
+      ],
+      "caso": {
+        "nome": "Virgílio Gomes da Silva",
+        "datas": "1933 – 1969",
+        "texto": "Comandou o sequestro do embaixador. Em 29 de setembro de 1969, foi preso e levado encapuzado à Operação Bandeirante. Morreu horas depois, após **12 horas de tortura**. Foi o primeiro preso político declarado desaparecido depois do AI-5."
+      },
+      "fontes": [
+        "lutaArmada",
+        "casemiro",
+        "ai5",
+        "lsn69",
+        "virgilio"
+      ],
+      "notas": "Uma animação sem violência: a câmera anda pela cena a cada seta. 1) De noite, o carro chega e batem à porta. 2) O capuz cai sobre a cabeça do preso e o carro parte. 3) O portão do DOI-CODI se abre e se fecha. 4) Na cela, os risquinhos na parede contam os dias incomunicável. 5) A porta da sala de interrogatório se fecha: o que acontecia lá dentro está no próximo slide. Na última seta, um caso real: Virgílio Gomes da Silva, o mesmo que comandou o sequestro do embaixador (slide do MR-8)."
+    },
+    {
+      "id": "tortura",
+      "tipo": "tortura",
+      "kicker": "Nos porões",
+      "titulo": "A tortura",
+      "numeros": [
+        {
+          "valor": 1918,
+          "texto": "presos políticos, pelo menos, disseram ter sido torturados entre 1964 e 1979."
+        },
+        {
+          "valor": 283,
+          "texto": "formas diferentes de tortura foram registradas pelo projeto *Brasil: Nunca Mais*."
+        }
+      ],
+      "metodos": [
+        "**pau de arara**: o preso pendurado numa barra, com pulsos e tornozelos amarrados",
+        "**choques elétricos**",
+        "**afogamento**",
+        "**cadeira do dragão**: uma cadeira de metal que dava choques",
+        "**“geladeira”**: uma cela minúscula, com frio e barulho extremos",
+        "**violência sexual**",
+        "**ameaças** contra filhos e parentes"
+      ],
+      "caso": "Em São Paulo, o militante Joaquim Alencar de Seixas e o filho dele, de **16 anos**, foram torturados lado a lado. Segundo a Comissão da Verdade, Joaquim morreu numa das sessões. A versão oficial disse que ele tentou fugir.",
+      "conclusao": "Para a Comissão Nacional da Verdade, a tortura foi “generalizada e sistemática”, uma “política de Estado” decidida no alto escalão do governo. E não atingiu só quem pegou em armas: também críticos, acadêmicos, religiosos, sindicalistas e trabalhadores rurais.",
+      "fontes": [
+        "tortura",
+        "bnm",
+        "hrw"
+      ],
+      "notas": "Slide pesado: avise a turma antes. Não há imagens de tortura, só a sala vazia com a lâmpada balançando. Na primeira seta, os métodos aparecem um a um, com o coração batendo; depois, um caso real (um adolescente de 16 anos torturado ao lado do pai) e a conclusão da Comissão da Verdade: a tortura foi política de Estado, não “excesso” de alguns."
     },
     {
       "id": "rubens",
@@ -188,6 +331,7 @@
       "kicker": "Uma história",
       "nome": "Rubens Paiva",
       "subtitulo": "Engenheiro e ex-deputado federal, cassado pelo AI-1.",
+      "foto": { "arquivo": "assets/fotos/rubens-paiva.jpg", "alt": "Retrato de Rubens Paiva", "credito": "Foto: Comissão da Verdade do Estado de São Paulo · CC BY 4.0" },
       "passos": [
         "20 de janeiro de 1971. Seis homens armados entram na casa dele, no Rio, sem mandado, e o levam.",
         "Foi morto sob tortura num quartel militar, entre 20 e 22 de janeiro. A versão oficial inventou uma fuga. O corpo nunca foi encontrado.",
@@ -204,6 +348,13 @@
       "kicker": "25 de outubro de 1975",
       "nome": "Vladimir Herzog",
       "subtitulo": "Jornalista, 38 anos, diretor de jornalismo da TV Cultura.",
+      "foto": { "arquivo": "assets/fotos/vladimir-herzog.jpg", "alt": "Retrato de Vladimir Herzog", "credito": "Foto: Comissão da Verdade do Estado de São Paulo · CC BY 4.0" },
+      "documento": {
+        "arquivo": "assets/fotos/herzog-laudo-1975.jpg",
+        "alt": "Página do laudo da Divisão de Criminalística de São Paulo, de 25 de outubro de 1975, com a foto da cela onde o corpo de Vladimir Herzog foi encontrado",
+        "credito": "Laudo da Divisão de Criminalística (SSP-SP), 25/10/1975 · dossiê da Comissão da Verdade do Estado de São Paulo · CC BY 4.0",
+        "marca": { "x": 67, "y": 55.5, "r": 15, "tx": 16, "ty": 67, "texto": "joelhos dobrados, pés no chão" }
+      },
       "texto": "Ele se apresentou ao DOI-CODI de São Paulo para depor. Morreu no mesmo dia.",
       "oficial": "Suicídio",
       "verdade": "Morte por “lesões e maus-tratos”",
@@ -214,7 +365,7 @@
       ],
       "fiel": "Menos de três meses depois, em 17 de janeiro de 1976, o operário metalúrgico Manoel Fiel Filho morre no mesmo DOI-CODI. Mesma versão: “suicídio”. O presidente Geisel afasta o comandante do II Exército.",
       "fontes": ["herzog", "fielFilho"],
-      "notas": "O ponto central é a farsa: o regime chamava de suicídio as mortes sob tortura. Na seta, a palavra SUICÍDIO é riscada em vermelho. O ato na Sé foi um dos primeiros grandes protestos depois de anos de medo."
+      "notas": "O ponto central é a farsa: o regime chamava de suicídio as mortes sob tortura. Primeira seta: a palavra SUICÍDIO é riscada em vermelho. ATENÇÃO, segunda seta: aparece a página do laudo oficial de 1975 com a foto da cela, onde o corpo de Herzog aparece pendurado. Avise a turma antes. O círculo vermelho mostra a prova: os joelhos dobrados e os pés no chão. Na seta seguinte a foto sai da tela. O ato na Sé foi um dos primeiros grandes protestos depois de anos de medo."
     },
     {
       "id": "zuzu",
@@ -222,6 +373,7 @@
       "kicker": "Uma mãe contra a ditadura",
       "nome": "Zuzu Angel",
       "subtitulo": "Estilista. Mãe de Stuart Angel Jones.",
+      "foto": { "arquivo": "assets/fotos/zuzu-angel.jpg", "alt": "Zuzu Angel em Nova York, 1972", "credito": "Zuzu Angel em Nova York, 1972 · Arquivo Nacional, Fundo Correio da Manhã · domínio público" },
       "passos": [
         "14 de maio de 1971: Stuart, militante do MR-8, é preso, torturado e morto por agentes da Aeronáutica, no Galeão, no Rio. O corpo nunca foi encontrado.",
         "Zuzu transforma a moda em denúncia. Em setembro de 1971, faz um desfile de protesto no consulado do Brasil em Nova York.",
@@ -230,7 +382,7 @@
       ],
       "tunel": "Hoje, aquele túnel se chama Túnel Zuzu Angel.",
       "fontes": ["zuzu"],
-      "notas": "A linha costurada desenha a moldura a cada seta. É a história de uma mãe que não aceitou o silêncio. No final, os faróis no túnel se apagam."
+      "notas": "A foto é de Zuzu em Nova York, em 1972. Lembre que Stuart era do MR-8 (o slide do sequestro). A linha costurada desenha a moldura a cada seta. É a história de uma mãe que não aceitou o silêncio. No final, os faróis no túnel se apagam."
     },
     {
       "id": "araguaia",
@@ -312,6 +464,7 @@
       "titulo": "Eles tinham nome",
       "texto": "Mortos e desaparecidos políticos reconhecidos pela Comissão Nacional da Verdade.",
       "final": "Para que não se esqueça. Para que nunca mais aconteça.",
+      "assinatura": { "rotulo": "feito por", "nome": "Pedro Felipe" },
       "fontes": ["lista"],
       "notas": "Os nomes passam devagar, como os créditos de um filme. Os marcados com † desaparecido nunca tiveram o corpo encontrado. Fique em silêncio alguns segundos antes de encerrar."
     }

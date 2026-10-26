@@ -1,5 +1,5 @@
 {
-  "_leia": "Fontes da apresentação. Os slides citam as chaves; o último slide lista todas, nesta ordem.",
+  "_leia": "Fontes da apresentação. Os slides citam as chaves e mostram as fontes no rodapé.",
 
   "golpe": { "curta": "Wikipédia: Golpe de 1964", "completa": "GOLPE de Estado no Brasil em 1964. In: WIKIPÉDIA. Consultado em 25 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Golpe_de_Estado_no_Brasil_em_1964" },
   "marcha": { "curta": "Wikipédia: Marcha da Família", "completa": "MARCHA da Família com Deus pela Liberdade. In: WIKIPÉDIA. Consultado em 25 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Marcha_da_Fam%C3%ADlia_com_Deus_pela_Liberdade" },
@@ -35,5 +35,15 @@
   "senado": { "curta": "Agência Senado (2015)", "completa": "AGÊNCIA SENADO. A madrugada mais longa da República faz 30 anos. Arquivo S, 2015.", "url": "https://www12.senado.leg.br/noticias/especiais/arquivo-s/a-madrugada-mais-longa-da-republica-faz-30-anos" },
   "ulysses": { "curta": "Congresso em Foco (2022)", "completa": "CONGRESSO EM FOCO. Constituição Federal completa 34 anos. 5 out. 2022.", "url": "https://www.congressoemfoco.com.br/area/pais/constituicao-federal-completa-34-anos/" },
   "indigenas": { "curta": "Agência Pública (2025)", "completa": "OLIVEIRA, Rafael. Crimes na ditadura: entenda por que indígenas reivindicam uma nova Comissão da Verdade. Agência Pública, 25 ago. 2025.", "url": "https://apublica.org/2025/08/crimes-na-ditadura-entenda-por-que-indigenas-reivindicam-uma-nova-comissao-da-verdade/" },
-  "lista": { "curta": "Wikipédia: lista de mortos e desaparecidos", "completa": "LISTA de mortos e desaparecidos políticos na ditadura militar brasileira. In: WIKIPÉDIA (a partir do relatório da CNV, 2014). Consultado em 25 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Lista_de_mortos_e_desaparecidos_pol%C3%ADticos_na_ditadura_militar_brasileira" }
+  "lista": { "curta": "Wikipédia: lista de mortos e desaparecidos", "completa": "LISTA de mortos e desaparecidos políticos na ditadura militar brasileira. In: WIKIPÉDIA (a partir do relatório da CNV, 2014). Consultado em 25 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Lista_de_mortos_e_desaparecidos_pol%C3%ADticos_na_ditadura_militar_brasileira" },
+  "mr8": { "curta": "Wikipédia: MR-8", "completa": "MOVIMENTO Revolucionário Oito de Outubro. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Movimento_Revolucion%C3%A1rio_Oito_de_Outubro" },
+  "sequestro": { "curta": "Wikipédia: Sequestro do embaixador (1969)", "completa": "SEQUESTRO do embaixador dos Estados Unidos no Brasil em 1969. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Sequestro_do_embaixador_dos_Estados_Unidos_no_Brasil_em_1969" },
+  "ai13": { "curta": "AI-13 (1969)", "completa": "BRASIL. Ato Institucional nº 13, de 5 de setembro de 1969.", "url": "https://www.planalto.gov.br/ccivil_03/ait/ait-13-69.htm" },
+  "ai14": { "curta": "AI-14 (1969)", "completa": "BRASIL. Ato Institucional nº 14, de 5 de setembro de 1969.", "url": "https://www.planalto.gov.br/ccivil_03/ait/ait-14-69.htm" },
+  "marighella": { "curta": "Wikipédia: Carlos Marighella", "completa": "CARLOS Marighella. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Carlos_Marighella" },
+  "tortura": { "curta": "Wikipédia: Tortura no Brasil", "completa": "TORTURA no Brasil. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Tortura_no_Brasil" },
+  "lutaArmada": { "curta": "Wikipédia: Luta armada contra a ditadura", "completa": "LUTA armada contra a ditadura militar brasileira. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Luta_armada_contra_a_ditadura_militar_brasileira" },
+  "casemiro": { "curta": "Wikipédia: Dênis Casemiro", "completa": "DÊNIS Casemiro. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/D%C3%AAnis_Casemiro" },
+  "lsn69": { "curta": "Decreto-Lei 898 (1969), art. 59", "completa": "BRASIL. Decreto-Lei nº 898, de 29 de setembro de 1969 (Lei de Segurança Nacional), art. 59.", "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/1965-1988/del0898.htm" },
+  "virgilio": { "curta": "Wikipédia: Virgílio Gomes da Silva", "completa": "VIRGÍLIO Gomes da Silva. In: WIKIPÉDIA. Consultado em 26 out. 2026.", "url": "https://pt.wikipedia.org/wiki/Virg%C3%ADlio_Gomes_da_Silva" }
 }

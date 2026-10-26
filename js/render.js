@@ -52,6 +52,10 @@ function linhaFontes(chaves, fontes) {
 
 const atraso = (s) => ({ "--atraso": s });
 
+/** Foto de arquivo: a imagem e o crédito, escrito na vertical ao lado (como em revista). */
+const imagem = (f) => el("img", { src: f.arquivo, alt: f.alt || "", decoding: "async" });
+const credito = (f) => f?.credito && el("figcaption", { class: "foto-credito", text: f.credito });
+
 /** append que ignora valores vazios (null/undefined/false). */
 const add = (pai, ...filhos) => pai.append(...filhos.flat().filter(Boolean));
 
@@ -117,7 +121,7 @@ function capa(s, st) {
 /* 1 · Abertura: os anos correm de 1964 a 1985. */
 function abertura(s, st, ctx, cena) {
   const ano = el("div", { class: "ab-ano an-desfoca", style: atraso("0.3s"), text: String(s.de) });
-  add(st, 
+  add(st,
     kicker(s.kicker),
     ano,
     el("div", { class: "ab-linha" }),
@@ -164,7 +168,7 @@ function divisao(s, st, ctx, cena) {
         el("p", { class: "dv-texto", html: md(l.texto) }),
       ),
     );
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "dv-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     el("p", { class: "dv-intro an-surge", style: atraso("0.7s"), html: md(s.intro) }),
@@ -224,7 +228,7 @@ function golpe(s, st, ctx, cena, section) {
   };
   const data = el("div", { class: "gp-data", text: s.datas[0].data });
   const texto = el("p", { class: "gp-texto", html: md(s.datas[0].texto) });
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("div", { class: "gp-painel an-desfoca", style: atraso("0.4s") }, data),
     texto,
@@ -280,7 +284,7 @@ function generais(s, st, ctx, cena) {
       ),
     );
   });
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "gn-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     eixo,
@@ -336,7 +340,7 @@ function estudante(s, st, ctx, cena) {
   const canvas = el("canvas", { class: "es-multidao" });
   const contador = el("span", { class: "es-contador", text: "0" });
   const p = s.passeata;
-  add(st, 
+  add(st,
     canvas,
     kicker(s.kicker),
     el("div", { class: "es-grito" }, l1, l2, el("p", { class: "es-origem", text: s.origem })),
@@ -388,7 +392,7 @@ function ai5(s, st, ctx, cena, section) {
   const itens = s.poderes.map((_, i) => el("li", {}, el("span", { class: "a5-num", text: String(i + 1).padStart(2, "0") }), el("span", { class: "a5-txt" })));
   const j = s.jornal;
   const corpo = j.texto.replace(/^Previsão do tempo:\s*/i, "");
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("div", { class: "a5-sigla an-desfoca", style: atraso("0.3s"), text: s.sigla }),
     el("ol", { class: "a5-poderes" }, itens),
@@ -464,7 +468,7 @@ function censura(s, st, ctx, cena) {
       el("div", {}, bloco(4, { classe: "c2", tarja: true, verso: `${versos[2]}<br>${versos[3]}` }), bloco(5, { classe: "c3", tarja: true, receita: true }), bloco(6), bloco(6), bloco(7), bloco(4)),
     ),
   );
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "cs-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     listaEmPassos(s.pontos, "cs-pontos"),
@@ -569,7 +573,79 @@ function milagre(s, st, ctx, cena, section) {
   };
 }
 
-/* 10 · A máquina da repressão: organograma, depois os métodos, com o coração batendo. */
+/* A luta armada: o sequestro do embaixador. Os presos aparecem na pista, embarcam,
+   o avião decola para o México; depois, a resposta do regime cai em carimbos. */
+const SVG_PESSOA = `<svg viewBox="0 0 20 48" aria-hidden="true"><circle cx="10" cy="6.5" r="5.2"/><path d="M2.5 48 L4 21 C4.6 15 7 13.2 10 13.2 C13 13.2 15.4 15 16 21 L17.5 48 Z"/></svg>`;
+
+const SVG_AVIAO = `<svg viewBox="0 0 240 66" aria-hidden="true">
+  <path class="av-leme" d="M16 34 L28 2 L44 2 L52 30 Z"/>
+  <path class="av-corpo" d="M12 36 C20 30 40 28 60 28 L200 28 C218 28 232 34 236 42 C232 50 218 54 200 54 L70 54 C48 54 28 48 12 36 Z"/>
+  <rect class="av-asa" x="96" y="22" width="70" height="6" rx="3"/>
+  <ellipse class="av-motor" cx="118" cy="31" rx="9" ry="3.2"/>
+  <ellipse class="av-motor" cx="148" cy="31" rx="9" ry="3.2"/>
+  <path class="av-janelas" d="M80 38 H192"/>
+  <g class="av-rodas"><circle cx="92" cy="59" r="4.5"/><circle cx="152" cy="59" r="4.5"/><circle cx="214" cy="57" r="3.5"/></g>
+</svg>`;
+
+function sequestro(s, st, ctx, cena) {
+  const data = el("div", { class: "sq-data", text: s.data });
+  const contador = el("span", { class: "sq-num", text: "0" });
+  const presos = Array.from({ length: s.presos }, (_, i) => el("i", { class: "sq-preso", style: { "--i": i }, html: SVG_PESSOA }));
+  add(st,
+    kicker(s.kicker),
+    el("h2", { class: "sq-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
+    el("p", { class: "sq-intro an-surge", style: atraso("0.8s"), html: md(s.intro) }),
+    listaEmPassos(s.passos, "sq-passos"),
+    el("div", { class: "sq-painel an-desfoca", style: atraso("0.5s") }, data),
+    el(
+      "div",
+      { class: "sq-cena", "aria-hidden": "true" },
+      el("i", { class: "sq-pista" }),
+      el("p", { class: "sq-contador" }, contador, el("small", { text: "presos políticos" })),
+      el("div", { class: "sq-fila" }, presos),
+      el("div", { class: "sq-aviao", html: SVG_AVIAO }),
+      el("p", { class: "sq-destino", text: `→ ${s.destino}` }),
+    ),
+    el("div", { class: "sq-atos", "data-passo": 3 }, s.atos.map((a, i) => el("p", { class: `sq-ato a${i}` }, el("b", { text: a.sigla }), el("span", { text: a.texto })))),
+  );
+  const mostrarPresos = (quantos) => {
+    presos.forEach((p, i) => p.classList.toggle("on", i < quantos));
+    contador.textContent = String(quantos);
+  };
+  return {
+    passos: s.passos.length - 1,
+    aoEntrar: (passo) => {
+      if (passo === 0) cena.depois(600, () => embaralhar(data, s.data, cena, 1300));
+    },
+    aoPasso: (n, { entrando }) => {
+      st.classList.toggle("com-presos", n >= 1);
+      st.classList.toggle("embarcou", n >= 2);
+      st.classList.toggle("respondeu", n >= 3);
+      document.body.classList.toggle("vinheta-fechada", n >= 3);
+      if (n === 0) return mostrarPresos(0);
+      if (entrando || n > 1 || movimentoReduzido()) mostrarPresos(presos.length);
+      else
+        presos.forEach((_, i) =>
+          cena.depois(500 + i * 170, () => {
+            mostrarPresos(i + 1);
+            som.clique();
+          }),
+        );
+      if (entrando) return;
+      if (n === 2) cena.depois(1800, () => som.ronco(4.5));
+      if (n === 3)
+        [550, 1250].forEach((ms) =>
+          cena.depois(ms, () => {
+            som.baque(0.9);
+            ctx.fx.tremor();
+          }),
+        );
+    },
+    aoSair: () => document.body.classList.remove("vinheta-fechada"),
+  };
+}
+
+/* A máquina da repressão: o organograma e, no passo seguinte, os números. */
 function repressao(s, st, ctx, cena) {
   const orgaos = el(
     "div",
@@ -588,22 +664,218 @@ function repressao(s, st, ctx, cena) {
       html: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M16 50 L84 50"/></svg>`,
     }),
   );
-  const metodos = s.metodos.map((m) => el("li", { html: md(m) }));
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "rp-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     orgaos,
-    el("ul", { class: "rp-metodos", "data-passo": 1 }, metodos),
-    el("div", { class: "rp-dados", "data-passo": 2 }, s.dados.map((d) => el("p", { html: md(d) }))),
+    el("div", { class: "rp-dados", "data-passo": 1 }, s.dados.map((d) => el("p", { html: md(d) }))),
   );
+  return { passos: 1 };
+}
+
+/* O caminho do preso: uma animação, sem mostrar violência, da prisão até a porta
+   da sala de interrogatório. A cada passo a câmera anda pela cena noturna:
+   a casa, o carro, o portão do DOI-CODI, a cela e a porta que se fecha. */
+const SVG_CASA = `<svg viewBox="0 0 110 85" aria-hidden="true">
+  <rect class="cs-chamine" x="78" y="10" width="8" height="18"/>
+  <path class="cs-telhado" d="M0 36 L55 4 L110 36 Z"/>
+  <rect class="cs-parede" x="8" y="34" width="94" height="51"/>
+  <rect class="cs-janela" x="60" y="46" width="26" height="20"/>
+  <path class="cs-caixilho" d="M73 46 V66 M60 56 H86"/>
+</svg>`;
+
+const SVG_CARRO = `<svg viewBox="0 0 160 56" aria-hidden="true">
+  <path class="cr-corpo" d="M4 42 C4 34 9 31 18 30 L38 28 L54 13 C57 10 61 9 66 9 L104 9 C110 9 114 11 117 15 L129 28 L146 31 C153 32 156 35 156 42 L156 45 C156 47 154 48 152 48 L8 48 C6 48 4 47 4 45 Z"/>
+  <path class="cr-vidro" d="M58 15 L80 15 L80 27 L46 27 Z M84 15 L104 15 C108 15 111 17 113 20 L118 27 L84 27 Z"/>
+  <circle class="cr-roda" cx="36" cy="47" r="8.5"/><circle class="cr-roda" cx="124" cy="47" r="8.5"/>
+  <circle class="cr-calota" cx="36" cy="47" r="3"/><circle class="cr-calota" cx="124" cy="47" r="3"/>
+  <rect class="cr-farol" x="150" y="34" width="6" height="4" rx="1.5"/>
+  <rect class="cr-lanterna" x="4" y="34" width="4" height="4" rx="1"/>
+</svg>`;
+
+const SVG_SENTADO = `<svg viewBox="0 0 34 40" aria-hidden="true"><circle cx="10" cy="7" r="4.6"/><rect x="3" y="11" width="10" height="17" rx="4"/><rect x="7" y="22" width="21" height="6.5" rx="3"/><rect x="23.5" y="23.5" width="6" height="16.5" rx="2.5"/></svg>`;
+
+/** Silhueta de cidade com algumas janelas acesas (sempre a mesma, pela semente). */
+function cidade(semente, largura, altura) {
+  const r = mulberry32(semente);
+  let x = 0;
+  let s = "";
+  while (x < largura) {
+    const w = 3 + r() * 6;
+    const h = 4 + r() * (altura - 4);
+    s += `<rect class="cd-predio" x="${x.toFixed(1)}" y="${(altura - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>`;
+    for (let wy = altura - h + 1; wy < altura - 1; wy += 1.6)
+      for (let wx = x + 0.8; wx < x + w - 0.8; wx += 1.4) if (r() < 0.12) s += `<rect class="cd-janela" x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="0.6" height="0.7"/>`;
+    x += w + 0.4 + r() * 1.5;
+  }
+  return `<svg viewBox="0 0 ${largura} ${altura}" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`;
+}
+
+function caminho(s, st, ctx, cena) {
+  const etapas = s.etapas;
+  const total = etapas.length;
+  const legendas = etapas.map((e) => el("p", { html: md(e.texto) }));
+  const rota = el("ol", { class: "cm-rota an-surge", style: atraso("1s") }, etapas.map((e) => el("li", { text: e.rotulo })));
+  // Risquinhos na parede da cela: dois grupos de cinco (quatro em pé e um cortando).
+  const marcas = Array.from({ length: 10 }, (_, i) => {
+    const g = Math.floor(i / 5);
+    const k = i % 5;
+    return el("i", { class: k === 4 ? "diag" : "", style: { left: `calc(var(--u) * ${k === 4 ? g * 4.6 + 1.2 : g * 4.6 + k * 0.8})` } });
+  });
+  const pessoa = (classe, capuz = false) => el("i", { class: `cm-pessoa ${classe}`, html: SVG_PESSOA }, capuz && el("b", { class: "cm-capuz" }));
+  const mundo = el(
+    "div",
+    { class: "cm-mundo" },
+    el("div", { class: "cm-cidade", html: cidade(1971, 150, 12) }),
+    el("i", { class: "cm-chao" }),
+    // A · a casa
+    el("i", { class: "cm-poste pa" }),
+    el("div", { class: "cm-casa", html: SVG_CASA }),
+    el("div", { class: "cm-portacasa" }, el("i", { class: "cm-portacasa-folha" })),
+    pessoa("cm-agente g2"),
+    pessoa("cm-agente g1"),
+    pessoa("cm-preso-casa", true),
+    el("div", { class: "cm-carro", html: SVG_CARRO }, el("i", { class: "cm-farol" })),
+    // B · a rua
+    el("i", { class: "cm-poste pb1" }),
+    el("i", { class: "cm-poste pb2" }),
+    el("i", { class: "cm-poste pb3" }),
+    // C · o DOI-CODI
+    el("div", { class: "cm-muro" }, el("div", { class: "cm-portao" }, el("i"), el("i"))),
+    el("p", { class: "cm-local", text: "DOI-CODI" }),
+    el("div", { class: "cm-holofote" }, el("i")),
+    // D · a cela
+    el("i", { class: "cm-interior" }),
+    el("i", { class: "cm-janelinha" }),
+    el("i", { class: "cm-luar" }),
+    el("i", { class: "cm-banco" }),
+    el("i", { class: "cm-pessoa cm-preso-cela", html: SVG_SENTADO }),
+    el("div", { class: "cm-marcas" }, marcas),
+    el("i", { class: "cm-grades" }),
+    // E · a porta
+    el("i", { class: "cm-fio" }),
+    el("i", { class: "cm-lampadinha" }),
+    el("div", { class: "cm-porta" }, el("i", { class: "cm-porta-luz" }), el("i", { class: "cm-porta-folha" })),
+    pessoa("cm-agente g3"),
+    pessoa("cm-preso-porta", true),
+  );
+  add(st,
+    kicker(s.kicker),
+    el("h2", { class: "cm-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
+    rota,
+    el("div", { class: "cm-legenda" }, legendas),
+    el("div", { class: "cm-cena", "aria-hidden": "true" }, mundo),
+    el(
+      "div",
+      { class: "cm-caso", "data-passo": total },
+      el("p", { class: "cm-caso-nome", text: s.caso.nome }),
+      el("p", { class: "cm-caso-datas", text: s.caso.datas }),
+      el("p", { class: "cm-caso-texto", html: md(s.caso.texto) }),
+    ),
+  );
+  const depois = (ms, fn) => cena.depois(ms, fn);
   return {
-    passos: 2,
+    passos: total,
+    aoEntrar: (passo) => {
+      if (passo > 0 || movimentoReduzido()) return;
+      // O carro chega; três batidas na porta.
+      depois(200, () => som.ronco(2.6));
+      [3200, 3480, 3760].forEach((ms) => depois(ms, () => som.baque(0.22)));
+    },
+    aoPasso: (n, { entrando }) => {
+      const e = Math.min(n, total - 1);
+      st.style.setProperty("--cam", e);
+      for (let i = 0; i <= total; i++) {
+        st.classList.toggle(`p${i}`, n >= i);
+        st.classList.toggle(`agora-${i}`, n === i);
+      }
+      legendas.forEach((l, i) => l.classList.toggle("on", i === e));
+      [...rota.children].forEach((li, i) => {
+        li.classList.toggle("feito", i < e);
+        li.classList.toggle("agora", i === e);
+      });
+      document.body.classList.toggle("vinheta-fechada", n >= total);
+      if (n < 3) marcas.forEach((m) => m.classList.remove("on"));
+      else if (entrando || n > 3 || movimentoReduzido()) marcas.forEach((m) => m.classList.add("on"));
+      if (entrando) return;
+      if (n === 1) depois(2300, () => som.ronco(3));
+      if (n === 2)
+        depois(3250, () => {
+          som.baque(1);
+          ctx.fx.tremor();
+        });
+      if (n === 3)
+        marcas.forEach((m, i) =>
+          depois(2900 + i * 380, () => {
+            m.classList.add("on");
+            som.clique();
+          }),
+        );
+      if (n === 4)
+        depois(5650, () => {
+          som.baque(1.1);
+          ctx.fx.tremor();
+        });
+      if (n === total) [700, 2400].forEach((ms) => depois(ms, () => som.coracao()));
+    },
+    aoSair: () => document.body.classList.remove("vinheta-fechada"),
+  };
+}
+
+/* A tortura: uma lâmpada balança sobre uma cadeira vazia. Os números, os métodos
+   (um a um, com o coração batendo), um caso e a conclusão da Comissão da Verdade. */
+const SVG_LAMPADA = `<svg viewBox="0 0 60 40" aria-hidden="true">
+  <path class="lp-cupula" d="M23 2 H37 L57 30 H3 Z"/>
+  <ellipse class="lp-bulbo" cx="30" cy="31" rx="7.5" ry="5"/>
+</svg>`;
+
+const SVG_CADEIRA = `<svg viewBox="0 0 60 92" aria-hidden="true">
+  <rect x="11" y="2" width="5" height="88" rx="1.5"/>
+  <rect x="44" y="2" width="5" height="88" rx="1.5"/>
+  <rect x="11" y="6" width="38" height="5"/>
+  <rect x="11" y="20" width="38" height="3.5"/>
+  <path d="M8 46 H52 L56 54 H4 Z"/>
+  <rect x="6" y="54" width="5" height="36" rx="1"/>
+  <rect x="49" y="54" width="5" height="36" rx="1"/>
+</svg>`;
+
+function tortura(s, st, ctx, cena) {
+  const valores = s.numeros.map(() => el("span", { class: "tt-valor", text: "0" }));
+  const metodos = s.metodos.map((m) => el("li", { html: md(m) }));
+  add(st,
+    el(
+      "div",
+      { class: "tt-sala", "aria-hidden": "true" },
+      el("div", { class: "tt-pendulo" }, el("i", { class: "tt-fio" }), el("div", { class: "tt-lampada", html: SVG_LAMPADA }), el("i", { class: "tt-luz" })),
+      el("i", { class: "tt-chao" }),
+      el("i", { class: "tt-sombra" }),
+      el("div", { class: "tt-cadeira", html: SVG_CADEIRA }),
+    ),
+    kicker(s.kicker),
+    el("h2", { class: "tt-titulo an-desfoca", style: atraso("0.4s"), html: md(s.titulo) }),
+    el(
+      "div",
+      { class: "tt-numeros" },
+      s.numeros.map((n, i) => el("p", { class: "tt-numero an-surge", style: atraso(`${1.2 + i * 0.5}s`) }, valores[i], el("span", { class: "tt-txt", html: md(n.texto) }))),
+    ),
+    el("ul", { class: "tt-metodos", "data-passo": 1 }, metodos),
+    el("p", { class: "tt-caso", "data-passo": 2, html: md(s.caso) }),
+    el("p", { class: "tt-conclusao", "data-passo": 3, html: md(s.conclusao) }),
+  );
+  const fixarNumeros = () => valores.forEach((v, i) => (v.textContent = s.numeros[i].valor.toLocaleString("pt-BR")));
+  return {
+    passos: 3,
+    aoEntrar: (passo) => {
+      if (passo > 0 || movimentoReduzido()) return fixarNumeros();
+      valores.forEach((v) => (v.textContent = "0"));
+      s.numeros.forEach((n, i) => cena.depois(1500 + i * 500, () => contar(valores[i], 0, n.valor, 2400, cena)));
+    },
     aoPasso: (n, { entrando }) => {
       document.body.classList.toggle("vinheta-fechada", n >= 1);
       if (n === 0) return metodos.forEach((m) => m.classList.remove("on"));
       if (entrando || n > 1) return metodos.forEach((m) => m.classList.add("on"));
       metodos.forEach((m, i) =>
-        cena.depois(700 + i * 1700, () => {
+        cena.depois(600 + i * 1500, () => {
           m.classList.add("on");
           som.coracao();
           ctx.fx.pulso();
@@ -614,39 +886,54 @@ function repressao(s, st, ctx, cena) {
   };
 }
 
-/* 11 · Retrato de um desaparecido. */
+/* Retrato: a foto se revela como no laboratório e o carimbo cai.
+   Opcionais: apagar (no fim a foto some, como um desaparecido), placa (uma placa
+   de rua num passo) e poema (versos no último passo). */
 function retrato(s, st, ctx, cena) {
-  add(st, 
+  const ultimo = s.passos.length - 1;
+  const carimboPasso = s.carimboPasso ?? 1;
+  add(st,
     kicker(s.kicker),
     el(
       "figure",
-      { class: "rt-moldura an-desfoca", style: atraso("0.3s") },
-      el("div", { class: "rt-silhueta", html: SVG_SILHUETA }),
-      el("span", { class: "rt-carimbo", "data-passo": 1, text: s.carimbo }),
+      { class: `rt-moldura an-desfoca${s.foto ? " com-foto" : ""}`, style: atraso("0.3s") },
+      el("div", { class: "rt-silhueta", html: s.foto ? null : SVG_SILHUETA }, s.foto && imagem(s.foto)),
+      el("span", { class: "rt-carimbo", "data-passo": carimboPasso, text: s.carimbo }),
+      credito(s.foto),
     ),
+    s.placa && el("div", { class: "rt-placa", "data-passo": s.placa.passo }, el("span", { class: "rt-placa-rua", text: s.placa.rua }), el("span", { class: "rt-placa-data", text: s.placa.data })),
     el("h2", { class: "rt-nome an-espaca", style: atraso("0.9s"), text: s.nome }),
     el("p", { class: "rt-sub an-surge", style: atraso("1.4s"), html: md(s.subtitulo) }),
     listaEmPassos(s.passos, "rt-passos"),
-    el("p", { class: "rt-extra", "data-passo": s.passos.length - 1, html: md(s.extra) }),
+    s.extra && el("p", { class: "rt-extra", "data-passo": ultimo, html: md(s.extra) }),
+    s.poema && el("blockquote", { class: "rt-poema", "data-passo": ultimo }, s.poema.versos.map((v) => el("span", { text: v })), el("cite", { text: s.poema.fonte })),
   );
   return {
-    passos: s.passos.length - 1,
+    passos: ultimo,
     aoPasso: (n, { entrando }) => {
-      st.classList.toggle("apagando", n >= s.passos.length - 1);
-      if (n === 1 && !entrando)
+      if (s.apagar !== false) st.classList.toggle("apagando", n >= ultimo);
+      if (entrando) return;
+      if (n === carimboPasso)
         cena.depois(450, () => {
           som.baque(1.3);
           ctx.fx.tremor();
         });
+      if (s.placa && n === s.placa.passo) cena.depois(550, () => som.baque(0.5));
     },
   };
 }
 
-/* 12 · A farsa do suicídio. */
+/* A farsa do suicídio: o retrato, o laudo riscado e, num passo só dela, a foto
+   do próprio laudo oficial, com a prova marcada em vermelho. */
 function farsa(s, st, ctx, cena) {
   const verdade = el("p", { class: "fs-verdade" });
-  add(st, 
+  const doc = s.documento;
+  const marca = doc?.marca;
+  const pDoc = doc ? 2 : -1;
+  const pDepois = doc ? 3 : 2;
+  add(st,
     kicker(s.kicker),
+    s.foto && el("figure", { class: "foto fs-foto", style: atraso("0.3s") }, imagem(s.foto), credito(s.foto)),
     el("h2", { class: "fs-nome an-espaca", style: atraso("0.3s"), text: s.nome }),
     el("p", { class: "fs-sub an-surge", style: atraso("0.9s"), html: md(s.subtitulo) }),
     el("p", { class: "fs-texto an-surge", style: atraso("1.4s"), html: md(s.texto) }),
@@ -662,12 +949,28 @@ function farsa(s, st, ctx, cena) {
       ),
       el("div", { "data-passo": 1 }, verdade, el("p", { class: "fs-prova", html: md(s.prova) })),
     ),
-    el("ul", { class: "fs-depois", "data-passo": 2 }, s.depois.map((d) => el("li", { html: md(d) }))),
-    el("p", { class: "fs-fiel", "data-passo": 3, html: md(s.fiel) }),
+    doc &&
+      el(
+        "figure",
+        { class: "fs-documento" },
+        el(
+          "div",
+          { class: "fs-doc-papel" },
+          imagem(doc),
+          marca && el("div", { class: "fs-marca", style: { left: `${marca.x}%`, top: `${marca.y}%`, width: `${marca.r * 2}%` }, html: `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>` }),
+          marca && el("span", { class: "fs-marca-txt", style: { left: `${marca.tx}%`, top: `${marca.ty}%` }, text: marca.texto }),
+        ),
+        credito(doc),
+      ),
+    el("ul", { class: "fs-depois", "data-passo": pDepois }, s.depois.map((d) => el("li", { html: md(d) }))),
+    el("p", { class: "fs-fiel", "data-passo": pDepois + 1, html: md(s.fiel) }),
   );
   return {
-    passos: 3,
+    passos: pDepois + 1,
     aoPasso: (n, { entrando }) => {
+      // A foto do laudo fica na tela só no passo dela.
+      st.classList.toggle("com-documento", n === pDoc);
+      if (n === pDoc && !entrando) cena.depois(150, () => som.baque(0.35));
       if (n < 1) return fixarTexto(verdade, "");
       if (entrando || n > 1) return fixarTexto(verdade, s.verdade);
       cena.depois(250, () => som.rasgo());
@@ -687,11 +990,12 @@ function zuzu(s, st, ctx, cena) {
       <rect class="zz-ponto" x="1" y="1" width="98" height="98" fill="none" mask="url(#zz-mascara)"/>
     </svg>`,
   });
-  add(st, 
+  add(st,
     kicker(s.kicker),
     costura,
     el("h2", { class: "zz-nome an-espaca", style: atraso("0.3s"), text: s.nome }),
     el("p", { class: "zz-sub an-surge", style: atraso("0.9s"), html: md(s.subtitulo) }),
+    s.foto && el("figure", { class: "foto zz-foto", style: atraso("1.1s") }, imagem(s.foto), credito(s.foto)),
     listaEmPassos(s.passos, "zz-passos"),
     el("div", { class: "zz-farois", "data-passo": total, "aria-hidden": "true" }, el("span"), el("span")),
     el("p", { class: "zz-tunel", "data-passo": total, html: md(s.tunel) }),
@@ -738,7 +1042,7 @@ function araguaia(s, st, ctx, cena) {
       ),
     ),
   );
-  add(st, 
+  add(st,
     mata,
     camadaPontos,
     kicker(s.kicker),
@@ -790,7 +1094,7 @@ function diretas(s, st, ctx, cena) {
   const rotulo = el("p", { class: "dj-rotulo" });
   const v = s.votacao;
   const barra = el("div", { class: "dj-barra" }, el("span", { class: "dj-sim", style: { "--sim": v.sim / v.total } }), el("span", { class: "dj-marca", style: { left: `${(v.precisava / v.total) * 100}%` } }, el("em", { text: `${v.precisava} necessários` })));
-  add(st, 
+  add(st,
     canvas,
     kicker(s.kicker),
     el("h2", { class: "dj-titulo an-espaca", style: atraso("0.2s"), html: md(s.titulo) }),
@@ -842,7 +1146,7 @@ function diretas(s, st, ctx, cena) {
 function citacao(s, st, ctx, cena) {
   const texto = el("blockquote", { class: "ct-texto" });
   const marcar = () => (texto.innerHTML = md(s.citacao).replace("Ódio e nojo.", '<span class="ct-forte">Ódio e nojo.</span>'));
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "ct-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     texto,
@@ -869,7 +1173,7 @@ function citacao(s, st, ctx, cena) {
 /* 18 · Os números, um a um. */
 function numeros(s, st, ctx, cena) {
   const valores = s.itens.map(() => el("span", { class: "nm-valor", text: "0" }));
-  add(st, 
+  add(st,
     kicker(s.kicker),
     el("h2", { class: "nm-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     el(
@@ -904,13 +1208,14 @@ function memorial(s, st, ctx, cena) {
   const lista = () => el("ul", { class: "mm-lista" }, nomes.map((n) => n.cloneNode(true)));
   const rolo = el("div", { class: "mm-rolo", style: { "--duracao": `${Math.max(120, nomes.length * 0.55)}s` } }, lista(), lista());
   const final = el("p", { class: "mm-final" });
-  add(st, 
+  add(st,
     el("div", { class: "mm-janela" }, rolo),
     el("h2", { class: "mm-titulo an-desfoca", style: atraso("0.4s"), html: md(s.titulo) }),
     el("p", { class: "mm-texto an-surge", style: atraso("1.2s"), html: md(s.texto) }),
     el("p", { class: "mm-total an-surge", style: atraso("1.8s"), text: `${nomes.length} nomes` }),
     el("div", { class: "mm-vela", "aria-hidden": "true" }, el("span", { class: "mm-halo" }), el("span", { class: "mm-chama" }), el("span", { class: "mm-cera" })),
     el("div", { "data-passo": 1 }, final),
+    s.assinatura && el("p", { class: "mm-assinatura an-surge", style: atraso("2.6s") }, el("span", { text: s.assinatura.rotulo }), el("b", { text: s.assinatura.nome })),
   );
   return {
     passos: 1,
@@ -924,6 +1229,9 @@ function memorial(s, st, ctx, cena) {
 
 const RENDER = {
   capa,
+  sequestro,
+  caminho,
+  tortura,
   abertura,
   divisao,
   golpe,

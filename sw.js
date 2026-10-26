@@ -3,7 +3,7 @@
 // Estratégia: sempre tenta a rede primeiro; só usa a cópia guardada se a rede falhar.
 // Assim, qualquer edição no conteúdo aparece na hora.
 
-const CACHE = "aula-ditadura-v2";
+const CACHE = "aula-ditadura-v3";
 const ARQUIVOS = [
   "./",
   "index.html",
@@ -24,6 +24,11 @@ const ARQUIVOS = [
   "content/slides.json",
   "content/fontes.json",
   "content/vitimas.json",
+  "assets/fotos/rubens-paiva.jpg",
+  "assets/fotos/vladimir-herzog.jpg",
+  "assets/fotos/herzog-laudo-1975.jpg",
+  "assets/fotos/zuzu-angel.jpg",
+  "assets/fotos/carlos-marighella.jpg",
   "assets/fonts/big-shoulders-display-normal-latin.woff2",
   "assets/fonts/big-shoulders-display-normal-latin-ext.woff2",
   "assets/fonts/newsreader-normal-latin.woff2",
