@@ -48,26 +48,29 @@ function cidade(semente, topo, base) {
 
 const RODA = `<circle r="14" fill="#090909"/><circle r="7.5" fill="#56534d"/><path d="M-7 0 H7 M0 -7 V7" stroke="#2b2926" stroke-width="2.2"/>`;
 
-/** Sedã dos anos 1970 de lado, de frente para a direita. Pneus no chão em y = 78.
-    O facho do farol sai do próprio farol (238, 40–48) e desce até a rua. */
+/** Sedã dos anos 1970 de lado, de frente para a direita: capô comprido na frente,
+    para-brisa bem inclinado, porta-malas curto atrás e as maçanetas na borda de trás
+    de cada porta. Pneus no chão em y = 78. O facho sai do próprio farol (233–240, 39–48). */
 function carroLado() {
   return `<g class="cm-carro-lado">
     <ellipse cx="122" cy="79" rx="128" ry="6" fill="#000" opacity=".55"/>
-    <polygon points="238,40 640,16 640,78 540,78 238,48" fill="url(#cm1-farol)"/>
+    <polygon points="240,40 640,16 640,78 540,78 240,48" fill="url(#cm1-farol)"/>
     <ellipse cx="470" cy="78" rx="180" ry="7" fill="#fff2c8" opacity=".14"/>
     <circle cx="6" cy="44" r="18" fill="url(#cm1-lanterna)"/>
-    <path d="M6 50 C6 42 10 38 20 37 L64 34 L92 12 C96 9 100 8 106 8 L162 8 C168 8 172 10 176 14 L196 34 L226 37 C234 38 238 42 238 50 L238 58 C238 62 235 64 231 64 L10 64 C7 64 6 62 6 58 Z" fill="#1d2127"/>
-    <path d="M71 34 L95 14 L128 14 L128 34 Z M134 14 L168 14 C172 14 174 15 176 18 L190 34 L134 34 Z" fill="#0b0f15"/>
-    <path d="M100 16 L112 16 L94 32 L82 32 Z M150 16 L158 16 L146 32 L138 32 Z" fill="#26313f" opacity=".55"/>
-    <path d="M76 37 V62 M131 37 V62 M190 37 V62" stroke="#111418" stroke-width="1.6"/>
-    <path d="M14 46 H232" stroke="#59606a" stroke-width="1.6"/>
-    <rect x="114" y="41" width="9" height="2.6" rx="1" fill="#6a717b"/><rect x="172" y="41" width="9" height="2.6" rx="1" fill="#6a717b"/>
-    <rect x="232" y="52" width="9" height="6" rx="2" fill="#8b9098"/><rect x="1" y="52" width="9" height="6" rx="2" fill="#8b9098"/>
-    <rect x="231" y="39" width="7" height="9" rx="2.5" fill="#fff5d2"/>
+    <path d="M6 50 C6 42 10 38 20 37 L46 35 L50 34 L70 12 C72 9 76 8 82 8 L134 8 C140 8 144 9 147 12 L176 34 L230 37 C236 38 240 42 240 50 L240 58 C240 62 237 64 233 64 L10 64 C7 64 6 62 6 58 Z" fill="#1d2127"/>
+    <path d="M55 34 L72 14 L104 14 L104 34 Z M110 14 L142 14 C145 14 147 15 149 17 L168 34 L110 34 Z" fill="#0b0f15"/>
+    <path d="M80 16 L91 16 L76 32 L65 32 Z M128 16 L137 16 L123 32 L114 32 Z" fill="#26313f" opacity=".55"/>
+    <path d="M54 37 V62 M107 37 V62 M166 37 V62" stroke="#111418" stroke-width="1.6"/>
+    <path d="M176 35 L230 37.5" stroke="#2a3038" stroke-width="1.4"/>
+    <path d="M14 46 H234" stroke="#59606a" stroke-width="1.6"/>
+    <rect x="58" y="41" width="9" height="2.6" rx="1" fill="#6a717b"/><rect x="111" y="41" width="9" height="2.6" rx="1" fill="#6a717b"/>
+    <path d="M166 31 L172 27 L176 31 Z" fill="#14171b"/>
+    <rect x="233" y="52" width="9" height="6" rx="2" fill="#8b9098"/><rect x="1" y="52" width="9" height="6" rx="2" fill="#8b9098"/>
+    <rect x="233" y="39" width="7" height="9" rx="2.5" fill="#fff5d2"/>
     <rect x="4" y="40" width="5" height="8" rx="1.5" fill="#d11f27"/>
-    <circle cx="52" cy="64" r="17" fill="#0c0e11"/><circle cx="190" cy="64" r="17" fill="#0c0e11"/>
-    <g transform="translate(52 64)"><g class="cm-roda">${RODA}</g></g>
-    <g transform="translate(190 64)"><g class="cm-roda">${RODA}</g></g>
+    <circle cx="44" cy="64" r="17" fill="#0c0e11"/><circle cx="194" cy="64" r="17" fill="#0c0e11"/>
+    <g transform="translate(44 64)"><g class="cm-roda">${RODA}</g></g>
+    <g transform="translate(194 64)"><g class="cm-roda">${RODA}</g></g>
   </g>`;
 }
 
@@ -397,8 +400,8 @@ function cenaCorredor() {
   <path d="M548 228 L572 228 L582 241 L538 241 Z" fill="#2c2925"/>
   <g class="cm4-lampada"><circle cx="560" cy="250" r="130" fill="url(#cm4-brilho)"/><ellipse cx="560" cy="452" rx="180" ry="22" fill="#ffe9b0" opacity=".1"/><ellipse cx="560" cy="243" rx="7" ry="4" fill="#fff0c4"/></g>
   <g transform="translate(560 400)"><g class="cm4-pessoas">
-    <g transform="translate(-16 0)">${boneco("agente")}</g>
-    <g transform="translate(16 0)">${boneco("preso", { capuz: true })}</g>
+    <g transform="translate(-19 0)">${boneco("agente")}</g>
+    <g transform="translate(19 0)">${boneco("preso", { capuz: true })}</g>
   </g></g>
   <rect width="1120" height="563" fill="url(#cm4-vinheta)"/>
 </svg>`;
