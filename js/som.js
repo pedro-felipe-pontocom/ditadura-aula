@@ -177,3 +177,53 @@ export function explosao() {
   o.start(t);
   o.stop(t + 1.5);
 }
+
+/** Helicóptero passando: ruído grave cortado pelas pás (um "tchop" ~11 vezes por segundo). */
+export function helicoptero(seg = 8) {
+  if (!pronto()) return;
+  const t = ctx.currentTime;
+  const src = ruido(seg);
+  const f = ctx.createBiquadFilter();
+  f.type = "lowpass";
+  f.frequency.value = 380;
+  const pas = ctx.createGain();
+  pas.gain.value = 0.5;
+  const lfo = ctx.createOscillator();
+  lfo.type = "square";
+  lfo.frequency.value = 11;
+  const fundo = ctx.createGain();
+  fundo.gain.value = 0.5;
+  lfo.connect(fundo);
+  fundo.connect(pas.gain);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.7, t + seg * 0.45);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + seg);
+  src.connect(f);
+  f.connect(pas);
+  pas.connect(g);
+  g.connect(mestre);
+  src.start(t);
+  lfo.start(t);
+  lfo.stop(t + seg);
+}
+
+/** Chuva fina: chiado agudo e baixo que entra e sai devagar. */
+export function chuva(seg = 10) {
+  if (!pronto()) return;
+  const t = ctx.currentTime;
+  const src = ruido(seg);
+  const f = ctx.createBiquadFilter();
+  f.type = "bandpass";
+  f.frequency.value = 2600;
+  f.Q.value = 0.5;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.linearRampToValueAtTime(0.07, t + 2);
+  g.gain.setValueAtTime(0.07, t + seg - 2.5);
+  g.gain.linearRampToValueAtTime(0.0001, t + seg);
+  src.connect(f);
+  f.connect(g);
+  g.connect(mestre);
+  src.start(t);
+}

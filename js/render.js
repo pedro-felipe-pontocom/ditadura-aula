@@ -7,6 +7,7 @@ import { el, md, mulberry32, clamp, lerp, movimentoReduzido } from "./util.js";
 import { Cena, digitar, fixarTexto, contar, embaralhar, Multidao } from "./fx.js";
 import * as som from "./som.js";
 import { criarTV } from "./tv.js";
+import { cenasCaminho } from "./caminho.js";
 
 const COM_CINZAS = new Set(["capa", "abertura", "numeros", "memorial"]);
 
@@ -673,98 +674,30 @@ function repressao(s, st, ctx, cena) {
   return { passos: 1 };
 }
 
-/* O caminho do preso: uma animação, sem mostrar violência, da prisão até a porta
-   da sala de interrogatório. A cada passo a câmera anda pela cena noturna:
-   a casa, o carro, o portão do DOI-CODI, a cela e a porta que se fecha. */
-const SVG_CASA = `<svg viewBox="0 0 110 85" aria-hidden="true">
-  <rect class="cs-chamine" x="78" y="10" width="8" height="18"/>
-  <path class="cs-telhado" d="M0 36 L55 4 L110 36 Z"/>
-  <rect class="cs-parede" x="8" y="34" width="94" height="51"/>
-  <rect class="cs-janela" x="60" y="46" width="26" height="20"/>
-  <path class="cs-caixilho" d="M73 46 V66 M60 56 H86"/>
-</svg>`;
-
-const SVG_CARRO = `<svg viewBox="0 0 160 56" aria-hidden="true">
-  <path class="cr-corpo" d="M4 42 C4 34 9 31 18 30 L38 28 L54 13 C57 10 61 9 66 9 L104 9 C110 9 114 11 117 15 L129 28 L146 31 C153 32 156 35 156 42 L156 45 C156 47 154 48 152 48 L8 48 C6 48 4 47 4 45 Z"/>
-  <path class="cr-vidro" d="M58 15 L80 15 L80 27 L46 27 Z M84 15 L104 15 C108 15 111 17 113 20 L118 27 L84 27 Z"/>
-  <circle class="cr-roda" cx="36" cy="47" r="8.5"/><circle class="cr-roda" cx="124" cy="47" r="8.5"/>
-  <circle class="cr-calota" cx="36" cy="47" r="3"/><circle class="cr-calota" cx="124" cy="47" r="3"/>
-  <rect class="cr-farol" x="150" y="34" width="6" height="4" rx="1.5"/>
-  <rect class="cr-lanterna" x="4" y="34" width="4" height="4" rx="1"/>
-</svg>`;
-
-const SVG_SENTADO = `<svg viewBox="0 0 34 40" aria-hidden="true"><circle cx="10" cy="7" r="4.6"/><rect x="3" y="11" width="10" height="17" rx="4"/><rect x="7" y="22" width="21" height="6.5" rx="3"/><rect x="23.5" y="23.5" width="6" height="16.5" rx="2.5"/></svg>`;
-
-/** Silhueta de cidade com algumas janelas acesas (sempre a mesma, pela semente). */
-function cidade(semente, largura, altura) {
-  const r = mulberry32(semente);
-  let x = 0;
-  let s = "";
-  while (x < largura) {
-    const w = 3 + r() * 6;
-    const h = 4 + r() * (altura - 4);
-    s += `<rect class="cd-predio" x="${x.toFixed(1)}" y="${(altura - h).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}"/>`;
-    for (let wy = altura - h + 1; wy < altura - 1; wy += 1.6)
-      for (let wx = x + 0.8; wx < x + w - 0.8; wx += 1.4) if (r() < 0.12) s += `<rect class="cd-janela" x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="0.6" height="0.7"/>`;
-    x += w + 0.4 + r() * 1.5;
-  }
-  return `<svg viewBox="0 0 ${largura} ${altura}" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`;
-}
+/* O caminho do preso: quatro cenas de cinema, sem mostrar violência, da prisão até a
+   porta da sala de interrogatório (o desenho está em caminho.js). A cada seta, a cena
+   anda: o carro chega e batem à porta; o capuz e o carro partindo; o portão do
+   DOI-CODI; a cela, com os dias passando pela janela; o corredor e a porta que se fecha. */
+const QUADRO_DO_PASSO = [0, 0, 1, 2, 3, 3];
 
 function caminho(s, st, ctx, cena) {
   const etapas = s.etapas;
   const total = etapas.length;
   const legendas = etapas.map((e) => el("p", { html: md(e.texto) }));
   const rota = el("ol", { class: "cm-rota an-surge", style: atraso("1s") }, etapas.map((e) => el("li", { text: e.rotulo })));
-  // Risquinhos na parede da cela: dois grupos de cinco (quatro em pé e um cortando).
-  const marcas = Array.from({ length: 10 }, (_, i) => {
-    const g = Math.floor(i / 5);
-    const k = i % 5;
-    return el("i", { class: k === 4 ? "diag" : "", style: { left: `calc(var(--u) * ${k === 4 ? g * 4.6 + 1.2 : g * 4.6 + k * 0.8})` } });
-  });
-  const pessoa = (classe, capuz = false) => el("i", { class: `cm-pessoa ${classe}`, html: SVG_PESSOA }, capuz && el("b", { class: "cm-capuz" }));
-  const mundo = el(
-    "div",
-    { class: "cm-mundo" },
-    el("div", { class: "cm-cidade", html: cidade(1971, 150, 12) }),
-    el("i", { class: "cm-chao" }),
-    // A · a casa
-    el("i", { class: "cm-poste pa" }),
-    el("div", { class: "cm-casa", html: SVG_CASA }),
-    el("div", { class: "cm-portacasa" }, el("i", { class: "cm-portacasa-folha" })),
-    pessoa("cm-agente g2"),
-    pessoa("cm-agente g1"),
-    pessoa("cm-preso-casa", true),
-    el("div", { class: "cm-carro", html: SVG_CARRO }, el("i", { class: "cm-farol" })),
-    // B · a rua
-    el("i", { class: "cm-poste pb1" }),
-    el("i", { class: "cm-poste pb2" }),
-    el("i", { class: "cm-poste pb3" }),
-    // C · o DOI-CODI
-    el("div", { class: "cm-muro" }, el("div", { class: "cm-portao" }, el("i"), el("i"))),
-    el("p", { class: "cm-local", text: "DOI-CODI" }),
-    el("div", { class: "cm-holofote" }, el("i")),
-    // D · a cela
-    el("i", { class: "cm-interior" }),
-    el("i", { class: "cm-janelinha" }),
-    el("i", { class: "cm-luar" }),
-    el("i", { class: "cm-banco" }),
-    el("i", { class: "cm-pessoa cm-preso-cela", html: SVG_SENTADO }),
-    el("div", { class: "cm-marcas" }, marcas),
-    el("i", { class: "cm-grades" }),
-    // E · a porta
-    el("i", { class: "cm-fio" }),
-    el("i", { class: "cm-lampadinha" }),
-    el("div", { class: "cm-porta" }, el("i", { class: "cm-porta-luz" }), el("i", { class: "cm-porta-folha" })),
-    pessoa("cm-agente g3"),
-    pessoa("cm-preso-porta", true),
-  );
+  const quadros = cenasCaminho().map((html, i) => el("div", { class: `cm-t cm-t${i + 1}`, html }));
+  const riscos = [...quadros[2].querySelectorAll(".cm3-m")];
+  const contador = quadros[2].querySelector(".cm3-contador");
+  const dias = (n) => {
+    riscos.forEach((m, i) => m.classList.toggle("on", i < n));
+    contador.textContent = `DIA ${n}`;
+  };
   add(st,
+    el("div", { class: "cm-cena", "aria-hidden": "true" }, quadros),
     kicker(s.kicker),
     el("h2", { class: "cm-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
     rota,
     el("div", { class: "cm-legenda" }, legendas),
-    el("div", { class: "cm-cena", "aria-hidden": "true" }, mundo),
     el(
       "div",
       { class: "cm-caso", "data-passo": total },
@@ -773,49 +706,59 @@ function caminho(s, st, ctx, cena) {
       el("p", { class: "cm-caso-texto", html: md(s.caso.texto) }),
     ),
   );
-  const depois = (ms, fn) => cena.depois(ms, fn);
+  let vez = 0;
   return {
     passos: total,
-    aoEntrar: (passo) => {
-      if (passo > 0 || movimentoReduzido()) return;
-      // O carro chega; três batidas na porta.
-      depois(200, () => som.ronco(2.6));
-      [3200, 3480, 3760].forEach((ms) => depois(ms, () => som.baque(0.22)));
-    },
     aoPasso: (n, { entrando }) => {
+      const minha = ++vez;
+      const depois = (ms, fn) => cena.depois(ms, () => minha === vez && fn());
       const e = Math.min(n, total - 1);
       st.style.setProperty("--cam", e);
       for (let i = 0; i <= total; i++) {
         st.classList.toggle(`p${i}`, n >= i);
         st.classList.toggle(`agora-${i}`, n === i);
       }
+      quadros.forEach((q, i) => q.classList.toggle("on", i === QUADRO_DO_PASSO[n]));
       legendas.forEach((l, i) => l.classList.toggle("on", i === e));
       [...rota.children].forEach((li, i) => {
         li.classList.toggle("feito", i < e);
         li.classList.toggle("agora", i === e);
       });
       document.body.classList.toggle("vinheta-fechada", n >= total);
-      if (n < 3) marcas.forEach((m) => m.classList.remove("on"));
-      else if (entrando || n > 3 || movimentoReduzido()) marcas.forEach((m) => m.classList.add("on"));
-      if (entrando) return;
-      if (n === 1) depois(2300, () => som.ronco(3));
-      if (n === 2)
-        depois(3250, () => {
+      // A cela: um risco na parede a cada noite, dez dias sem ver ninguém.
+      if (n < 3) dias(0);
+      else if (n > 3 || entrando || movimentoReduzido()) dias(10);
+      else {
+        dias(0);
+        for (let i = 1; i <= 10; i++)
+          depois(1400 + (i - 1) * 720 + 650, () => {
+            dias(i);
+            som.clique();
+          });
+      }
+      if (entrando || movimentoReduzido()) return;
+      if (n === 0) {
+        depois(100, () => som.ronco(3.2));
+        [5500, 5780, 6060].forEach((ms) => depois(ms, () => som.baque(0.22)));
+      }
+      if (n === 1) {
+        depois(2950, () => som.baque(0.45));
+        depois(3300, () => som.ronco(3.5));
+      }
+      if (n === 2) {
+        depois(0, () => som.ronco(3));
+        depois(7000, () => {
           som.baque(1);
           ctx.fx.tremor();
         });
-      if (n === 3)
-        marcas.forEach((m, i) =>
-          depois(2900 + i * 380, () => {
-            m.classList.add("on");
-            som.clique();
-          }),
-        );
-      if (n === 4)
-        depois(5650, () => {
+      }
+      if (n === 4) {
+        for (let k = 0; k < 9; k++) depois(800 + k * 420, () => som.clique());
+        depois(6600, () => {
           som.baque(1.1);
           ctx.fx.tremor();
         });
+      }
       if (n === total) [700, 2400].forEach((ms) => depois(ms, () => som.coracao()));
     },
     aoSair: () => document.body.classList.remove("vinheta-fechada"),
@@ -1009,56 +952,157 @@ function zuzu(s, st, ctx, cena) {
   };
 }
 
-/* 14 · Araguaia: a floresta, o rio e os pontos que se apagam. */
+/* Araguaia: a mata à noite, à beira do rio. Cada luz é um guerrilheiro que não voltou.
+   Os helicópteros passam com o holofote e as luzes se apagam; chove; sobe a fumaça da
+   Operação Limpeza na serra; no fim, só anéis vazios e duas luzes brancas, os únicos
+   identificados. Medidas em u (o palco tem 100u × 56,25u). */
+const AR = {
+  rio: 48.5, // altura da linha d'água
+  // As duas passagens dos helicópteros (ms) e o x (u) em que entram e saem.
+  passagens: [
+    { t0: 600, dur: 8000, de: -14, ate: 114 },
+    { t0: 4200, dur: 8000, de: 114, ate: -14 },
+  ],
+};
+
+const SVG_HELICOPTERO = `<svg viewBox="0 0 120 46" aria-hidden="true">
+  <rect class="hl-rotor" x="6" y="2" width="96" height="2.4" rx="1.2"/>
+  <rect x="52" y="3" width="4" height="8"/>
+  <path d="M30 14 C30 9 40 9 58 9 C74 9 84 13 88 22 C90 28 86 32 76 32 L42 32 C34 32 30 26 30 20 Z"/>
+  <path d="M32 18 L2 15 L2 20 L32 25 Z"/>
+  <rect x="0" y="8" width="4" height="14" rx="1.5"/>
+  <path class="hl-vidro" d="M64 12 C74 12 82 16 85 23 L64 23 Z"/>
+  <path class="hl-esqui" d="M38 32 L40 38 M70 32 L68 38 M30 39 L84 39"/>
+  <circle class="hl-luz" cx="40" cy="31" r="1.8"/>
+</svg>`;
+
+const SVG_SERRA = `<svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 40 L0 30 C20 27 35 29 50 26 C65 23 78 27 92 24 C104 21 112 18 124 13 C132 10 140 9 148 11 C158 14 166 20 178 22 C188 24 196 26 200 27 L200 40 Z"/>
+</svg>`;
+
+/** Silhueta de mata: copas redondas, castanheiras acima da mata e babaçus. */
+function copas(semente, { altura, base, varia, raio, emergentes, palmeiras }) {
+  const r = mulberry32(semente);
+  const n = (v) => v.toFixed(1);
+  let s = `<rect x="-5" y="${n(base + varia / 2)}" width="210" height="${altura}"/>`;
+  for (let x = -4; x < 204; x += 1.4 + r() * 2.4) s += `<circle cx="${n(x)}" cy="${n(base + r() * varia)}" r="${n(raio + r() * raio)}"/>`;
+  // Árvores emergentes da Amazônia (como a castanheira): tronco alto e copa larga e irregular.
+  for (let k = 0; k < emergentes; k++) {
+    const x = 6 + r() * 188;
+    const topo = base - 5 - r() * 5;
+    const larg = 3.5 + r() * 2.5;
+    s += `<rect x="${n(x - 0.45)}" y="${n(topo)}" width="0.9" height="${n(base - topo + 4)}"/>`;
+    s += `<g class="ar-palha"><path d="M${n(x)} ${n(topo + 3)} L${n(x - larg * 0.6)} ${n(topo + 0.6)} M${n(x)} ${n(topo + 2.2)} L${n(x + larg * 0.55)} ${n(topo + 0.4)}"/></g>`;
+    for (let c = 0; c < 6; c++) s += `<circle cx="${n(x + (r() - 0.5) * 2 * larg)}" cy="${n(topo - 0.6 + (r() - 0.5) * 2)}" r="${n(1.3 + r() * 1.3)}"/>`;
+  }
+  // Babaçus: tronco levemente torto e folhas que sobem e caem nas pontas.
+  for (let k = 0; k < palmeiras; k++) {
+    const x = 4 + r() * 192;
+    const topo = base - 3.5 - r() * 5;
+    const torto = (r() - 0.5) * 1.6;
+    const folhas = Array.from({ length: 9 }, (_, j) => {
+      const a = -1 + j / 4 + (r() - 0.5) * 0.12;
+      const len = 4.6 + r() * 1.8;
+      return `<path d="M${n(x + torto)} ${n(topo)} Q ${n(x + torto + a * len * 0.45)} ${n(topo - 2.8 - (1 - Math.abs(a)) * 1.6)} ${n(x + torto + a * len)} ${n(topo + 0.2 + Math.abs(a) * 2.2)}"/>`;
+    }).join("");
+    s += `<g class="ar-palha"><path class="ar-estipe" d="M${n(x)} ${n(base + 3)} Q ${n(x + torto * 0.2)} ${n((base + topo) / 2)} ${n(x + torto)} ${n(topo)}"/>${folhas}</g>`;
+  }
+  return `<svg viewBox="0 0 200 ${altura}" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`;
+}
+
 function araguaia(s, st, ctx, cena) {
   const r = mulberry32(1972);
-  const arvores = Array.from({ length: 150 }, () => {
-    const x = r() * 100;
-    const h = 18 + r() * 26;
-    return `<line x1="${x.toFixed(2)}" y1="100" x2="${(x + (r() - 0.5) * 0.8).toFixed(2)}" y2="${(100 - h).toFixed(2)}"/>`;
-  }).join("");
-  const pontos = Array.from({ length: 60 }, (_, i) => {
-    const x = 6 + r() * 88;
-    const y = 64 + r() * 32;
-    return { x, y, i };
-  });
-  const identificados = { 17: "Lúcia Petit · 1996", 42: "Bergson Gurjão Farias · 2009" };
-  const mata = el("div", {
-    class: "ar-mata",
-    html: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g class="ar-arvores">${arvores}</g></svg>
-      <div class="ar-rio"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M-2 82 C 12 76, 20 90, 34 84 S 56 74, 66 86 S 88 92, 102 80"/></svg></div>`,
-  });
-  const camadaPontos = el(
+  // 60 luzes na mata, sem encostar umas nas outras. As duas identificadas têm lugar fixo.
+  const pts = s.identificados.map((p) => ({ ...p }));
+  while (pts.length < s.luzes) {
+    const p = { x: 3 + r() * 94, y: 40.2 + r() * 6.2 };
+    if (pts.every((q) => Math.hypot(q.x - p.x, (q.y - p.y) * 2.2) > 2.6)) pts.push(p);
+  }
+  // Ordem em que acendem: aleatória, mas sempre a mesma.
+  const ordem = pts.map((_, i) => i).sort(() => r() - 0.5);
+  const u = (v) => `calc(var(--u) * ${v.toFixed(2)})`;
+  const luzes = pts.map((p, i) =>
+    el("i", { class: `ar-luz${p.nome ? " achado" : ""}`, style: { left: u(p.x), top: u(p.y), "--ordem": ordem.indexOf(i), "--pisca": `${(1.6 + r() * 2.4).toFixed(2)}s` } }),
+  );
+  const reflexos = pts.map((p) => el("i", { class: `ar-reflexo${p.nome ? " achado" : ""}`, style: { left: u(p.x), top: u(AR.rio + (AR.rio - p.y) * 0.55) } }));
+  const nomes = pts.filter((p) => p.nome).map((p) => el("p", { class: "ar-nome", style: { left: u(p.x + 6), top: u(p.y) } }, el("b", { text: p.nome }), el("span", { text: p.ano })));
+  const napalm = [18, 52, 86].map((x, k) => el("i", { class: `ar-napalm n${k}`, style: { left: u(x + 6) } }));
+  const fases = s.fases.map((f) => el("p", {}, el("b", { class: "ar-rot", text: f.rotulo }), el("span", { html: md(f.texto) })));
+  const heli = (classe, facho = true) => el("div", { class: `ar-heli ${classe}` }, el("div", { class: "ar-heli-corpo", html: SVG_HELICOPTERO }), facho && el("i", { class: "ar-facho" }));
+  const cenario = el(
     "div",
-    { class: "ar-pontos" },
-    pontos.map((p) =>
-      el(
-        "span",
-        {
-          class: `ar-ponto${identificados[p.i] ? " achado" : ""}`,
-          style: { left: `${p.x}%`, top: `${p.y}%`, "--i": p.i },
-        },
-        identificados[p.i] && el("em", { text: identificados[p.i] }),
-      ),
-    ),
+    { class: "ar-cena", "aria-hidden": "true" },
+    el("i", { class: "ar-ceu" }),
+    el("i", { class: "ar-crepusculo" }),
+    el("i", { class: "ar-alvorada" }),
+    el("i", { class: "ar-estrelas" }),
+    el("div", { class: "ar-serra", html: SVG_SERRA }),
+    el("div", { class: "ar-fumaca" }, el("i", { class: "ar-brasa" }), Array.from({ length: 7 }, (_, k) => el("i", { class: "ar-sopro", style: { "--k": k } }))),
+    el("p", { class: "ar-serra-nome", text: "Serra das Andorinhas" }),
+    napalm,
+    el("div", { class: "ar-mata-fundo", html: copas(1967, { altura: 40, base: 14, varia: 8, raio: 2, emergentes: 7, palmeiras: 6 }) }),
+    el("div", { class: "ar-luzes" }, luzes),
+    el("i", { class: "ar-nevoa" }),
+    el("div", { class: "ar-mata-frente", html: copas(1974, { altura: 20, base: 13, varia: 3, raio: 1.2, emergentes: 0, palmeiras: 5 }) }),
+    el("i", { class: "ar-rio" }),
+    el("div", { class: "ar-reflexos" }, reflexos),
+    el("div", { class: "ar-ondas" }, Array.from({ length: 9 }, (_, k) => el("i", { style: { left: u(4 + ((k * 37) % 92)), top: u(AR.rio + 1.2 + ((k * 13) % 6)), "--k": k } }))),
+    el("i", { class: "ar-chuva" }),
+    heli("a"),
+    heli("b"),
+    heli("c", false),
+    nomes,
   );
   add(st,
-    mata,
-    camadaPontos,
+    cenario,
     kicker(s.kicker),
     el("h2", { class: "ar-titulo an-varre", style: atraso("0.2s"), html: md(s.titulo) }),
-    el(
-      "div",
-      { class: "ar-texto" },
-      el("p", { class: "an-surge", style: atraso("0.8s"), html: md(s.pontos[0]) }),
-      el("p", { class: "an-surge", style: atraso("1.4s"), html: md(s.pontos[1]) }),
-      el("p", { "data-passo": 1, html: md(s.pontos[2]) }),
-      el("p", { "data-passo": 2, html: md(s.pontos[3]) }),
-    ),
+    el("div", { class: "ar-fases" }, fases),
+    el("p", { class: "ar-legenda an-surge", style: atraso("2.6s") }, el("span", { class: "l-luz", text: "cada luz: um guerrilheiro que não voltou" }), el("span", { class: "l-anel", text: "desaparecido" }), el("span", { class: "l-achado", text: "identificado" })),
   );
+
+  let vez = 0;
+  const estado = (i, classe) => [luzes[i], reflexos[i]].forEach((n) => n.classList.add(classe));
+  const acenderTodas = () => [...luzes, ...reflexos].forEach((n) => n.classList.remove("off", "apagando"));
+  const apagarTodas = () =>
+    [...luzes, ...reflexos].forEach((n) => {
+      n.classList.remove("apagando");
+      n.classList.add("off");
+    });
   return {
-    passos: 2,
-    aoPasso: (n) => st.classList.toggle("apagados", n >= 1),
+    passos: s.fases.length - 1,
+    aoPasso: (n, { entrando }) => {
+      const minha = ++vez;
+      for (let i = 0; i < s.fases.length; i++) {
+        st.classList.toggle(`f${i}`, n >= i);
+        st.classList.toggle(`agora-${i}`, n === i);
+      }
+      fases.forEach((p, i) => p.classList.toggle("on", i === n));
+      napalm.forEach((x) => x.classList.remove("on"));
+      if (n === 0) return acenderTodas();
+      if (n > 1 || entrando || movimentoReduzido()) {
+        apagarTodas();
+        if (entrando) return;
+        if (n === 2) som.chuva(11);
+        if (n === 3) cena.depois(300, () => som.helicoptero(7));
+        return;
+      }
+      // Passo 1: a caçada. Cada luz se apaga quando um holofote passa por cima dela.
+      acenderTodas();
+      AR.passagens.forEach((p) => cena.depois(p.t0 - 200, () => minha === vez && som.helicoptero(p.dur / 1000 + 0.6)));
+      pts.forEach((pt, i) => {
+        const p = AR.passagens[i % 2];
+        const quando = p.t0 + ((pt.x - p.de) / (p.ate - p.de)) * p.dur + 250 + r() * 500;
+        cena.depois(quando, () => minha === vez && estado(i, "apagando"));
+      });
+      [2600, 6100, 9300].forEach((ms, k) =>
+        cena.depois(ms, () => {
+          if (minha !== vez) return;
+          napalm[k].classList.add("on");
+          som.baque(0.25);
+        }),
+      );
+    },
   };
 }
 

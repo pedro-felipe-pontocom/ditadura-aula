@@ -387,16 +387,49 @@
     {
       "id": "araguaia",
       "tipo": "araguaia",
-      "kicker": "1967 – 1974",
+      "kicker": "1967 – 1975",
       "titulo": "Araguaia: os que não voltaram",
-      "pontos": [
-        "Cerca de 80 militantes do PCdoB foram para a região do rio Araguaia, entre o Pará e o norte de Goiás (hoje Tocantins), preparar uma guerrilha. O Exército mandou milhares de soldados.",
-        "Cerca de 60 guerrilheiros morreram, muitos executados depois de presos. Mais de 50 continuam desaparecidos.",
-        "Só dois foram identificados: Lúcia Petit, em 1996, e Bergson Gurjão Farias, em 2009.",
-        "Em 2010, a Corte Interamericana de Direitos Humanos condenou o Brasil (Caso Gomes Lund)."
+      "luzes": 60,
+      "fases": [
+        {
+          "rotulo": "1967 · os “paulistas”",
+          "texto": "A partir de 1967, militantes do PCdoB foram viver às margens do rio Araguaia, entre o Pará e o norte de Goiás (hoje Tocantins), para preparar uma guerrilha. Chegaram a cerca de 80. Os moradores os chamavam de “paulistas”."
+        },
+        {
+          "rotulo": "1972 a 1974 · a caçada",
+          "texto": "O Exército chega em 1972, com 1.500 soldados só na primeira campanha. Foram três campanhas, com helicópteros e até napalm. Na última, a ordem era não fazer prisioneiros."
+        },
+        {
+          "rotulo": "o saldo",
+          "texto": "Cerca de **60 guerrilheiros morreram**, dois terços deles assassinados depois de presos e torturados. Menos de 20 sobreviveram."
+        },
+        {
+          "rotulo": "1975 · Operação Limpeza",
+          "texto": "Para apagar os rastros, os corpos foram desenterrados, levados de helicóptero e queimados na Serra das Andorinhas. A censura escondeu a guerra do resto do país."
+        },
+        {
+          "rotulo": "hoje",
+          "texto": "**Mais de 50 continuam desaparecidos.** Só dois foram identificados: Lúcia Petit, em 1996, e Bergson Gurjão Farias, em 2009. Em 2010, a Corte Interamericana de Direitos Humanos condenou o Brasil (Caso Gomes Lund)."
+        }
       ],
-      "fontes": ["araguaia"],
-      "notas": "Os pontos vermelhos são os guerrilheiros mortos. Na seta, eles se apagam, menos dois: os únicos identificados até hoje. Explique que “desaparecido” quer dizer que a família nunca recebeu o corpo."
+      "identificados": [
+        {
+          "nome": "Lúcia Petit",
+          "ano": "identificada em 1996",
+          "x": 30,
+          "y": 44.2
+        },
+        {
+          "nome": "Bergson Gurjão Farias",
+          "ano": "identificado em 2009",
+          "x": 63,
+          "y": 42.4
+        }
+      ],
+      "fontes": [
+        "araguaia"
+      ],
+      "notas": "Cada luz na mata é um guerrilheiro que não voltou. Primeira seta: anoitece, os helicópteros passam com o holofote e as luzes se apagam uma a uma (o som é baixo). Depois, a chuva e o saldo; a fumaça da Operação Limpeza na serra; e, no fim, só anéis vazios: os desaparecidos. Duas luzes voltam, brancas: os únicos identificados até hoje. Explique que “desaparecido” quer dizer que a família nunca recebeu o corpo."
     },
     {
       "id": "abertura-politica",

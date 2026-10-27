@@ -2041,6 +2041,55 @@
 
 /* -------------------------------------------------------------- caminho */
 
+/* A cena ocupa o slide inteiro, como cinema; o texto fica por cima, num degradê escuro. */
+.cm-cena {
+  position: absolute;
+  inset: 0 calc(var(--u) * -6);
+  overflow: hidden;
+  background: #050505;
+}
+.cm-cena::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(7, 7, 7, 0.95) 0%, rgba(7, 7, 7, 0.86) 30%, rgba(7, 7, 7, 0.25) 43%, rgba(7, 7, 7, 0) 50%, rgba(7, 7, 7, 0) 88%, rgba(7, 7, 7, 0.7) 100%);
+}
+.cm-t {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform-origin: 50% 85%;
+  transition:
+    opacity 1.1s ease,
+    filter 1.4s ease;
+}
+.cm-t.on {
+  opacity: 1;
+}
+.cm-t svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* A câmera se aproxima devagar em cada cena. */
+.agora-0 .cm-t1,
+.agora-1 .cm-t1,
+.agora-2 .cm-t2,
+.agora-3 .cm-t3,
+.agora-4 .cm-t4 {
+  animation: cm-zoom 20s ease-out both;
+}
+@keyframes cm-zoom {
+  to {
+    scale: 1.05;
+  }
+}
+.p5 .cm-t4 {
+  opacity: 0.16;
+  filter: grayscale(1);
+}
+
 .cm-titulo {
   position: absolute;
   left: calc(var(--u) * 6);
@@ -2075,7 +2124,7 @@
 .cm-rota::after {
   width: calc((100% - var(--u) * 5.2) * var(--cam, 0) / 4);
   background: var(--sangue-vivo);
-  transition: width 2.6s cubic-bezier(0.65, 0, 0.35, 1) var(--cam-atraso, 0.15s);
+  transition: width 1.6s cubic-bezier(0.65, 0, 0.35, 1);
 }
 .cm-rota li {
   position: relative;
@@ -2145,712 +2194,468 @@
   transition-delay: 0.25s;
 }
 
-/* A cena: o céu e as estrelas ficam parados; o mundo anda por baixo (paralaxe). */
-.cm-cena {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--u) * 21.6);
-  height: calc(var(--u) * 30);
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 86% 14%, rgba(235, 228, 214, 0.9) 0 calc(var(--u) * 1.1), rgba(235, 228, 214, 0.12) calc(var(--u) * 1.3), transparent calc(var(--u) * 5)),
-    radial-gradient(circle, rgba(235, 228, 214, 0.5) 0 1px, transparent 1.5px) 0 0 / calc(var(--u) * 7) calc(var(--u) * 5.5),
-    linear-gradient(#0b0e15, #08090c 75%);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-  transition:
-    opacity 1.4s ease,
-    filter 1.4s ease;
+/* Os bonecos: pernas e braços balançam presos no quadril e no ombro. */
+.bn-perna,
+.bn-braco {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
 }
-.cm-mundo {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: calc(var(--u) * 370);
-  height: 100%;
-  transform: translateX(calc(var(--u) * (15 - 70 * var(--cam, 0))));
-  transition: transform 2.6s cubic-bezier(0.65, 0, 0.35, 1) var(--cam-atraso, 0.15s);
+.cm-boneco.agente {
+  fill: #0f1115;
 }
-/* Na etapa do capuz, a câmera só anda depois que o carro sai. */
-.agora-1 {
-  --cam-atraso: 2.3s;
+.cm-boneco.agente .bn-cabeca,
+.cm-boneco.agente .bn-pescoco {
+  fill: #16181c;
 }
-.cm-mundo > * {
-  position: absolute;
+.cm-boneco.preso :is(.bn-tronco, .bn-braco) {
+  fill: #cdc4b3;
 }
-.cm-cidade {
-  left: calc(var(--u) * 58);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 150);
-  height: calc(var(--u) * 12);
-  opacity: 0.8;
+.cm-boneco.preso .bn-perna {
+  fill: #2b2925;
 }
-.cm-cidade svg {
-  width: 100%;
-  height: 100%;
+.cm-boneco.preso :is(.bn-cabeca, .bn-pescoco) {
+  fill: #6a5a48;
 }
-.cd-predio {
-  fill: #12141a;
+.bn-capuz {
+  fill: #121010;
 }
-.cd-janela {
-  fill: #d9b65c;
-  opacity: 0.55;
+.cm-boneco.esposa {
+  fill: #2a221d;
 }
-.cm-chao {
-  left: calc(var(--u) * -20);
-  width: calc(var(--u) * 420);
-  top: calc(var(--u) * 25);
-  height: calc(var(--u) * 5);
-  border-top: 1px solid #3a3631;
-  background: linear-gradient(#1a1917, #0d0c0b);
+.cm-boneco.esposa .bn-cabelo {
+  fill: #140f0c;
 }
-.cm-poste {
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 0.35);
-  height: calc(var(--u) * 14);
-  background: #3b3732;
+@keyframes bn-pe {
+  from {
+    transform: rotate(-20deg);
+  }
+  to {
+    transform: rotate(20deg);
+  }
 }
-.cm-poste::before {
-  content: "";
-  position: absolute;
-  left: calc(var(--u) * -0.5);
-  top: calc(var(--u) * -0.4);
-  width: calc(var(--u) * 1.4);
-  height: calc(var(--u) * 0.7);
-  border-radius: calc(var(--u) * 0.4);
-  background: #f3d98c;
-  box-shadow: 0 0 calc(var(--u) * 1.2) rgba(243, 217, 140, 0.8);
+@keyframes bn-pe2 {
+  from {
+    transform: rotate(20deg);
+  }
+  to {
+    transform: rotate(-20deg);
+  }
 }
-.cm-poste::after {
-  content: "";
-  position: absolute;
-  left: calc(var(--u) * -5);
-  top: 0;
-  width: calc(var(--u) * 10.4);
-  height: calc(var(--u) * 14);
-  background: linear-gradient(rgba(243, 217, 140, 0.16), transparent);
-  clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+.cm-roda {
+  transform-box: fill-box;
+  transform-origin: center;
 }
-.cm-poste.pa {
-  left: calc(var(--u) * 8);
+@keyframes cm-gira {
+  to {
+    transform: rotate(360deg);
+  }
 }
-.cm-poste.pb1 {
-  left: calc(var(--u) * 84);
-}
-.cm-poste.pb2 {
-  left: calc(var(--u) * 106);
-}
-.cm-poste.pb3 {
-  left: calc(var(--u) * 128);
+@keyframes cm-aparece {
+  from {
+    opacity: 0;
+  }
 }
 
-/* A · a casa */
-.cm-casa {
-  left: calc(var(--u) * 18);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 22);
+/* --- 1 · a casa. O estado sem animação é o fim da etapa 1: carro parado, porta aberta. */
+.cm1-carro {
+  transform: none;
 }
-.cm-casa svg {
-  display: block;
-  width: 100%;
+.agora-0 .cm1-carro {
+  animation: cm1-chega 3.2s cubic-bezier(0.12, 0.75, 0.3, 1) both;
 }
-.cs-telhado {
-  fill: #2c2422;
+@keyframes cm1-chega {
+  from {
+    transform: translateX(-980px);
+  }
 }
-.cs-parede {
-  fill: #3a3430;
+.agora-0 .cm1-carro .cm-roda {
+  animation: cm-gira 0.42s linear 7;
 }
-.cs-chamine {
-  fill: #2c2422;
+.agora-1 .cm1-carro {
+  animation: cm1-parte 2.8s cubic-bezier(0.55, 0, 0.8, 0.6) 3.4s both;
 }
-.cs-janela {
-  fill: #f0c862;
-  transition: fill 1.2s ease 2.6s;
+@keyframes cm1-parte {
+  to {
+    transform: translateX(820px);
+  }
 }
-.cs-caixilho {
-  stroke: #3a3430;
-  stroke-width: 2;
+.agora-1 .cm1-carro .cm-roda {
+  animation: cm-gira 0.38s linear 3.4s 8;
 }
-/* Depois que o levam, a luz da casa se apaga. */
-.p1 .cs-janela {
-  fill: #1c1a18;
+/* Os agentes saem do outro lado do carro e vão até a porta. */
+.agora-0 .cm1-ag1 {
+  animation: cm1-vem1 2.2s linear 3.2s both;
 }
-.cm-portacasa {
-  left: calc(var(--u) * 22.4);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 2.8);
-  height: calc(var(--u) * 6.6);
-  background: #f3d98c;
-  box-shadow: 0 0 calc(var(--u) * 1.5) rgba(243, 217, 140, 0.5);
+.agora-0 .cm1-ag2 {
+  animation: cm1-vem2 2.2s linear 3.35s both;
 }
-.cm-portacasa-folha {
-  position: absolute;
-  inset: 0;
-  background: #241d1a;
-  transform-origin: left center;
-  transform: scaleX(0.12);
-}
-.agora-0 .cm-portacasa-folha {
-  animation: abre-casa 4.4s ease both;
-}
-@keyframes abre-casa {
+@keyframes cm1-vem1 {
   0%,
-  86% {
-    transform: none;
+  18% {
+    opacity: 0;
+    transform: translateX(170px);
+  }
+  22% {
+    opacity: 1;
+    transform: translateX(170px);
   }
   100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cm1-vem2 {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateX(150px);
+  }
+  22% {
+    opacity: 1;
+    transform: translateX(150px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.agora-0 .cm1-ag :is(.bn-pe-e, .bn-br-d) {
+  animation: bn-pe 0.3s ease-in-out 3.7s 6 alternate;
+}
+.agora-0 .cm1-ag :is(.bn-pe-d, .bn-br-e) {
+  animation: bn-pe2 0.3s ease-in-out 3.7s 6 alternate;
+}
+/* Três batidas e a porta se abre: a luz de dentro sai pela calçada. */
+.cm1-porta-g,
+.cm1-porta {
+  transform-box: fill-box;
+}
+.cm1-porta {
+  transform-origin: 0 50%;
+  transform: scaleX(0.14);
+}
+.agora-0 .cm1-porta-g {
+  animation: cm1-bate 0.14s ease-in-out 5.5s 6 alternate;
+}
+@keyframes cm1-bate {
+  to {
+    transform: translateX(1.5px);
+  }
+}
+.agora-0 .cm1-porta {
+  animation: cm1-abre 0.8s ease 6.4s both;
+}
+@keyframes cm1-abre {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.14);
+  }
+}
+.agora-0 .cm1-derrame {
+  animation: cm-aparece 0.9s ease 6.4s both;
+}
+.agora-0 .cm1-preso {
+  animation: cm-aparece 0.7s ease 6.9s both;
+}
+/* Etapa 2: o capuz cai, levam o preso até o carro, alguém aparece na porta,
+   o carro parte e a casa apaga. */
+.cm1-preso .bn-capuz {
+  opacity: 0;
+}
+.agora-1 .cm1-preso .bn-capuz {
+  animation: cm1-capuz 0.5s ease-in 0.4s both;
+}
+@keyframes cm1-capuz {
+  from {
+    opacity: 0;
+    transform: translateY(-34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.agora-1 .cm1-preso {
+  animation: cm1-leva-preso 2.6s ease-in-out 0.9s both;
+}
+@keyframes cm1-leva-preso {
+  0% {
+    transform: none;
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(206px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(210px);
+  }
+}
+.agora-1 .cm1-ag1 {
+  animation: cm1-leva1 2.6s ease-in-out 0.9s both;
+}
+.agora-1 .cm1-ag2 {
+  animation: cm1-leva2 2.6s ease-in-out 1.05s both;
+}
+@keyframes cm1-leva1 {
+  92% {
+    opacity: 1;
+    transform: translateX(104px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(108px);
+  }
+}
+@keyframes cm1-leva2 {
+  92% {
+    opacity: 1;
+    transform: translateX(124px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(128px);
+  }
+}
+.agora-1 :is(.cm1-preso, .cm1-ag) :is(.bn-pe-e, .bn-br-d) {
+  animation: bn-pe 0.3s ease-in-out 1.1s 7 alternate;
+}
+.agora-1 :is(.cm1-preso, .cm1-ag) :is(.bn-pe-d, .bn-br-e) {
+  animation: bn-pe2 0.3s ease-in-out 1.1s 7 alternate;
+}
+.cm1-esposa {
+  opacity: 0;
+}
+.agora-1 .cm1-esposa {
+  animation: cm1-esposa 1.2s ease 3.1s both;
+}
+@keyframes cm1-esposa {
+  to {
+    opacity: 1;
+  }
+}
+.agora-1 .cm1-jan-a {
+  animation: cm1-apaga 0.4s ease 6.3s both;
+}
+.agora-1 .cm1-jan-b {
+  animation: cm1-apaga 0.4s ease 6.9s both;
+}
+@keyframes cm1-apaga {
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- 2 · o portão: o carro (visto por trás) chega, o portão abre, o carro entra, o portão bate. */
+.cm2-carro {
+  opacity: 0;
+}
+.agora-2 .cm2-carro {
+  animation: cm2-entra 5.8s 0.2s both;
+}
+@keyframes cm2-entra {
+  0% {
+    opacity: 1;
+    transform: translate(0px, 650px) scale(1.6);
+    animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
+  }
+  40%,
+  69% {
+    opacity: 1;
+    transform: translate(0px, 505px) scale(0.86);
+    animation-timing-function: ease-in;
+  }
+  92% {
+    opacity: 0.85;
+    transform: translate(0px, 468px) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0px, 462px) scale(0.56);
+  }
+}
+.cm2-freio {
+  opacity: 0.35;
+}
+.agora-2 .cm2-freio {
+  animation: cm2-freia 2.6s ease 1.9s both;
+}
+@keyframes cm2-freia {
+  15%,
+  85% {
+    opacity: 1;
+  }
+}
+.cm2-luzfarol {
+  opacity: 0;
+}
+.agora-2 .cm2-luzfarol {
+  animation: cm2-luz 6s ease 0.2s both;
+}
+@keyframes cm2-luz {
+  0% {
+    opacity: 0.15;
+  }
+  40%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.agora-2 .cm2-folha-e {
+  animation: cm2-abre-e 4.4s ease-in-out 2.6s both;
+}
+.agora-2 .cm2-folha-d {
+  animation: cm2-abre-d 4.4s ease-in-out 2.6s both;
+}
+@keyframes cm2-abre-e {
+  32%,
+  77% {
+    transform: translateX(-112px);
+  }
+}
+@keyframes cm2-abre-d {
+  32%,
+  77% {
+    transform: translateX(112px);
+  }
+}
+/* O holofote da torre varre o pátio sem parar. */
+.cm2-busca {
+  transform-origin: 922px 226px;
+  animation: cm2-varre 6s ease-in-out infinite alternate;
+}
+@keyframes cm2-varre {
+  from {
+    transform: rotate(-9deg);
+  }
+  to {
+    transform: rotate(13deg);
+  }
+}
+
+/* --- 3 · a cela: dia e noite se alternam na janela; a cada noite, um risco na parede. */
+.cm3-dia {
+  opacity: 0;
+}
+.agora-3 .cm3-dia {
+  animation: cm3-ciclo 0.72s ease-in-out 1.4s 10;
+}
+@keyframes cm3-ciclo {
+  50% {
+    opacity: 1;
+  }
+}
+.cm3-m {
+  fill: none;
+  stroke: #d4cbbb;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.3s ease;
+}
+.cm3-m.on {
+  stroke-dashoffset: 0;
+}
+.cm3-rot,
+.cm3-contador {
+  font-family: var(--maquina);
+  fill: var(--osso-2);
+}
+.cm3-rot {
+  font-size: 13px;
+  letter-spacing: 0.2em;
+}
+.cm3-contador {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  fill: var(--sangue-vivo);
+}
+.cm3-preso {
+  transform-origin: 490px 470px;
+  animation: cm3-respira 3.4s ease-in-out infinite alternate;
+}
+@keyframes cm3-respira {
+  to {
+    transform: scaleY(1.012);
+  }
+}
+
+/* --- 4 · o corredor: os dois andam até a porta do fundo, ela abre, a luz branca, e bate. */
+.cm4-lampada {
+  animation: oscila 5s steps(1) infinite;
+}
+.cm4-pessoas {
+  opacity: 0;
+}
+.agora-4 .cm4-pessoas {
+  animation: cm4-anda 6s 0.6s both;
+}
+@keyframes cm4-anda {
+  0% {
+    opacity: 0;
+    transform: translate(0px, 175px) scale(1.3);
+    animation-timing-function: cubic-bezier(0.42, 0.15, 0.55, 1);
+  }
+  5% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+    transform: translate(0px, 6px) scale(0.52);
+  }
+  75% {
+    transform: translate(0px, 4px) scale(0.5);
+  }
+  88% {
+    opacity: 1;
+    transform: translate(0px, 0px) scale(0.46);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0px, -2px) scale(0.44);
+  }
+}
+.agora-4 .cm4-pessoas :is(.bn-pe-e, .bn-br-d) {
+  animation: bn-pe 0.34s ease-in-out 0.6s 11 alternate;
+}
+.agora-4 .cm4-pessoas :is(.bn-pe-d, .bn-br-e) {
+  animation: bn-pe2 0.34s ease-in-out 0.6s 11 alternate;
+}
+.cm4-porta {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+}
+.agora-4 .cm4-porta {
+  animation: cm4-abre 2.2s ease 4.4s both;
+}
+@keyframes cm4-abre {
+  20%,
+  75% {
     transform: scaleX(0.12);
   }
 }
-
-/* As pessoas: o preso em tom claro, os agentes escuros. */
-.cm-pessoa {
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 2.2);
-}
-.cm-pessoa svg {
-  display: block;
-  width: 100%;
-}
-.cm-preso-casa svg,
-.cm-preso-cela svg,
-.cm-preso-porta svg {
-  fill: #cfc6b6;
-}
-.cm-agente svg {
-  fill: #4b4640;
-}
-.cm-agente {
-  width: calc(var(--u) * 2.4);
-}
-.cm-capuz {
-  position: absolute;
-  left: calc(var(--u) * 0.3);
-  top: calc(var(--u) * -0.35);
-  width: calc(var(--u) * 1.6);
-  height: calc(var(--u) * 1.9);
-  border-radius: 46% 46% 38% 38%;
-  background: #15120f;
-  box-shadow: inset 0 calc(var(--u) * -0.3) 0 #0b0a09;
-}
-.cm-preso-casa {
-  left: calc(var(--u) * 22.7);
-}
-.cm-preso-casa .cm-capuz {
-  opacity: 0;
-  translate: 0 calc(var(--u) * -3);
-}
-.agora-0 .cm-preso-casa {
-  animation: aparece 0.8s ease 4.2s both;
-}
-.cm-agente.g1 {
-  left: calc(var(--u) * 37.5);
-}
-.cm-agente.g2 {
-  left: calc(var(--u) * 33.5);
-}
-.agora-0 .cm-agente.g1 {
-  animation: aparece 0.6s ease 2.6s both;
-}
-.agora-0 .cm-agente.g2 {
-  animation: aparece 0.6s ease 2.9s both;
-}
-@keyframes aparece {
-  from {
-    opacity: 0;
-  }
-}
-/* Etapa 2: o capuz cai, todos entram no carro, o carro parte.
-   Cada etapa anima com @keyframes de começo fixo e .pN guarda só o estado final:
-   assim nada depende de onde a etapa anterior parou (a professora pode apertar → cedo). */
-.p1 .cm-preso-casa {
-  opacity: 0;
-  translate: calc(var(--u) * 19) 0;
-}
-.p1 .cm-preso-casa .cm-capuz {
-  opacity: 1;
-  translate: 0 0;
-}
-.p1 .cm-agente.g1,
-.p1 .cm-agente.g2 {
-  opacity: 0;
-  translate: calc(var(--u) * 7) 0;
-}
-.agora-1 .cm-preso-casa {
-  animation: leva-preso 2.4s linear both;
-}
-.agora-1 .cm-preso-casa .cm-capuz {
-  animation: capuz-cai 2.4s ease-in both;
-}
-.agora-1 .cm-agente.g1,
-.agora-1 .cm-agente.g2 {
-  animation: leva-agente 2.4s linear both;
-}
-@keyframes leva-preso {
-  0%,
-  8% {
-    opacity: 1;
-    translate: 0 0;
-  }
-  70% {
-    opacity: 1;
-    translate: calc(var(--u) * 19) 0;
-  }
-  88%,
-  100% {
-    opacity: 0;
-    translate: calc(var(--u) * 19) 0;
-  }
-}
-@keyframes capuz-cai {
-  0%,
-  22% {
-    opacity: 0;
-    translate: 0 calc(var(--u) * -3);
-  }
-  26% {
-    opacity: 1;
-  }
-  40%,
-  100% {
-    opacity: 1;
-    translate: 0 0;
-  }
-}
-@keyframes leva-agente {
-  0%,
-  10% {
-    opacity: 1;
-    translate: 0 0;
-  }
-  72% {
-    opacity: 1;
-    translate: calc(var(--u) * 7) 0;
-  }
-  86%,
-  100% {
-    opacity: 0;
-    translate: calc(var(--u) * 7) 0;
-  }
-}
-/* O carro passa na frente do muro (está mais perto da câmera) até entrar no portão. */
-.cm-carro {
-  left: calc(var(--u) * 44);
-  bottom: calc(var(--u) * 4.95);
-  z-index: 2;
-  width: calc(var(--u) * 16);
-}
-.cm-carro svg {
-  display: block;
-  width: 100%;
-}
-.cr-corpo {
-  fill: #23272c;
-}
-.cr-vidro {
-  fill: #0f1216;
-}
-.cr-roda {
-  fill: #0a0a0a;
-}
-.cr-calota {
-  fill: #5a5650;
-}
-.cr-farol {
-  fill: #fff2c4;
-}
-.cr-lanterna {
-  fill: #b3141c;
-}
-.cm-farol {
-  position: absolute;
-  left: 96%;
-  top: 46%;
-  width: calc(var(--u) * 15);
-  height: calc(var(--u) * 4.6);
-  translate: 0 -50%;
-  background: linear-gradient(90deg, rgba(255, 236, 170, 0.5), rgba(255, 236, 170, 0));
-  clip-path: polygon(0 40%, 100% 0, 100% 100%, 0 60%);
-}
-.agora-0 .cm-carro {
-  animation: chega 2.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
-}
-@keyframes chega {
-  from {
-    translate: calc(var(--u) * -70) 0;
-  }
-}
-.p1 .cm-carro {
-  translate: calc(var(--u) * 64) 0;
-}
-.agora-1 .cm-carro {
-  animation: parte 4.9s both;
-}
-@keyframes parte {
-  0%,
-  47% {
-    translate: 0 0;
-    animation-timing-function: cubic-bezier(0.5, 0, 0.4, 1);
-  }
-  100% {
-    translate: calc(var(--u) * 64) 0;
-  }
-}
-.p2 .cm-carro {
-  translate: calc(var(--u) * 116) 0;
+.cm4-luzporta,
+.cm4-clarao {
   opacity: 0;
 }
-.agora-2 .cm-carro {
-  animation: entra 3s both;
+.agora-4 :is(.cm4-luzporta, .cm4-clarao) {
+  animation: cm4-luz 2.2s ease 4.4s both;
 }
-@keyframes entra {
-  0%,
-  5% {
-    translate: calc(var(--u) * 64) 0;
+@keyframes cm4-luz {
+  20%,
+  75% {
     opacity: 1;
-    animation-timing-function: cubic-bezier(0.45, 0, 0.6, 1);
-  }
-  82% {
-    translate: calc(var(--u) * 116) 0;
-    opacity: 1;
-  }
-  100% {
-    translate: calc(var(--u) * 116) 0;
-    opacity: 0;
-  }
-}
-
-/* C · o DOI-CODI: muro, arame farpado, holofote e o portão. */
-.cm-muro {
-  left: calc(var(--u) * 138);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 72);
-  height: calc(var(--u) * 13);
-  background:
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0 1px, transparent 1px calc(var(--u) * 1.4)),
-    linear-gradient(#2d2a27, #1f1d1a);
-}
-.cm-muro::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: calc(var(--u) * 1.4);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 10'%3E%3Cpath d='M0 7 L6 3 L12 7 L18 3 L24 7' fill='none' stroke='%23716a60' stroke-width='1'/%3E%3Cpath d='M5 1 L7 5 M7 1 L5 5 M17 1 L19 5 M19 1 L17 5' stroke='%23716a60' stroke-width='0.8'/%3E%3C/svg%3E") 0 0 / calc(var(--u) * 2.4) 100% repeat-x;
-}
-.cm-portao {
-  position: absolute;
-  left: calc(var(--u) * 22);
-  bottom: 0;
-  width: calc(var(--u) * 15.5);
-  height: calc(var(--u) * 9.5);
-  overflow: hidden;
-  background: #060606;
-  border: 2px solid #4a453f;
-  border-bottom: 0;
-}
-.cm-portao i {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  background: repeating-linear-gradient(90deg, #4f4943 0 calc(var(--u) * 0.45), #2a2724 calc(var(--u) * 0.45) calc(var(--u) * 1.3));
-}
-.cm-portao i:first-child {
-  left: 0;
-}
-.cm-portao i:last-child {
-  right: 0;
-}
-.agora-2 .cm-portao i:first-child {
-  animation: portao-e 3.6s ease both;
-}
-.agora-2 .cm-portao i:last-child {
-  animation: portao-d 3.6s ease both;
-}
-@keyframes portao-e {
-  10%,
-  76% {
-    translate: -100% 0;
-  }
-  0%,
-  90%,
-  100% {
-    translate: 0 0;
-  }
-}
-@keyframes portao-d {
-  10%,
-  76% {
-    translate: 100% 0;
-  }
-  0%,
-  90%,
-  100% {
-    translate: 0 0;
-  }
-}
-.cm-local {
-  left: calc(var(--u) * 160.5);
-  top: calc(var(--u) * 7.6);
-  padding: calc(var(--u) * 0.25) calc(var(--u) * 0.7);
-  border: 1px solid #5a544c;
-  background: rgba(7, 7, 7, 0.7);
-  font-family: var(--maquina);
-  font-weight: 700;
-  font-size: calc(var(--u) * 1.15);
-  letter-spacing: 0.16em;
-  color: var(--osso);
-}
-.cm-holofote {
-  left: calc(var(--u) * 204);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 0.45);
-  height: calc(var(--u) * 19);
-  background: #3b3732;
-}
-.cm-holofote i {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: calc(var(--u) * 34);
-  height: calc(var(--u) * 4);
-  translate: 0 -50%;
-  transform-origin: 0 50%;
-  background: linear-gradient(90deg, rgba(255, 250, 225, 0.42), rgba(255, 250, 225, 0));
-  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 58%);
-  animation: varre-holofote 7s ease-in-out infinite alternate;
-}
-@keyframes varre-holofote {
-  from {
-    rotate: 158deg;
-  }
-  to {
-    rotate: 200deg;
-  }
-}
-
-/* D · a cela */
-.cm-interior {
-  left: calc(var(--u) * 212);
-  top: 0;
-  width: calc(var(--u) * 160);
-  height: calc(var(--u) * 25);
-  border-left: 3px solid #2a2724;
-  background:
-    radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.025), transparent 60%),
-    linear-gradient(#18161a, #100f0e);
-}
-.cm-janelinha {
-  left: calc(var(--u) * 236);
-  top: calc(var(--u) * 3);
-  width: calc(var(--u) * 6);
-  height: calc(var(--u) * 4.5);
-  border: 2px solid #3d3934;
-  background:
-    repeating-linear-gradient(90deg, #3d3934 0 calc(var(--u) * 0.3), transparent calc(var(--u) * 0.3) calc(var(--u) * 1.4)),
-    #26324c;
-}
-.cm-luar {
-  left: calc(var(--u) * 236);
-  top: calc(var(--u) * 7.5);
-  width: calc(var(--u) * 14);
-  height: calc(var(--u) * 17.5);
-  background: linear-gradient(rgba(150, 170, 220, 0.16), rgba(150, 170, 220, 0));
-  clip-path: polygon(0 0, 43% 0, 100% 100%, 52% 100%);
-}
-.cm-banco {
-  left: calc(var(--u) * 237);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 11);
-  height: calc(var(--u) * 2.4);
-  border-top: 2px solid #3d3934;
-  background: #24211e;
-}
-.cm-preso-cela {
-  left: calc(var(--u) * 238);
-  width: calc(var(--u) * 4.2);
-  opacity: 0;
-}
-.p3 .cm-preso-cela {
-  opacity: 1;
-}
-.agora-3 .cm-preso-cela {
-  animation: aparece 1.2s ease 2.4s both;
-}
-.cm-marcas {
-  left: calc(var(--u) * 253);
-  top: calc(var(--u) * 8.5);
-  width: calc(var(--u) * 9);
-  height: calc(var(--u) * 3);
-}
-.cm-marcas i {
-  position: absolute;
-  top: 0;
-  width: calc(var(--u) * 0.18);
-  height: calc(var(--u) * 3);
-  background: rgba(235, 228, 214, 0.7);
-  transform-origin: top center;
-  opacity: 0;
-  scale: 1 0;
-  transition:
-    opacity 0.2s ease,
-    scale 0.3s ease;
-}
-.cm-marcas i.diag {
-  top: calc(var(--u) * -0.3);
-  height: calc(var(--u) * 3.6);
-  rotate: 62deg;
-  transform-origin: center;
-}
-.cm-marcas i.on {
-  opacity: 1;
-  scale: 1 1;
-}
-.cm-grades {
-  left: calc(var(--u) * 228);
-  top: 0;
-  width: calc(var(--u) * 33);
-  height: calc(var(--u) * 25);
-  border-top: calc(var(--u) * 0.6) solid #3d3934;
-  background:
-    linear-gradient(#3d3934, #3d3934) 0 calc(var(--u) * 11) / 100% calc(var(--u) * 0.4) no-repeat,
-    repeating-linear-gradient(90deg, #45403a 0 calc(var(--u) * 0.45), transparent calc(var(--u) * 0.45) calc(var(--u) * 3.2));
-}
-
-/* E · a porta da sala de interrogatório */
-.cm-fio {
-  left: calc(var(--u) * 314.9);
-  top: 0;
-  width: 1px;
-  height: calc(var(--u) * 4.6);
-  background: #4a453f;
-}
-.cm-lampadinha {
-  left: calc(var(--u) * 314.4);
-  top: calc(var(--u) * 4.5);
-  width: calc(var(--u) * 1.1);
-  height: calc(var(--u) * 1.3);
-  border-radius: 50% 50% 46% 46%;
-  background: #ffefc0;
-  box-shadow:
-    0 0 calc(var(--u) * 1) #ffd27a,
-    0 0 calc(var(--u) * 5) rgba(255, 200, 110, 0.35);
-  animation: oscila 5s steps(1) infinite;
-  transition: opacity 1s ease;
-}
-.p5 .cm-lampadinha {
-  opacity: 0.12;
-  animation: none;
-}
-.cm-porta {
-  left: calc(var(--u) * 311);
-  bottom: calc(var(--u) * 5);
-  width: calc(var(--u) * 7.5);
-  height: calc(var(--u) * 12.5);
-  outline: calc(var(--u) * 0.45) solid #3a3631;
-  perspective: calc(var(--u) * 40);
-}
-.cm-porta-luz {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(#f6eedc, #cdbb92);
-}
-.cm-porta-folha {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  background: linear-gradient(90deg, #36312c, #29251f);
-  box-shadow: inset 0 0 0 calc(var(--u) * 0.25) #221e1a;
-}
-.cm-porta-folha::before {
-  content: "";
-  position: absolute;
-  left: 32%;
-  top: 22%;
-  width: 36%;
-  height: calc(var(--u) * 0.6);
-  background: #0c0b0a;
-}
-.agora-4 .cm-porta-folha {
-  animation: porta-abre 4.2s ease 2s both;
-}
-@keyframes porta-abre {
-  0%,
-  48% {
-    transform: none;
-  }
-  56%,
-  82% {
-    transform: rotateY(-78deg);
-  }
-  89%,
-  100% {
-    transform: none;
-  }
-}
-.cm-preso-porta {
-  left: calc(var(--u) * 291);
-  opacity: 0;
-}
-.cm-agente.g3 {
-  left: calc(var(--u) * 287);
-  opacity: 0;
-}
-.agora-4 .cm-preso-porta {
-  animation: anda-porta 4.2s ease-in-out 2s both;
-}
-.agora-4 .cm-agente.g3 {
-  animation: anda-porta-agente 4.2s ease-in-out 2s both;
-}
-@keyframes anda-porta {
-  0% {
-    opacity: 0;
-    translate: 0 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 1;
-    translate: calc(var(--u) * 20.5) 0;
-  }
-  66% {
-    opacity: 1;
-    translate: calc(var(--u) * 23) 0;
-  }
-  74%,
-  100% {
-    opacity: 0;
-    translate: calc(var(--u) * 24) 0;
-  }
-}
-@keyframes anda-porta-agente {
-  0% {
-    opacity: 0;
-    translate: 0 0;
-  }
-  10%,
-  70% {
-    opacity: 1;
-  }
-  52%,
-  100% {
-    translate: calc(var(--u) * 20) 0;
-  }
-  80%,
-  100% {
-    opacity: 0;
   }
 }
 
 /* O fim: a cena escurece e fica um nome. */
-.p5 .cm-cena {
-  opacity: 0.18;
-  filter: grayscale(1);
-}
 .cm-caso {
   position: absolute;
   left: calc(var(--u) * 20);
@@ -3730,93 +3535,624 @@
 
 /* ------------------------------------------------------------- araguaia */
 
-.ar-mata {
+/* A cena ocupa o palco inteiro e vaza 6u para os lados; o texto fica por cima, no céu. */
+.ar-cena {
   position: absolute;
-  left: calc(var(--u) * -6);
-  right: calc(var(--u) * -6);
-  top: calc(var(--u) * 22);
-  bottom: calc(var(--u) * -2);
+  inset: 0 calc(var(--u) * -6);
+  overflow: hidden;
 }
-.ar-mata svg {
+.ar-cena > * {
+  position: absolute;
+}
+.ar-cena svg {
   width: 100%;
   height: 100%;
 }
-.ar-arvores line {
-  stroke: #1c2c24;
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
+/* Tudo o que está dentro da cena usa as coordenadas do palco (6u de margem). */
+.ar-luzes,
+.ar-reflexos,
+.ar-ondas {
+  inset: 0 calc(var(--u) * 6);
 }
-.ar-rio {
+.ar-luzes > *,
+.ar-reflexos > *,
+.ar-ondas > * {
   position: absolute;
+}
+
+/* Céu: entardecer no começo, noite fechada na caçada, um fio de alvorada no fim. */
+.ar-ceu {
   inset: 0;
+  background: linear-gradient(#05070d, #0a1020 55%, #111a2a 80%);
 }
-.ar-rio path {
-  fill: none;
-  stroke: #2f4a57;
-  stroke-width: 3;
-  vector-effect: non-scaling-stroke;
-}
-.slide.is-active .ar-rio {
-  animation: revela 3.5s ease 0.6s both;
-}
-.ar-pontos {
-  position: absolute;
+.ar-crepusculo {
   inset: 0;
+  background:
+    radial-gradient(ellipse 70% 40% at 72% 62%, rgba(214, 106, 62, 0.42), transparent 70%),
+    linear-gradient(transparent 35%, rgba(120, 62, 70, 0.35) 70%, transparent 88%);
+  transition: opacity 3s ease;
 }
-.ar-ponto {
-  position: absolute;
-  width: calc(var(--u) * 0.9);
-  height: calc(var(--u) * 0.9);
-  border-radius: 50%;
-  background: var(--sangue-vivo);
-  transform: translate(-50%, -50%) scale(0);
-  transition: background 1.2s ease calc(var(--i) * 55ms);
-}
-.slide.is-active .ar-ponto {
-  animation: brota 0.5s ease calc(var(--i) * 45ms + 1s) both;
-}
-@keyframes brota {
-  to {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-.apagados .ar-ponto {
-  background: #3a3634;
-}
-.apagados .ar-ponto.achado {
-  background: var(--osso);
-  box-shadow: 0 0 0 calc(var(--u) * 0.4) rgba(235, 228, 214, 0.18);
-}
-.ar-ponto em {
-  position: absolute;
-  left: calc(var(--u) * 1.4);
-  top: calc(var(--u) * -0.5);
-  font-family: var(--maquina);
-  font-style: normal;
-  font-size: calc(var(--u) * 1);
-  white-space: nowrap;
-  color: var(--osso);
+.f1 .ar-crepusculo {
   opacity: 0;
-  transition: opacity 1s ease 3.8s;
 }
-.apagados .achado em {
+.ar-alvorada {
+  inset: 0;
+  background: radial-gradient(ellipse 80% 38% at 50% 64%, rgba(150, 175, 205, 0.22), transparent 72%);
+  opacity: 0;
+  transition: opacity 4s ease 0.8s;
+}
+.f4 .ar-alvorada {
   opacity: 1;
 }
-.ar-titulo {
-  width: calc(var(--u) * 60);
+.ar-estrelas {
+  inset: 0 0 45% 0;
+  background:
+    radial-gradient(circle, rgba(235, 228, 214, 0.75) 0 1px, transparent 1.5px) 0 0 / calc(var(--u) * 6.3) calc(var(--u) * 4.1),
+    radial-gradient(circle, rgba(235, 228, 214, 0.45) 0 0.8px, transparent 1.3px) calc(var(--u) * 2.4) calc(var(--u) * 1.7) / calc(var(--u) * 4.7) calc(var(--u) * 5.3);
+  opacity: 0.3;
+  transition: opacity 3s ease;
 }
-.ar-texto {
-  position: absolute;
+.f1 .ar-estrelas {
+  opacity: 0.85;
+}
+
+/* A serra ao fundo (a das Andorinhas tem o pico mais alto) e a mata em duas camadas. */
+.ar-serra {
+  left: 0;
+  top: calc(var(--u) * 22);
+  width: calc(var(--u) * 112);
+  height: calc(var(--u) * 22.4);
+  color: #18202f;
+  fill: currentColor;
+}
+.ar-mata-fundo,
+.ar-mata-frente {
+  left: 0;
+  width: calc(var(--u) * 112);
+}
+.ar-mata-fundo {
+  top: calc(var(--u) * 28);
+  height: calc(var(--u) * 22.4);
+  color: #0a1312;
+  animation: balanco 9s ease-in-out infinite alternate;
+}
+.ar-mata-frente {
+  top: calc(var(--u) * 40.5);
+  height: calc(var(--u) * 11.2);
+  color: #040706;
+  animation: balanco 7s ease-in-out -3s infinite alternate;
+}
+.ar-mata-fundo :is(rect, circle, ellipse),
+.ar-mata-frente :is(rect, circle, ellipse) {
+  fill: currentColor;
+}
+.ar-palha path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.55;
+  stroke-linecap: round;
+}
+.ar-palha .ar-estipe {
+  stroke-width: 0.85;
+}
+@keyframes balanco {
+  from {
+    translate: calc(var(--u) * -0.25) 0;
+  }
+  to {
+    translate: calc(var(--u) * 0.25) 0;
+  }
+}
+.ar-nevoa {
+  left: -10%;
+  width: 120%;
+  top: calc(var(--u) * 41);
+  height: calc(var(--u) * 6);
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(170, 185, 200, 0.13), transparent 70%);
+  filter: blur(8px);
+  animation: nevoa 26s ease-in-out infinite alternate;
+}
+@keyframes nevoa {
+  from {
+    translate: -8% 0;
+  }
+  to {
+    translate: 8% 0;
+  }
+}
+
+/* As luzes: lamparinas na mata. Acendem uma a uma e tremulam. */
+.ar-luz {
+  width: calc(var(--u) * 0.55);
+  height: calc(var(--u) * 0.55);
+  margin: calc(var(--u) * -0.275) 0 0 calc(var(--u) * -0.275);
+  border-radius: 50%;
+  background: #ffd98a;
+  box-shadow:
+    0 0 calc(var(--u) * 0.5) calc(var(--u) * 0.1) rgba(255, 190, 90, 0.9),
+    0 0 calc(var(--u) * 1.8) calc(var(--u) * 0.4) rgba(255, 150, 60, 0.35);
+  animation: tremula-luz var(--pisca) ease-in-out infinite alternate;
+}
+.agora-0 .ar-luz {
+  animation:
+    acende 0.9s ease calc(1.4s + var(--ordem) * 70ms) both,
+    tremula-luz var(--pisca) ease-in-out infinite alternate;
+}
+@keyframes acende {
+  from {
+    opacity: 0;
+    scale: 0.2;
+  }
+}
+@keyframes tremula-luz {
+  to {
+    filter: brightness(0.7);
+    scale: 0.88;
+  }
+}
+/* Apagar: um clarão curto, uma brasa vermelha, e mais nada. */
+.ar-luz.apagando {
+  animation: apaga 1.6s ease forwards;
+}
+@keyframes apaga {
+  0% {
+    scale: 1;
+    filter: brightness(1);
+  }
+  12% {
+    scale: 1.9;
+    filter: brightness(1.8);
+  }
+  40% {
+    scale: 0.7;
+    background: #c3262b;
+    box-shadow: 0 0 calc(var(--u) * 0.6) rgba(226, 48, 58, 0.8);
+    opacity: 1;
+  }
+  100% {
+    scale: 0.4;
+    background: #c3262b;
+    box-shadow: none;
+    opacity: 0;
+  }
+}
+.ar-luz.off {
+  opacity: 0;
+  animation: none;
+}
+/* Hoje: no lugar de cada luz, um anel vazio. Só duas voltam a brilhar, brancas. */
+.f4 .ar-luz.off {
+  opacity: 0.55;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(235, 228, 214, 0.55);
+  scale: 1.5;
+  transition: opacity 1.2s ease calc(0.6s + var(--ordem) * 25ms);
+}
+.f4 .ar-luz.achado.off {
+  opacity: 1;
+  scale: 1.3;
+  background: #fff;
+  box-shadow:
+    0 0 calc(var(--u) * 0.6) calc(var(--u) * 0.15) #fff,
+    0 0 calc(var(--u) * 2.6) calc(var(--u) * 0.6) rgba(220, 235, 255, 0.45);
+  transition: opacity 1.4s ease 2.6s;
+}
+
+/* O rio: água escura, brilhos correndo e o reflexo de cada luz. */
+.ar-rio {
+  left: 0;
+  right: 0;
+  top: calc(var(--u) * 48.5);
+  bottom: 0;
+  /* Brilhos curtos e deitados na água, em duas camadas que correm em velocidades diferentes. */
+  background:
+    radial-gradient(ellipse calc(var(--u) * 1.3) calc(var(--u) * 0.09), rgba(170, 190, 225, 0.22), transparent) 0 0 / calc(var(--u) * 9) calc(var(--u) * 1.5),
+    radial-gradient(ellipse calc(var(--u) * 0.8) calc(var(--u) * 0.07), rgba(170, 190, 225, 0.16), transparent) calc(var(--u) * 4) calc(var(--u) * 0.8) / calc(var(--u) * 6.5) calc(var(--u) * 1.1),
+    linear-gradient(#0c1424, #04070c);
+  box-shadow: inset 0 1px 0 rgba(170, 190, 220, 0.18);
+  animation: correnteza 9s linear infinite;
+}
+@keyframes correnteza {
+  to {
+    background-position:
+      calc(var(--u) * 9) 0,
+      calc(var(--u) * 10.5) calc(var(--u) * 0.8),
+      0 0;
+  }
+}
+.ar-reflexos {
+  filter: blur(1.5px);
+}
+.ar-reflexo {
+  width: calc(var(--u) * 0.5);
+  height: calc(var(--u) * 2.4);
+  margin: calc(var(--u) * -1.2) 0 0 calc(var(--u) * -0.25);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 200, 110, 0.75), transparent 70%);
+  opacity: 0.7;
+  animation: ondula 2.4s ease-in-out infinite alternate;
+}
+@keyframes ondula {
+  to {
+    scale: 1.6 0.85;
+    opacity: 0.45;
+  }
+}
+.ar-reflexo.apagando {
+  animation: some 1s ease forwards;
+}
+@keyframes some {
+  to {
+    opacity: 0;
+  }
+}
+.ar-reflexo.off {
+  opacity: 0;
+  animation: none;
+}
+.f4 .ar-reflexo.achado.off {
+  opacity: 0.6;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.8), transparent 70%);
+  transition: opacity 1.4s ease 2.6s;
+}
+/* Pingos de chuva abrindo rodas na água (só no passo da chuva). */
+.ar-ondas i {
+  width: calc(var(--u) * 2);
+  height: calc(var(--u) * 0.5);
+  margin-left: calc(var(--u) * -1);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(190, 205, 225, 0.35);
+  opacity: 0;
+}
+.agora-2 .ar-ondas i {
+  animation: roda 1.7s ease-out calc(var(--k) * 0.31s) infinite;
+}
+@keyframes roda {
+  from {
+    scale: 0.1;
+    opacity: 0.9;
+  }
+  to {
+    scale: 1.4;
+    opacity: 0;
+  }
+}
+.ar-chuva {
+  inset: 0;
+  background:
+    repeating-linear-gradient(104deg, transparent 0 calc(var(--u) * 1.3), rgba(190, 205, 225, 0.16) calc(var(--u) * 1.3) calc(var(--u) * 1.36)) 0 0 / 100% calc(var(--u) * 3),
+    repeating-linear-gradient(100deg, transparent 0 calc(var(--u) * 2.1), rgba(190, 205, 225, 0.1) calc(var(--u) * 2.1) calc(var(--u) * 2.15)) 0 0 / 100% calc(var(--u) * 5);
+  opacity: 0;
+  transition: opacity 2s ease;
+  animation: chuva 0.55s linear infinite;
+}
+.agora-2 .ar-chuva {
+  opacity: 1;
+}
+@keyframes chuva {
+  to {
+    background-position:
+      calc(var(--u) * -0.8) calc(var(--u) * 3),
+      calc(var(--u) * -1.2) calc(var(--u) * 5);
+  }
+}
+
+/* Napalm: clarões laranja longe, atrás da mata, que demoram a apagar. */
+.ar-napalm {
+  top: calc(var(--u) * 27);
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 14);
+  margin-left: calc(var(--u) * -13);
+  background: radial-gradient(ellipse at 50% 80%, rgba(255, 170, 70, 0.75), rgba(226, 70, 40, 0.3) 35%, transparent 65%);
+  filter: blur(4px);
+  opacity: 0;
+}
+.ar-napalm.n0 {
+  margin-left: calc(var(--u) * -7);
+}
+.ar-napalm.on {
+  animation: napalm 6s ease-out forwards;
+}
+@keyframes napalm {
+  0% {
+    opacity: 0;
+    scale: 0.4;
+  }
+  6% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.25;
+  }
+}
+
+/* Os helicópteros: atravessam a noite com o holofote varrendo a mata. */
+.ar-heli {
   left: calc(var(--u) * 6);
-  top: calc(var(--u) * 15);
-  width: calc(var(--u) * 54);
+  top: calc(var(--u) * 25);
+  width: calc(var(--u) * 7.5);
+  margin-left: calc(var(--u) * -3.75);
+  opacity: 0;
+}
+.ar-heli-corpo {
+  animation: paira 1.8s ease-in-out infinite alternate;
+}
+.ar-heli svg {
+  display: block;
+  height: auto;
+  overflow: visible;
+  fill: #0b0d11;
+}
+.ar-heli.b .ar-heli-corpo svg {
+  scale: -1 1;
+}
+.hl-vidro {
+  fill: #1c2433;
+}
+.hl-esqui {
+  fill: none;
+  stroke: #0b0d11;
+  stroke-width: 2.2;
+}
+.hl-rotor {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pas 0.09s linear infinite alternate;
+}
+.hl-luz {
+  fill: #ff3b30;
+  animation: oscila 1.2s steps(1) infinite;
+}
+@keyframes pas {
+  to {
+    scale: 0.15 1;
+  }
+}
+@keyframes paira {
+  to {
+    translate: 0 calc(var(--u) * 0.5);
+  }
+}
+.ar-facho {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 19);
+  margin-left: calc(var(--u) * -4.5);
+  transform-origin: 50% 0;
+  background: linear-gradient(rgba(255, 252, 230, 0.4), rgba(255, 252, 230, 0.08) 75%, rgba(255, 252, 230, 0));
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  mix-blend-mode: screen;
+  animation: varre-facho 2.2s ease-in-out infinite alternate;
+}
+@keyframes varre-facho {
+  from {
+    rotate: -12deg;
+  }
+  to {
+    rotate: 12deg;
+  }
+}
+.agora-1 .ar-heli.a {
+  animation: voa-a 8s linear 0.6s both;
+}
+.agora-1 .ar-heli.b {
+  animation: voa-b 8s linear 4.2s both;
+}
+@keyframes voa-a {
+  0% {
+    opacity: 1;
+    translate: calc(var(--u) * -14) 0;
+  }
+  100% {
+    opacity: 1;
+    translate: calc(var(--u) * 114) 0;
+  }
+}
+@keyframes voa-b {
+  0% {
+    opacity: 1;
+    translate: calc(var(--u) * 114) calc(var(--u) * 1.5);
+  }
+  100% {
+    opacity: 1;
+    translate: calc(var(--u) * -14) calc(var(--u) * 1.5);
+  }
+}
+/* Operação Limpeza: um helicóptero vai até a serra e volta; a fumaça sobe. */
+.agora-3 .ar-heli.c {
+  animation: voa-serra 7s ease-in-out 0.3s both;
+}
+@keyframes voa-serra {
+  0% {
+    opacity: 1;
+    translate: calc(var(--u) * -14) calc(var(--u) * 2);
+  }
+  45%,
+  60% {
+    opacity: 1;
+    translate: calc(var(--u) * 72) calc(var(--u) * -4);
+  }
+  100% {
+    opacity: 1;
+    translate: calc(var(--u) * 120) calc(var(--u) * -8);
+  }
+}
+.ar-fumaca {
+  left: calc(var(--u) * 78.5);
+  top: calc(var(--u) * 27);
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+.agora-3 .ar-fumaca {
+  opacity: 1;
+  transition-delay: 3.4s;
+}
+.ar-brasa {
+  position: absolute;
+  left: calc(var(--u) * -6);
+  top: calc(var(--u) * -2);
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 4);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 150, 70, 0.85), rgba(226, 70, 40, 0.3) 45%, transparent 72%);
+  filter: blur(3px);
+  animation: tremula-luz 0.7s ease-in-out infinite alternate;
+}
+.ar-sopro {
+  position: absolute;
+  left: calc(var(--u) * -2);
+  top: calc(var(--u) * -2);
+  width: calc(var(--u) * 5);
+  height: calc(var(--u) * 5);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150, 140, 132, 0.75), transparent 68%);
+  filter: blur(3px);
+  animation: sobe 5.6s ease-out calc(var(--k) * -0.8s) infinite;
+}
+@keyframes sobe {
+  from {
+    translate: 0 0;
+    scale: 0.6;
+    opacity: 0.9;
+  }
+  to {
+    translate: calc(var(--u) * 5) calc(var(--u) * -24);
+    scale: 3.4;
+    opacity: 0;
+  }
+}
+.ar-serra-nome {
+  left: calc(var(--u) * 86.5);
+  top: calc(var(--u) * 25.6);
+  z-index: 3;
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.95);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--osso-2);
+  opacity: 0;
+  transition: opacity 1.4s ease 2.2s;
+}
+.f3 .ar-serra-nome {
+  opacity: 0.85;
+}
+
+/* Os nomes dos dois identificados, acima das luzes brancas. */
+.ar-nome {
+  translate: -50% calc(-100% - var(--u) * 1.4);
   display: flex;
   flex-direction: column;
-  gap: calc(var(--u) * 0.9);
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 1.4s ease 3.4s;
 }
-.ar-texto p {
+.ar-nome b {
+  font-style: italic;
+  font-weight: 400;
   font-size: calc(var(--u) * 1.5);
+  color: #fff;
+}
+.ar-nome span {
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.85);
+  letter-spacing: 0.1em;
+  color: var(--osso-2);
+}
+.f4 .ar-nome {
+  opacity: 1;
+}
+
+/* O texto: título, e uma fase de cada vez, no mesmo lugar. */
+.ar-titulo {
+  z-index: 2;
+}
+.ar-fases {
+  position: absolute;
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 14.2);
+  width: calc(var(--u) * 54);
+  height: calc(var(--u) * 9);
+}
+.ar-fases p {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 0.4);
+  font-size: calc(var(--u) * 1.55);
   line-height: 1.38;
+  text-shadow: 0 0 calc(var(--u) * 1) #05070d;
+  opacity: 0;
+  translate: 0 calc(var(--u) * 0.6);
+  transition:
+    opacity 0.7s ease,
+    translate 0.7s var(--suave);
+}
+.ar-fases p.on {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 0.3s;
+}
+.ar-rot {
+  font-family: var(--maquina);
+  font-weight: 700;
+  font-size: calc(var(--u) * 1.1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sangue-vivo);
+}
+.ar-legenda {
+  position: absolute;
+  right: calc(var(--u) * 6);
+  top: calc(var(--u) * 8.6);
+  display: flex;
+  gap: calc(var(--u) * 1.6);
+  font-family: var(--maquina);
+  font-size: calc(var(--u) * 0.9);
+  letter-spacing: 0.06em;
+  color: var(--osso-2);
+}
+.ar-legenda span {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.ar-legenda span::before {
+  content: "";
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 50%;
+}
+.l-luz::before {
+  background: #ffd98a;
+  box-shadow: 0 0 6px rgba(255, 170, 70, 0.9);
+}
+.l-anel::before {
+  box-shadow: inset 0 0 0 1px rgba(235, 228, 214, 0.7);
+}
+.l-achado::before {
+  background: #fff;
+  box-shadow: 0 0 6px #fff;
+}
+.ar-legenda .l-anel,
+.ar-legenda .l-achado,
+.f4 .ar-legenda .l-luz {
+  display: none;
+}
+.f4 .ar-legenda .l-anel,
+.f4 .ar-legenda .l-achado {
+  display: flex;
+}
+.s-araguaia .fontes {
+  color: var(--cinza);
 }
 
 /* ------------------------------------------------------------ amanhecer */
@@ -4291,7 +4627,7 @@
    (:where deixa a regra geral fraca, para as regras de cada cena vencerem.)
    ========================================================================== */
 @media (max-aspect-ratio: 4/5) {
-  .stage > :where(:not(canvas, .ar-mata, .ar-pontos, .zz-costura)) {
+  .stage > :where(:not(canvas, .ar-cena, .zz-costura)) {
     position: relative !important;
     inset: auto !important;
     width: auto !important;
@@ -4300,8 +4636,8 @@
   }
   .es-multidao,
   .dj-multidao,
-  .ar-mata,
-  .ar-pontos,
+  .ar-cena,
+  .ar-legenda,
   .zz-costura,
   .zz-farois,
   .mm-vela,
@@ -4454,6 +4790,16 @@
   .cm-cena {
     display: none !important;
   }
+  .ar-fases {
+    height: auto;
+  }
+  .ar-fases p {
+    position: static;
+    display: none;
+  }
+  .ar-fases p.on {
+    display: flex;
+  }
   .cm-legenda {
     height: auto;
   }
@@ -4563,7 +4909,10 @@
 @media (prefers-reduced-motion: reduce) {
   .s-caminho *,
   .s-caminho *::before,
-  .s-caminho *::after {
+  .s-caminho *::after,
+  .s-araguaia *,
+  .s-araguaia *::before,
+  .s-araguaia *::after {
     animation-duration: 0.01s !important;
     animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
@@ -4575,15 +4924,10 @@
   .slide.is-active .gp-tanque,
   .slide.is-active .tq-rodas line,
   .slide.is-active .rp-fios,
-  .slide.is-active .ar-rio,
-  .slide.is-active .ar-ponto,
   .slide.is-active.explodiu .am-fumaca,
   .mm-chama,
   .mm-halo {
     animation: none !important;
-  }
-  .ar-ponto {
-    transform: translate(-50%, -50%);
   }
   .zz-trilha {
     transition: none;
